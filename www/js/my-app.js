@@ -147,6 +147,7 @@ $$(document).on('pageInit', function (e) {
     //Messages page
     if (page.name === 'messages') {
 		alert('message to load');
+		
         var conversationStarted = false;
         var answers = [
             'Yes!',
@@ -157,6 +158,14 @@ $$(document).on('pageInit', function (e) {
             'May be ;)',
             'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed luctus tincidunt erat, a convallis leo rhoncus vitae.'
         ];
+		
+		myApp.addMessage({
+                text: 'totot',
+                type: 'sent',
+                day: !conversationStarted ? 'Today' : false,
+                time: !conversationStarted ? (new Date()).getHours() + ':' + (new Date()).getMinutes() : false
+            });
+			
         var answerTimeout;
         $$('.ks-messages-form').on('submit', function (e) {
             e.preventDefault();
