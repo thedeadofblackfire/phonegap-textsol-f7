@@ -661,6 +661,10 @@
                 });
             }
         
+            // blastis
+            //$(this).i18n();
+            // blastis
+        
             newPage.animationEnd(function (e) {
                 app.allowPageChange = true;
                 newPage.toggleClass('page-from-right-to-center page-on-center page-on-right');

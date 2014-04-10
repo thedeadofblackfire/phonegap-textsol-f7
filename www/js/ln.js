@@ -30,29 +30,36 @@ var ln =
     
     getLanguage: function()
     {
-        navigator.globalization.getPreferredLanguage
-        (
-            function(lang)
-            {
-                //For debug purpose only!
-                //var lang = {value: '\u4E2D\u6587'};
-                
-                ln.language.local = lang.value;
-                ln.language.code = ln.nativeLanguageNameToISOCode(lang.value);
-                ln.language.international = ln.nativeLanguageNameToEnglishName(lang.value);
-
-                i18n.setLng(ln.language.code, function(t)
+        if (ENV == 'dev') {
+            i18n.setLng(ln.language.code, function(t)
+                    {
+                        $('body').i18n();
+                    });
+        } else {
+            navigator.globalization.getPreferredLanguage
+            (
+                function(lang)
                 {
-                    $('body').i18n();
-                });
-            },
-            function(error)
-            {
-                console.log(error);
+                    //For debug purpose only!
+                    //var lang = {value: '\u4E2D\u6587'};
+                    
+                    ln.language.local = lang.value;
+                    ln.language.code = ln.nativeLanguageNameToISOCode(lang.value);
+                    ln.language.international = ln.nativeLanguageNameToEnglishName(lang.value);
 
-                alert(i18n.t('messages.error'));
-            }
-        );
+                    i18n.setLng(ln.language.code, function(t)
+                    {
+                        $('body').i18n();
+                    });
+                },
+                function(error)
+                {
+                    console.log(error);
+
+                    alert(i18n.t('messages.error'));
+                }
+            );
+        }
     },
 
     nativeLanguageNameToISOCode: function(lang)

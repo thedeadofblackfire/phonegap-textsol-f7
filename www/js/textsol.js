@@ -547,6 +547,7 @@ function parseRSS() {
         //$.mobile.changePage("some.html");				
         //$.mobile.changePage(pageid, options);
         mainView.loadPage(pageid);
+        //$('body').i18n();
     }
 	
     /* 
