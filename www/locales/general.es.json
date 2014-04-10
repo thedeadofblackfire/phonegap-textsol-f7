@@ -1,0 +1,39 @@
+{
+    "label":
+    {
+        "chats": "Chats",
+        "settings": "Ajustes",
+        "visitors": "Visitas",
+        "list": "Lista",
+		"signout": "Desconectar",		
+		"availability": "Disponibilidad",
+		"notification": "Notificación",
+        "language": "Lenguaje",
+		"on": "Activo",
+		"off": "Desactivo",
+        "chatclosed": "Sesión terminada",
+        "closechat": "Cerrar Sesión",                
+        "country": "País",
+        "browser": "Navegador",
+        "city": "Ciudad",
+		"url": "Url",
+        "send": "Enviar",                
+        "pressenter": "Escribe y presiona Enter...",            
+        "confirmclosechat": "Estas seguro que quieres terminar esta sesión de Chat?",                
+        "somethingwrong": "Se presento un error. Por favor inténtalo de nuevo más tarde.",
+        "wait": "Un momento...",
+        "pleaseenteryourmessage": "Por favor agrega tu mensaje.",
+        "closepanel": "Close panel",
+        "details": "Details",
+        "platform": "Platform",
+        "region": "Region",
+        "visittime": "Visit Time",
+        "ip": "IP Address"
+    },
+    "description":
+    {
+        "currentlyactivechats": "Tus Chats Activos",
+        "nochatsinprogress": "No hay chats en progreso",
+        "settings": "Ajustes de tu Chat en Línea"
+    }  
+}

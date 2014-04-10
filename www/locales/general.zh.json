@@ -1,0 +1,39 @@
+{
+    "label":
+    {                
+        "chats": "聊天",
+        "settings": "设置",
+        "visitors": "游客",
+        "list": "清单",
+        "signout": "退出",
+        "availability": "可用性",
+        "notification": "通知",
+        "language": "语言",
+        "no": "开",
+        "off": "关",
+        "chatclosed": "聊天关闭",
+        "closechat": "关闭聊天",
+        "country": "国家",
+        "browser": "浏览器",
+        "city": "城市",
+        "url": "网址",
+        "send": "发送",
+        "pressenter": "类型，然后按Enter ... ",
+        "confirmclosechat": "你确定要关闭该聊天会话？",
+        "somethingwrong": "出事了，请稍后再试。 ",
+        "wait": "等一下...... ",
+        "pleaseenteryourmessage": "请输入您的消息。",
+        "closepanel": "Close panel",
+        "details": "Details",
+        "platform": "Platform",
+        "region": "Region",
+        "visittime": "Visit Time",
+        "ip": "IP Address"        
+    },
+    "description":
+    {
+        "currentlyactivechats": "你主动聊天",
+        "nochatsinprogress": "有没有进行中的聊天记录",
+        "settings": "您的Live聊天设定"
+    }  
+}

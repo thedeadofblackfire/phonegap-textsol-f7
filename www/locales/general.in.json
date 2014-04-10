@@ -1,0 +1,39 @@
+{
+    "label":
+    {
+        "chats": "चैट",
+        "settings": "सेटिंग्स",
+        "visitors": "आगंतुकों",
+        "list": "सूची",
+		"signout": "साइन आउट",		
+		"availability": "उपलब्धता",
+		"notification": "अधिसूचना",
+        "language": "भाषा",
+		"on": "चालू",
+		"off": "बंद",
+        "chatclosed": "बंद रहता चैट",
+        "closechat": "बंद चैट",                
+        "country": "देश",
+        "browser": "ब्राउज़र",
+        "city": "शहर",
+		"url": "यूआरएल",
+        "send": "भेजें",                
+        "pressenter": "टाइप करें और प्रेस दर्ज करें ...",            
+        "confirmclosechat": "आप यकीन है कि इस बातचीत सत्र के बंद करना चाहते हैं?",                
+        "somethingwrong": "कुछ गलत हो गया. बाद में पुन: प्रयास करें.",
+        "wait": "प्रतीक्षा करें ...",
+        "pleaseenteryourmessage": "अपने संदेश लिखें.",
+        "closepanel": "Close panel",
+        "details": "Details",
+        "platform": "Platform",
+        "region": "Region",
+        "visittime": "Visit Time",
+        "ip": "IP Address"
+    },
+    "description":
+    {
+        "currentlyactivechats": "हमारे सक्रिय चैट",
+        "nochatsinprogress": "प्रगति में कोई चैट्स कर रहे हैं.",
+        "settings": "अपनी लाइव चैट सेटिंग्स"
+    }  
+}
