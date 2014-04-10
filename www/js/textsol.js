@@ -690,7 +690,8 @@ function parseRSS() {
 				window.localStorage.clear();  
 				window.sessionStorage.clear();		
                 
-                mofChangePage('#pageLogin');
+                mofChangePage('login.html');
+                //mofChangePage('#pageLogin');
 			}
 		});
 				

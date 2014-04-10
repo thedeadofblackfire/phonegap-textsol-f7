@@ -41,6 +41,26 @@ var authView = myApp.addView('.view-auth', {
 // Events for specific pages when it initialized
 $$(document).on('pageInit', function (e) {
     var page = e.detail.page;
+    // handle index loader
+     if (page.name === 'index') {
+        // to prevent back url on login
+        alert(page.name);
+        if (Object.keys(objUser).length != 0) {
+            mofChangePage('auth.html');
+        } 
+    }
+    
+    // handle login
+    /*
+    if (page.name === 'login') {
+        // to prevent back url on login
+        alert(page.name);
+        if (Object.keys(objUser).length != 0) {
+            mofChangePage('auth.html');
+        } 
+    }
+    */
+    
     // Handle Modals Page event when it is init
     if (page.name === 'modals') {
         $$('.demo-alert').tap(function () {
