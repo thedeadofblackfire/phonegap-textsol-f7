@@ -3,18 +3,20 @@
 <!-- Top Navbar-->
 <div class="navbar">
   <div class="navbar-inner">
-    <div class="left">no way</div>
-    <div class="center sliding">Login</div>
+    <div class="center sliding">Welcome</div>
   </div>
 </div>
 <div class="pages">
   <!-- Page, data-page contains page name-->
   <div data-page="login" class="page">
     <!-- Scrollable page content-->
-    <div class="page-content">
+    <div class="page-content" style="background: url('img/homebg.png') repeat">
     
-            <div class="content-block-title">Welcome To Your Awesome App</div>
-                  
+             
+				   <div style="text-align:center" data-controltype="image" class="topband">               
+				  <img style="width: 478px; height: 130px" src="img/homelogo.png">
+                 </div>
+				 
                 <form id="loginForm" method="POST" class="">
                 <div class="list-block inset">
                 <ul>   
@@ -22,7 +24,6 @@
                     <div class="item-content">
                       <div class="item-media"><i class="icon icon-form-email"></i></div>
                       <div class="item-inner">
-                        <div class="item-title label">E-mail</div>
                         <div class="item-input">
                           <input type="email" name="username" id="username" placeholder="E-mail"/>
                         </div>
@@ -33,7 +34,6 @@
                     <div class="item-content">
                       <div class="item-media"><i class="icon icon-form-password"></i></div>
                       <div class="item-inner">
-                        <div class="item-title label">Password</div>
                         <div class="item-input">
                           <input type="password" name="password" id="password" placeholder="Password"/>
                         </div>
@@ -45,18 +45,13 @@
               <div class="content-block">
                 <div class="row">           
                   <p><a href="#" id="btnLogin" class="button button-big button-submit">Login</a></p>
-                  <p><a href="http://www.blastis.com" id="btnRegister" class="button button-big">Register</a></p>
+                  <p><a href="http://www.blastis.com" id="btnRegister" class="button button-big active">Register</a></p>
                 </div>
               </div>
               
               </form>
               
-      <div class="content-block">
-        <div class="content-block-inner">
-          <p>Here is a page 1!</p>
-          <p>Go <a href="#" class="back">back</a> or click  <a href="#" onclick="return createContentPage();">here </a>to create dynamic page.</p>
-        </div>
-      </div>
+
     </div>
   </div>
 </div>

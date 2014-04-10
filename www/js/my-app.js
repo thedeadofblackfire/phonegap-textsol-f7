@@ -44,7 +44,7 @@ $$(document).on('pageInit', function (e) {
     // handle index loader
      if (page.name === 'index') {
         // to prevent back url on login
-        alert(page.name);
+        //alert(page.name);
         if (Object.keys(objUser).length != 0) {
             mofChangePage('auth.html');
         } 
@@ -146,6 +146,7 @@ $$(document).on('pageInit', function (e) {
     }
     //Messages page
     if (page.name === 'messages') {
+		alert('message to load');
         var conversationStarted = false;
         var answers = [
             'Yes!',
@@ -292,6 +293,12 @@ function createContentPage(){
 }
 */
 $$(document).tap('.ks-generate-page', createContentPage);
+
+function loadChatSession(session) {
+	console.log(session);
+	createContentPage();
+	return true;
+}
 
 // init textsol
 app.initialize();
