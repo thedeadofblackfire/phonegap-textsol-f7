@@ -3,7 +3,7 @@
 var BASE_URL = 'http://www.textsol.com';
 var ENV = 'production';
 var ENV_TARGET = 'phonegap'; // html5, phonegap
-if (window.location.hostname == 'livechat.phonegap.local') {
+if (window.location.hostname == 'livechat7.phonegap.local') {
     BASE_URL = 'http://textwc.local';
     ENV = 'dev';
 }
@@ -44,7 +44,7 @@ var app = {
             
             checkPreAuth();
             
-            $.mobile.transitionFallbacks.slideout = "none";
+            //$.mobile.transitionFallbacks.slideout = "none";
         }
 		        
 		//document.addEventListener('load', this.onDeviceReady, true);		
@@ -71,7 +71,7 @@ var app = {
             
             checkPreAuth();
             
-            $.mobile.transitionFallbacks.slideout = "none";
+            //$.mobile.transitionFallbacks.slideout = "none";
         }
         // save device info the first time for mobile's ower (device uuid)
         // http://docs.phonegap.com/en/3.2.0/cordova_device_device.md.html#Device
@@ -186,8 +186,8 @@ jQuery(document).ready(function($){
         console.log('loadSession '+sessionid);
      
        // show loading icon
-       $.mobile.loading('show');  
-       
+       mofLoading(true);
+      
        $.ajax({
           url: API+"/chat/get_conversation_by_session",
           datatype: 'json',      
@@ -252,11 +252,12 @@ jQuery(document).ready(function($){
                options.dataUrl = urlObj.href;
                //options.changeHash = false;
                //console.log(options);     
-
-               $.mobile.loading('hide');               
+  
+               mofLoading(false);               
 
                // switch to the page we just modified.
-               $.mobile.changePage( $page, options );
+               //$.mobile.changePage( $page, options );
+               mofChangePage($page, options);
        
           },
           error: function(jqXHR, textStatus, errorThrown) {
@@ -542,11 +543,24 @@ function parseRSS() {
      * mobile framework - Change Page
      * pageid = test.html or #changePage
      */
-    function mofChangePage(pageid) {
+    function mofChangePage(pageid, options) {
         //$.mobile.changePage("some.html");				
-        $.mobile.changePage(pageid);
+        //$.mobile.changePage(pageid, options);
+        mainView.loadPage(pageid);
     }
 	
+    /* 
+     * mobile framework - Show/hide loading page
+     * show: true/false
+     */
+    function mofLoading(show) {
+        //$.mobile.loading('show');
+        //$.mobile.loading('hide');
+        console.log('loading '+show); 
+        if (show) myApp.showPreloader();
+        else myApp.hidePreloader();               
+    }
+    
     function mofProcessBtn(id, state) {
         if (state) {
             $(id).addClass("ui-state-disabled");
@@ -562,10 +576,15 @@ function parseRSS() {
                             
 		if(Object.keys(objUser).length == 0 && window.localStorage["username"] != undefined && window.localStorage["password"] != undefined) {
 			//$("#username", form).val(window.localStorage["username"]);
-			//$("#password", form).val(window.localStorage["password"]);
+			//$("#password", form).val(window.localStorage["password"]);            
 			handleLogin(window.localStorage["username"], window.localStorage["password"]);
-		} 
+		} else if (Object.keys(objUser).length != 0) {
+            mofChangePage('auth.html');
+        } else {
+            mofChangePage('login.html');
+        }
         
+ 
         /*
         console.log('tot');
         if (objUser.country == 'FR') lang.set('fr');
@@ -601,8 +620,8 @@ function parseRSS() {
 		//$("#btnLogin").attr("disabled","disabled");
 		//var u = $("#username", form).val();
 		//var p = $("#password", form).val();	
-		if(u != '' && p!= '') {
-            $.mobile.loading('show');
+		if(u != '' && p!= '') {            
+            mofLoading(true);
 			$.post(API+"/account/login", {username:u,password:p}, function(res, textStatus, jqXHR) {
 				console.log(res);
                 //$.mobile.hidePageLoadingMsg();
@@ -635,11 +654,12 @@ function parseRSS() {
                     // launch the push notification center because it's required objUser
                     push_onDeviceReady();
 					
-                    $.mobile.loading('hide');
+                    mofLoading(false);
 					
                     mofProcessBtn("#btnLogin", false);
                     
-                    mofChangePage('#pageChat');
+                    mofChangePage('auth.html');
+                    //mofChangePage('#pageChat');
 				} else {	
 					console.log(res.message);
 					if (ENV == 'dev') {

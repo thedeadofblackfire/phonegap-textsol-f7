@@ -30,6 +30,13 @@ var mainView = myApp.addView('.view-main', {
     // Because we use fixed-through navbar we can enable dynamic navbar
     dynamicNavbar: true
 });
+// Add another view, which is in right panel
+/*
+var authView = myApp.addView('.view-auth', {
+    // Enable Dynamic Navbar for this view
+    dynamicNavbar: true
+});
+*/
 
 // Events for specific pages when it initialized
 $$(document).on('pageInit', function (e) {
@@ -265,3 +272,6 @@ function createContentPage(){
 }
 */
 $$(document).tap('.ks-generate-page', createContentPage);
+
+// init textsol
+app.initialize();

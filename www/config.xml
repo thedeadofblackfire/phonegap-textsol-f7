@@ -4,9 +4,9 @@
 <widget xmlns     = "http://www.w3.org/ns/widgets"
         xmlns:gap = "http://phonegap.com/ns/1.0"
         id        = "com.webcreators.textsol"
-        version   = "0.5.2">
+        version   = "0.1.0">
 
-    <name>Live Chat</name>
+    <name>Live Chat NEW</name>
 
     <description>
         Live Chat is a chat mobile app to expand live chat with your customers.
