@@ -585,21 +585,17 @@ jQuery(document).ready(function($){
         }
     }
     
-function loadDataUserList(data) {
-	//var htmlUserList = templateChatUserList(data);
-    
+function loadDataUserList(data) {	
     var htmlUserList = '';
     var title = i18n.t('description.nochatsinprogress'); //'You have no active chats'; //There are currently no chats in progress.
-    if (data.online_user.length > 0) title = '<img src="img/infoico.png" style="position:relative">'+i18n.t('description.currentlyactivechats');
+    if (data.online_user.length > 0) title = i18n.t('description.currentlyactivechats');
+    //if (data.online_user.length > 0) title = '<img src="img/infoico.png" style="position:relative">'+i18n.t('description.currentlyactivechats');
     
-    //htmlUserList += '<div class="ui-bar ui-bar-e"><h3 style="display:inline-block; width:92%; margin-top:5px;">This is an alert message. </h3><div style="display:inline-block; width:8%; margin-top:0px; text-align:right;"><a href="#" data-role="button" data-icon="delete" data-inline="true" data-iconpos="notext" data-corners="true" data-shadow="true" data-iconshadow="true" data-wrapperels="span" data-theme="e" title="Dismiss" class="ui-btn ui-btn-up-e ui-shadow ui-btn-corner-all ui-btn-inline ui-btn-icon-notext"><span class="ui-btn-inner"><span class="ui-btn-text">Dismiss</span><span class="ui-icon ui-icon-delete ui-icon-shadow">&nbsp;</span></span></a></div><p style="font-size:85%; margin:-.3em 0 1em;">And here\'s some additional text in a paragraph.</p></div>';
     var focusChatStillAvailable = false;
                     
-     htmlUserList +=  '<div class="content-block-title" id="activechat_title">'+title+'</div>';
-     htmlUserList += '<div class="list-block"><ul id="chat_userlist">';
+    htmlUserList += '<div class="content-block-title" id="activechat_title">'+title+'</div>';
+    htmlUserList += '<div class="list-block"><ul id="chat_userlist">';
                            
-    //htmlUserList += '<ul id="chat_userlist" data-role="listview" data-theme="d" data-divider-theme="d" data-count-theme="a">';
-    //htmlUserList += '<li data-role="list-divider" id="activechat_title">'+title+'</li>';
     $.each(data.online_user, function(k, v) {
         htmlUserList += generateLineUser(v,false);     
            
@@ -611,26 +607,14 @@ function loadDataUserList(data) {
     htmlUserList += '</ul></div>';
     
 	$('#container_chat_userlist').html(htmlUserList);
-	
-    //$("#listview-content").trigger('create');  
-    
+
     // check if current chat session need to be close (visitor has closed the chat)
     if (isChatSession && !focusChatStillAvailable) {
         // we close chat
         console.log('force close chat by user #'+current_session_id);
         mofChangePage('#pageChat');
     }    
-                
-    //$("#container_chat_userlist ul").listview('refresh');
-	//$("chat_userlist").listview('refresh');
-					
-    //var source   = $("#articles-template").html();
-    //var template = Handlebars.compile(source);
-    
-     // $("#pageChat").trigger('pagecreate');
-      //$("#chat_userlist ul").listview('refresh');
-      //$("#chat_userlist ul").listview().listview('refresh');
-      
+                      
 }
 
 function updateSession(v) {
@@ -792,7 +776,7 @@ function generatePageSession(data) {
     
     str += '<div class="navbar">' +
             '<div class="navbar-inner">' +
-            '<div class="left"><a href="index.html" class="back link"><i class="icon icon-back-blue"></i><span>Back</span></a></div>' +
+            '<div class="left"><a href="#" class="back link"><i class="icon icon-back-blue"></i><span>Back</span></a></div>' +
             '<div class="center sliding">'+data.name+'</div>' +
             '<div class="right"><a href="#" class="link open-panel icon-only"><i class="icon icon-bars-blue"></i></a></div>' +
             '</div>'+
@@ -807,7 +791,23 @@ function generatePageSession(data) {
         '</div>'+
       '</form>'+
     '</div>'+
-    '<div class="page-content messages-content">'+
+    '<div class="page-content messages-content">'+    
+     '<div class="list-block">'+
+        '<ul>'+
+          '<li class="swipeout transitioning">'+
+            '<div class="item-content swipeout-content" style="-webkit-transform: translate3d(0px, 0px, 0px);">'+
+              '<div class="item-media"><i class="icon icon-f7"></i></div>'+
+              '<div class="item-inner">'+
+                '<div class="item-title">'+data.name+'</div>'+
+              '</div>'+
+            '</div>'+
+            '<div class="swipeout-actions">'+
+              '<div class="swipeout-actions-inner"><a href="#" data-confirm="Are you sure you want to delete this item?" class="swipeout-delete">Delete</a></div>'+
+            '</div>'+
+          '</li>'+       
+        '</ul>'+
+      '</div>'+
+          
       '<div class="messages">';
       
   
@@ -912,8 +912,7 @@ function updateDataUserList(v) {
     var str = generateLineUser(v,true);    
     //$('#chat_userlist > li:first').after(str);
     //$('#chat_userlist li:first').html(i18n.t('description.currentlyactivechats')); 
-	//$("#chat_userlist").listview('refresh');
-    
+	
     $('#activechat_title').html(i18n.t('description.currentlyactivechats'));
     $('#chat_userlist').html(str);
  
