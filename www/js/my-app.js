@@ -2,12 +2,14 @@
 //var myApp = new Framework7();
 var myApp = new Framework7({
     onBeforePageInit: function (page) {
-        // Do something when page just added to DOM
-        // console.log(page);
+        // Do something when page just added to DOM   
+        // console.log(page);        
     },
     onPageInit: function (page) {
         // Do something on page init
         // console.log(page);
+        //console.log('XXXXX'+page.name);
+        $('body').i18n();
     },
     onPageAfterAnimation: function (page) {
         // Do something on page before animation start
