@@ -302,10 +302,12 @@ jQuery(document).ready(function($){
     
     function mofProcessBtn(id, state) {
         if (state) {
-            $(id).addClass("ui-state-disabled");
+            //$(id).addClass("ui-state-disabled");
+            $(id).attr("disabled", "true");
             //$(id).html('processing...');
         } else {
-            $(id).removeClass("ui-state-disabled");
+            //$(id).removeClass("ui-state-disabled");
+            $(id).removeAttr("disabled");
         }
     }
     
@@ -423,12 +425,13 @@ jQuery(document).ready(function($){
 
 	function handleLogout() {
 		console.log('handleLogout');	
-		
+		mofProcessBtn(".btn-logout", true);
 		$.getJSON(API+"/account/logout", function(res) {
 			if (res.success) {
 				window.localStorage.clear();  
 				window.sessionStorage.clear();		
                 
+                mofProcessBtn(".btn-logout", false);
                 mofChangePage('login.html');
                 //mofChangePage('#pageLogin');
 			}
