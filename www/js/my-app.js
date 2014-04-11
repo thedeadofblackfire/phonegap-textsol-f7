@@ -50,6 +50,15 @@ $$(document).on('pageInit', function (e) {
         } 
     }
     
+    if (page.name === 'auth') {
+        // to prevent back url on login
+        console.log(page.name);
+      
+        loadChatInit();			
+		
+		isChatSession = false;
+    }
+        
     // handle login
     /*
     if (page.name === 'login') {
@@ -146,7 +155,7 @@ $$(document).on('pageInit', function (e) {
     }
     //Messages page
     if (page.name === 'messages') {
-		alert('message to load');
+		console.log('message to load');
 		
         var conversationStarted = false;
         var answers = [
@@ -158,13 +167,14 @@ $$(document).on('pageInit', function (e) {
             'May be ;)',
             'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed luctus tincidunt erat, a convallis leo rhoncus vitae.'
         ];
-		
+		/*
 		myApp.addMessage({
                 text: 'totot',
                 type: 'sent',
                 day: !conversationStarted ? 'Today' : false,
                 time: !conversationStarted ? (new Date()).getHours() + ':' + (new Date()).getMinutes() : false
             });
+            */
 			
         var answerTimeout;
         $$('.ks-messages-form').on('submit', function (e) {
@@ -303,9 +313,38 @@ function createContentPage(){
 */
 $$(document).tap('.ks-generate-page', createContentPage);
 
-function loadChatSession(session) {
-	console.log(session);
-	createContentPage();
+function loadChatSession(sessionid) {
+    console.log('loadChatSession '+sessionid);
+    
+    // show loading icon
+    mofLoading(true);
+
+    $.ajax({
+          url: API+"/chat/get_conversation_by_session",
+          datatype: 'json',      
+          type: "post",
+          data: {replyname: objChat.support_display_name, session_id: sessionid, user_id: objUser.user_id},   
+          success:function(res){                    
+             console.log(res);
+ 
+             var str = generatePageSession(res);
+                
+				       
+               isChatSession = true;
+               // flag unread 
+               checkUnread(sessionid);
+   
+  
+               mofLoading(false);               
+
+               mainView.loadContent(str);
+       
+          },
+          error: function(jqXHR, textStatus, errorThrown) {
+             alert('Error loading session, try again!');
+          }
+       });
+       
 	return true;
 }
 

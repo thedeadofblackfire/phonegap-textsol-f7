@@ -124,8 +124,7 @@ function formatDateLight(d) {
             */
             
 jQuery(document).ready(function($){
-		
-        
+		        
     //Insert code here
     $(document).on('pageinit', '#pageLogin', function(e) {
     //$(document).on('pagebeforeshow', '#pageLogin', function(){  
@@ -268,24 +267,6 @@ jQuery(document).ready(function($){
     };
 
 
-/*
-    $(document).on('pagebeforeshow', '#pageChatView', function(){  
-		console.log('#pageChatView pagebeforeshow');	
-		console.log(location.hash);
-        console.log(window.location.href );
-        console.log($.mobile.urlHistory.getActive().url);
-         var u = $.mobile.path.parseUrl( window.location.href ),
-                re = /^#pageChatView/;
-var currentUrl = $.mobile.activePage.data('url');
-                console.log(u);
-                //alert(currentUrl);
-        //console.log(this.attr( "href" ));
-		// save the online chat status
-      
-		
-    });
-    */
-	
     $(document).on('pagebeforeshow', '#pageSettings', function(){  
 		console.log('#pageSettings pagebeforeshow');	
 		
@@ -392,128 +373,7 @@ var currentUrl = $.mobile.activePage.data('url');
 	}
 	*/
      
-  
-	function loadChatInit() {
-      console.log('loadChatInit');
-      
-      if (Object.keys(objChat).length == 0 ){
-            console.log('Chat init & start');
-            // save the online chat status
-            
-            /*
-            var store = window.localStorage;
-            var request = {
-                type: "GET",
-                contentType: "application/json; charset=utf-8",
-                url: API+"/chat/init?user_id="+objUser.user_id,                
-                //crossdomain: true,
-                //xhrFields: {
-                //  withCredentials: true
-               //},
-               
-                headers: {
-                    Cookie: store.getItem('session'),
-                    'X-Requested-With': 'XMLHttpRequest'
-                },
-                complete: function (jqXHR, status){
-                    if (status != 'success') {
-                        console.log('ajax status: failure');
-                    } else if (store.getItem('session') != null) {
-                        console.log('ajax status: session exists');
-                    } else {
-                        console.log('ajax status: saving cookie');
-                        var header = jqXHR.getAllResponseHeaders();
-                        console.log( jqXHR.getResponseHeader("Set-Cookie"));
-                        console.log(header);
-                        var match = header.match(/(Set-Cookie|set-cookie): (.+?);/);
-                        if (match) {
-                            session = match[2];
-                            store.setItem("session", session);
-                        }
-                    }
-                },
-                success: function(res) {
-                    objChat = res;
-                    //window.sessionStorage.setItem('objChat', JSON.stringify(objChat));
-                    console.log(objChat);
-          
-                    //var context = {title: "My New Post", body: "This is my first post!"}
-                    
-
-                    handleRefreshOnlineUser();
-                    
-                    chat_start();
-                },
-            }
-                   
-            $.ajax(request);
-            */
-     
            
-            //{"X-Requested-With":"XMLHttpRequest"}
-            $.getJSON(API+"/chat/init?user_id="+objUser.user_id, function(res) {			
-                objChat = res;
-                //window.sessionStorage.setItem('objChat', JSON.stringify(objChat));
-                console.log(objChat);
-                
-                //if (res.online_status == '1') {
-                 //   online = true;
-                //} else {
-                //    online = false;
-                    // @todo display offline message
-                //}	
-                
-                //var context = {title: "My New Post", body: "This is my first post!"}
-                
-               
-                //var htmlHeader = templateChatHeader(objChat);
-                //var htmlLoop = templateChatLoop(objChat);
-                //console.log(htmlLoop);
-                //$('#chatHeader').html(htmlHeader);
-                //$('.tab-content').html(htmlLoop);
-                //$( "#left-panel" ).trigger( "updatelayout" );
-                
-                
-                handleRefreshOnlineUser(false);
-                
-                chat_start();
-                
-            });
-       
-            
-        }
-        
-        /*
-		if(window.localStorage["username"] != undefined && window.localStorage["password"] != undefined) {
-			$("#username", form).val(window.localStorage["username"]);
-			$("#password", form).val(window.localStorage["password"]);
-			handleLogin();
-		}
-        */
-	}
-
-   
-
-  
-  /*
-  $(document).on('pagebeforeshow', '#listview-page', function(){
-    parseRSS(); 
-});
-
-function parseRSS() {
-      var articles = { entries: []};
-      for (var i = 0; i <=4; i++)
-      {
-        var obj = {
-          title: "test" + i
-        };
-        articles.entries.push(obj);
-      }
-      showData(articles);
-
-}
-*/
-              
   if (ENV == 'dev') {
 	//deviceReady();
 
@@ -735,8 +595,11 @@ function loadDataUserList(data) {
     //htmlUserList += '<div class="ui-bar ui-bar-e"><h3 style="display:inline-block; width:92%; margin-top:5px;">This is an alert message. </h3><div style="display:inline-block; width:8%; margin-top:0px; text-align:right;"><a href="#" data-role="button" data-icon="delete" data-inline="true" data-iconpos="notext" data-corners="true" data-shadow="true" data-iconshadow="true" data-wrapperels="span" data-theme="e" title="Dismiss" class="ui-btn ui-btn-up-e ui-shadow ui-btn-corner-all ui-btn-inline ui-btn-icon-notext"><span class="ui-btn-inner"><span class="ui-btn-text">Dismiss</span><span class="ui-icon ui-icon-delete ui-icon-shadow">&nbsp;</span></span></a></div><p style="font-size:85%; margin:-.3em 0 1em;">And here\'s some additional text in a paragraph.</p></div>';
     var focusChatStillAvailable = false;
                     
-    htmlUserList += '<ul id="chat_userlist" data-role="listview" data-theme="d" data-divider-theme="d" data-count-theme="a">';
-    htmlUserList += '<li data-role="list-divider" id="activechat_title">'+title+'</li>';
+     htmlUserList +=  '<div class="content-block-title" id="activechat_title">'+title+'</div>';
+     htmlUserList += '<div class="list-block"><ul id="chat_userlist">';
+                           
+    //htmlUserList += '<ul id="chat_userlist" data-role="listview" data-theme="d" data-divider-theme="d" data-count-theme="a">';
+    //htmlUserList += '<li data-role="list-divider" id="activechat_title">'+title+'</li>';
     $.each(data.online_user, function(k, v) {
         htmlUserList += generateLineUser(v,false);     
            
@@ -745,11 +608,11 @@ function loadDataUserList(data) {
         } 
             
     });
-    htmlUserList += '</ul>';
+    htmlUserList += '</ul></div>';
     
 	$('#container_chat_userlist').html(htmlUserList);
 	
-    $("#listview-content").trigger('create');  
+    //$("#listview-content").trigger('create');  
     
     // check if current chat session need to be close (visitor has closed the chat)
     if (isChatSession && !focusChatStillAvailable) {
@@ -859,23 +722,33 @@ function generateLineUser(v, newuser) {
     // state http://www.iconarchive.com/show/american-states-icons-by-custom-icon-design.html    
  
     var browser = '';
-	//browser = pictureBrowser(v);        
-    //if (browser != '') browser = '<img src="img/browser/64/'+browser+'" alt="'+v.browser+'">';
+	browser = pictureBrowser(v);        
+    if (browser != '') browser = '<img src="img/browser/64/'+browser+'" border="0" alt="'+v.browser+'" width="32">';
     	
-    var lg = '<img src="img/country/us.png" alt="United States" class="ui-li-icon">';
-     
+    var lg = '<img src="img/country/64/us.png" alt="United States" border="0" width="32" style="margin-left:2px;">';
+        
     var info = lg;
     if (v.city && v.city != '') info += ' '+v.city;
     if (v.region && v.region != '') info += ', '+v.region;
     //if (v.country && v.country != '' && v.country != 'Reserved' ) info += ' '+v.country;
     
+    /*
     var str = '<li data-icon="false"';   
     if (newuser) str += 'class="new_user"';    
     //str += '><a href="#pageChatSession?id=' + v.session_id + '" sid="'+v.session_id+'" data-theme="e">' + lg + '<h2>' +v.name + '</h2><p>started at <strong>'+formatDate(v.start_date)+'</strong></p> <span class="ui-li-count">'+(parseInt(v.totalmsg) + parseInt(v.totalreply))+'</span></a></li>';
     str += '><a href="#pageChatSession?id=' + v.session_id + '" sid="'+v.session_id+'" data-theme="a">' + browser + '<h3>' + v.name + '</h3><p>'+info+'</p> <p class="ui-li-aside"><small>'+formatDate(v.start_date)+'</small></p> <span class="ui-li-count">'+(parseInt(v.totalmsg) + parseInt(v.totalreply))+'</span></a></li>';
-    
+    */
     //str += '><a href="#pageChatSession?id=' + v.session_id + '" sid="'+v.session_id+'" data-theme="e">' + lg + v.name + ' <p class="ui-li-aside">started at <strong>'+formatDate(v.start_date)+'</strong></p> <span class="ui-li-count">'+(parseInt(v.totalmsg) + parseInt(v.totalreply))+'</span></a></li>';
         
+    var str = '<li><a href="#" sid="'+v.session_id+'" onclick="return loadChatSession(\''+v.session_id+'\');" class="item-link">'+
+                      '<div class="item-content">'+
+                        '<div class="item-media">'+browser+' '+lg+'</div>'+
+                        '<div class="item-inner">'+
+                          '<div class="item-title">'+v.name+'</div>'+
+						  '<div class="item-after"><span class="badge">'+(parseInt(v.totalmsg) + parseInt(v.totalreply))+'</span></div>'+
+                        '</div>'+
+                      '</div></a></li>';
+                      
     updateSession(v); 
     
     return str;
@@ -916,7 +789,80 @@ function generatePageSession(data) {
     console.log('generatePageSession');
     var displayChatClose = false;
     var str = '';
-       
+    
+    str += '<div class="navbar">' +
+            '<div class="navbar-inner">' +
+            '<div class="left"><a href="index.html" class="back link"><i class="icon icon-back-blue"></i><span>Back</span></a></div>' +
+            '<div class="center sliding">'+data.name+'</div>' +
+            '<div class="right"><a href="#" class="link open-panel icon-only"><i class="icon icon-bars-blue"></i></a></div>' +
+            '</div>'+
+            '</div>'+        
+'<div class="pages navbar-through">'+
+  '<div data-page="messages" class="page no-toolbar toolbar-fixed">'+
+    '<div class="toolbar">'+
+     '<form class="ks-messages-form">'+
+        '<div class="toolbar-inner">'+
+         '<input type="hidden" name="current_session_id" id="current_session_id" value="'+data.session_id+'" />'+    
+          '<input type="text" data-session="'+data.session_id+'" name="chatText" id="chatInput" placeholder="'+i18n.t('label.pressenter')+'" class="ks-messages-input"/><a href="#" class="link ks-send-message btnChatSendReply" data-i18n="label.send">'+i18n.t('label.send')+'</a>'+
+        '</div>'+
+      '</form>'+
+    '</div>'+
+    '<div class="page-content messages-content">'+
+      '<div class="messages">';
+      
+  
+    if (data.conversation != null) {
+         var conversationStarted = false;
+            
+        $.each(data.conversation, function(k, v) {        
+            //str += updateSessionMessage(v.message, false);			
+            var day = !conversationStarted ? 'Today' : false;
+            //var time = !conversationStarted ? (new Date()).getHours() + ':' + (new Date()).getMinutes() : false;
+            var time = !conversationStarted ? formatDateLight(v.message.post_date) : false;
+          
+            if (day) {
+                str += '<div class="messages-date">' + day + (time ? ',' : '') + (time ? ' <span>' + time + '</span>' : '') + '</div>';
+            }
+            str += '<div class="message message-received" mid="'+v.message.id+'">'+v.message.message+' <time datetime="'+v.message.post_date+'">'+formatDateLight(v.message.post_date)+'</time></div>';    
+            conversationStarted = true;
+             
+            if (v.reply != null) {
+                $.each(v.reply, function(i, r) {
+                    //str += updateSessionReply(r, false);
+                    str += '<div class="message message-sent reply" rid="'+r.id+'">'+r.reply+' <time datetime="'+r.post_date+'">'+formatDateLight(r.post_date)+'</time></div>';   
+                }); 
+            }
+        });
+    }
+    /*
+        <div class="messages-date">Sunday, Feb 9, <span>12:58</span></div>
+        <div class="message message-sent">Hello</div>
+        <div class="message message-sent">How are you?</div>
+        <div class="message message-received">Hi</div>
+        <div class="message message-received">I am fine, thanks! And how are you?</div>
+        <div class="message message-sent">I am great!</div>
+        <div class="message message-sent">What do you think about my new logo?</div>
+        <div class="messages-date">Wednesday, Feb 12, <span>19:33</span></div>
+        <div class="message message-sent">Hey? Any thoughts about my new logo?</div>
+        <div class="messages-date">Thursday, Feb 13, <span>11:20</span></div>
+        <div class="message message-sent">Alo...</div>
+        <div class="message message-sent">Are you there?</div>
+        <div class="message message-received">Hi, i am here</div>
+        <div class="message message-received">Your logo is great</div>
+        <div class="message message-received">Leave me alone!</div>
+        <div class="message message-sent">:(</div>
+        <div class="message message-sent">Hey, look, cutest kitten ever!</div>
+        <div class="message message-sent message-pic"><img src="http://placekitten.com/g/300/400"/></div>
+        <div class="message message-received">Yep</div>
+        */
+        
+      str += '</div>'+
+    '</div>'+
+  '</div>'+
+'</div>';
+
+        
+       /*
     str += '<div class="zone_session2" id="'+data.session_id+'">';
     //str += generateDetailVisitor(data);
     generateDetailVisitor(data);
@@ -930,12 +876,6 @@ function generatePageSession(data) {
 	} else {
 		str += '<a class="btn closeChat btn-danger" style="width:auto!important;color:white;"><i class="icon-remove"></i> '+i18n.t('label.closechat')+'</a>';		
 	}      
-
-   
-    //str += '<a href="#panelvisitor" class="ui-btn ui-mini">Anchor</a>';   
-    //str += '<a href="#panelvisitor" class="ui-btn ui-shadow ui-corner-all ui-btn-inline ui-btn-icon-left ui-icon-bars">Default panel</a>';
-    
-    //str += ' <a class="btn sendEmail btn-primary" style="width:auto!important;"><i class="icon-envelope"></i> Send Email</a>';
     str += '</div>';
     
     str += '<input type="hidden" name="current_session_id" id="current_session_id" value="'+data.session_id+'" />';
@@ -954,27 +894,7 @@ function generatePageSession(data) {
         });
     }
     str += '</ul>';
-    
-	/*
-	str += '<div class="messageWrapper chat">';
-    if (data.conversation != null) {
-        $.each(data.conversation, function(k, v) {        
-            str += updateSessionMessage(v.message, false);			
-            if (v.reply != null) {
-                $.each(v.reply, function(i, r) {
-                    str += updateSessionReply(r, false);
-                }); 
-            }
-        });
-    }
-    str += '</div>';
-	
-    str += '<div class="chatform">';
-    str += '<textarea data-session="'+data.session_id+'" style="width:98%; height: 60px;" name="chatText" id="chatInput" placeholder="Reply here..."></textarea>';
-    str += '<a data-role="button" href="#" data-session="'+data.session_id+'" class="btn btn-primary btnChatSendReply">Send</a>';
-    str += '</div>';
-	*/
-	
+    	
 	str += '<div class="chat-footer chatform">';
     str += '<input type="text" data-session="'+data.session_id+'" name="chatText" id="chatInput" class="input-light input-large brad chat-search" placeholder="'+i18n.t('label.pressenter')+'">';
     //str += '<a data-role="button" href="#" data-session="'+data.session_id+'" class="btn btn-primary btnChatSendReply">'+i18n.t('label.send')+'</a>';
@@ -982,6 +902,7 @@ function generatePageSession(data) {
     str += '</div>';				
         
     str += '</div>';
+    */
     
     return str;
 }
@@ -989,11 +910,13 @@ function generatePageSession(data) {
 function updateDataUserList(v) {
 	console.log('updateDataUserList');
     var str = generateLineUser(v,true);    
-    $('#chat_userlist > li:first').after(str);
-    $('#chat_userlist li:first').html(i18n.t('description.currentlyactivechats')); 
-    //$('#chat_userlist').prepend(str);
-	$("#chat_userlist").listview('refresh');
-
+    //$('#chat_userlist > li:first').after(str);
+    //$('#chat_userlist li:first').html(i18n.t('description.currentlyactivechats')); 
+	//$("#chat_userlist").listview('refresh');
+    
+    $('#activechat_title').html(i18n.t('description.currentlyactivechats'));
+    $('#chat_userlist').html(str);
+ 
     // play incoming chat
     play_audio(objChat.chat_sound_path_local_incomingchat);      
 }     
@@ -1003,23 +926,27 @@ function updateSessionMessage(v, toAppend) {
     //var str = '<div class="message bubble_me me" mid="'+v.id+'"><span class="tail">&nbsp;</span>'+v.message+'<time datetime="'+v.post_date+'">'+v.name+' • '+formatDate(v.post_date)+'</time></div>';
     
 	//var str = '<div class="message bubble_me me" mid="'+v.id+'"><span class="tail">&nbsp;</span>'+v.message+'<time datetime="'+v.post_date+'">'+formatDateLight(v.post_date)+'</time></div>';
+    //var str = '<li class="message right" mid="'+v.id+'"><img src="img/placeholders/avatars/2.jpg" class="img-circle"><div class="message_text">'+v.message+'<time datetime="'+v.post_date+'">'+formatDateLight(v.post_date)+'</time></div></li>';         
     
-	var str = '<li class="message right" mid="'+v.id+'"><div class="message_text">'+v.message+'<time datetime="'+v.post_date+'">'+formatDateLight(v.post_date)+'</time></div></li>';         
-	//var str = '<li class="message right" mid="'+v.id+'"><img src="img/placeholders/avatars/2.jpg" class="img-circle"><div class="message_text">'+v.message+'<time datetime="'+v.post_date+'">'+formatDateLight(v.post_date)+'</time></div></li>';         
-			
-	if (toAppend) $(".messageWrapper").append(str);
+    //var str = '<li class="message right" mid="'+v.id+'"><div class="message_text">'+v.message+'<time datetime="'+v.post_date+'">'+formatDateLight(v.post_date)+'</time></div></li>';         
+				
+    var str = '<div class="message message-received" mid="'+v.id+'">'+v.message+'<time datetime="'+v.post_date+'">'+formatDateLight(v.post_date)+'</time></div>';
+    //if (toAppend) $(".messageWrapper").append(str);	
+	if (toAppend) $(".messages").append(str);   
     else return str;
 }  
 
 function updateSessionReply(v, toAppend) {
     //var str = '<p class="reply treply" rid="'+v.id+'"><b>'+objChat.support_display_name+'</b>: '+v.reply+' <span class="time">'+formatDate(v.post_date)+'</span></p>';
     
-    //var str = '<div class="reply bubble_you you" rid="'+v.id+'"><span class="tail2">&nbsp;</span>'+v.reply+'<time datetime="'+v.post_date+'">'+formatDateLight(v.post_date)+'</time></div>';
-    var str = '<li class="reply" rid="'+v.id+'"><div class="message_text">'+v.reply+'<time datetime="'+v.post_date+'">'+formatDateLight(v.post_date)+'</time></div></li>';         
-	
+    //var str = '<div class="reply bubble_you you" rid="'+v.id+'"><span class="tail2">&nbsp;</span>'+v.reply+'<time datetime="'+v.post_date+'">'+formatDateLight(v.post_date)+'</time></div>';    
     //var str = '<li class="reply" rid="'+v.id+'"><img src="img/placeholders/avatars/avatar.jpg" class="img-circle" width="26"><div class="message_text">'+v.reply+'<time datetime="'+v.post_date+'">'+formatDateLight(v.post_date)+'</time></div></li>';         
-	    
-    if (toAppend) $(".messageWrapper").append(str);	
+    
+    //var str = '<li class="reply" rid="'+v.id+'"><div class="message_text">'+v.reply+'<time datetime="'+v.post_date+'">'+formatDateLight(v.post_date)+'</time></div></li>';         
+		    
+    var str = '<div class="message message-sent reply" rid="'+v.id+'">'+v.reply+'<time datetime="'+v.post_date+'">'+formatDateLight(v.post_date)+'</time></div>';
+    //if (toAppend) $(".messageWrapper").append(str);	
+    if (toAppend) $(".messages").append(str);    
     else return str;    
 }      
 
@@ -1042,4 +969,35 @@ function generateProcessingId() {
 function generateProcessingPostDate() {
     var d = new Date();
     return d.toISOString();
+}
+
+function loadChatInit() {
+      console.log('loadChatInit');
+      
+      if (Object.keys(objChat).length == 0 ){
+            console.log('Chat init & start');
+            // save the online chat status
+                           
+            //{"X-Requested-With":"XMLHttpRequest"}
+            $.getJSON(API+"/chat/init?user_id="+objUser.user_id, function(res) {			
+                objChat = res;
+                //window.sessionStorage.setItem('objChat', JSON.stringify(objChat));
+                console.log(objChat);
+                        
+                handleRefreshOnlineUser(false);
+                
+                chat_start();
+                
+            });
+       
+            
+        }
+        
+        /*
+		if(window.localStorage["username"] != undefined && window.localStorage["password"] != undefined) {
+			$("#username", form).val(window.localStorage["username"]);
+			$("#password", form).val(window.localStorage["password"]);
+			handleLogin();
+		}
+        */
 }
