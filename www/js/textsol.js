@@ -591,18 +591,21 @@ jQuery(document).ready(function($){
     
 function loadDataUserList(data) {	
     var htmlUserList = '';
-    var title = i18n.t('description.nochatsinprogress'); //'You have no active chats'; //There are currently no chats in progress.
-    if (data.online_user.length > 0) title = i18n.t('description.currentlyactivechats');
+    var panelUser = '';
+    var title = 'description.nochatsinprogress'; //'You have no active chats'; //There are currently no chats in progress.
+    if (data.online_user.length > 0) title = 'description.currentlyactivechats';
     //if (data.online_user.length > 0) title = '<img src="img/infoico.png" style="position:relative">'+i18n.t('description.currentlyactivechats');
     
     var focusChatStillAvailable = false;
                     
-    htmlUserList += '<div class="content-block-title" id="activechat_title">'+title+'</div>';
+    htmlUserList += '<div class="content-block-title" id="activechat_title" data-i18n="'+title+'">'+i18n.t(title)+'</div>';
     htmlUserList += '<div class="list-block"><ul id="chat_userlist">';
                            
     $.each(data.online_user, function(k, v) {
-        htmlUserList += generateLineUser(v,false);     
-           
+        var line = generateLineUser(v,false);     
+        htmlUserList += line;
+        panelUser += line;
+        
         if (current_session_id != '' && v.session_id == current_session_id) {
             focusChatStillAvailable = true;
         } 
@@ -611,7 +614,8 @@ function loadDataUserList(data) {
     htmlUserList += '</ul></div>';
     
 	$('#container_chat_userlist').html(htmlUserList);
-
+    $('#panel_userlist').html(panelUser);
+    
     // check if current chat session need to be close (visitor has closed the chat)
     if (isChatSession && !focusChatStillAvailable) {
         // we close chat
@@ -918,7 +922,7 @@ function updateDataUserList(v) {
     //$('#chat_userlist li:first').html(i18n.t('description.currentlyactivechats')); 
 	
     $('#activechat_title').html(i18n.t('description.currentlyactivechats'));
-    $('#chat_userlist').html(str);
+    $('#chat_userlist').after(str);
  
     // play incoming chat
     play_audio(objChat.chat_sound_path_local_incomingchat);      

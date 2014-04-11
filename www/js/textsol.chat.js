@@ -344,7 +344,8 @@ function chat_update()
             if (data.users != null) {
                 $.each(data.users, function(k, v) {                
                     // incoming chat
-                    var find = $('#chat_userlist').find('a[href="#pageChatSession?id=' + v.session_id + '"]');
+                    var find = $('#chat_userlist').find('a[sid="' + v.session_id + '"]');
+                    //var find = $('#chat_userlist').find('a[href="#pageChatSession?id=' + v.session_id + '"]');                    
                     //console.log(find);
                     if (find.length == 0) {    
                         updateDataUserList(v);
