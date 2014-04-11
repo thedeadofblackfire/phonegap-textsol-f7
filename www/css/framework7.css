@@ -1,5 +1,5 @@
 /*
- * Framework7 0.6.8
+ * Framework7 0.7.1
  * Full Featured HTML Framework For Building iOS7 Apps
  *
  * http://www.idangero.us/framework7
@@ -10,7 +10,7 @@
  *
  * Licensed under MIT
  *
- * Released on: April 5, 2014
+ * Released on: April 11, 2014
 */
 /*=============
   Framework 7
@@ -272,6 +272,9 @@ p {
   opacity: 1;
   -webkit-box-shadow: none;
   box-shadow: none;
+}
+.page.cached {
+  display: none;
 }
 .page-on-left {
   opacity: 0.9;
@@ -887,57 +890,57 @@ i.icon.icon-bars-black {
 i.icon.icon-f7 {
   width: 29px;
   height: 29px;
-  background-image: url(../img/i-f7.png);
+  background-image: url("../img/i-f7.png");
 }
 i.icon.icon-form-name {
   width: 29px;
   height: 29px;
-  background-image: url(../img/i-form-name.png);
+  background-image: url("../img/i-form-name.png");
 }
 i.icon.icon-form-password {
   width: 29px;
   height: 29px;
-  background-image: url(../img/i-form-password.png);
+  background-image: url("../img/i-form-password.png");
 }
 i.icon.icon-form-email {
   width: 29px;
   height: 29px;
-  background-image: url(../img/i-form-email.png);
+  background-image: url("../img/i-form-email.png");
 }
 i.icon.icon-form-calendar {
   width: 29px;
   height: 29px;
-  background-image: url(../img/i-form-calendar.png);
+  background-image: url("../img/i-form-calendar.png");
 }
 i.icon.icon-form-tel {
   width: 29px;
   height: 29px;
-  background-image: url(../img/i-form-tel.png);
+  background-image: url("../img/i-form-tel.png");
 }
 i.icon.icon-form-gender {
   width: 29px;
   height: 29px;
-  background-image: url(../img/i-form-gender.png);
+  background-image: url("../img/i-form-gender.png");
 }
 i.icon.icon-form-toggle {
   width: 29px;
   height: 29px;
-  background-image: url(../img/i-form-toggle.png);
+  background-image: url("../img/i-form-toggle.png");
 }
 i.icon.icon-form-comment {
   width: 29px;
   height: 29px;
-  background-image: url(../img/i-form-comment.png);
+  background-image: url("../img/i-form-comment.png");
 }
 i.icon.icon-form-settings {
   width: 29px;
   height: 29px;
-  background-image: url(../img/i-form-settings.png);
+  background-image: url("../img/i-form-settings.png");
 }
 i.icon.icon-form-url {
   width: 29px;
   height: 29px;
-  background-image: url(../img/i-form-url.png);
+  background-image: url("../img/i-form-url.png");
 }
 .badge {
   font-size: 13px;
@@ -1707,7 +1710,7 @@ label.label-checkbox input[type="radio"] {
 label.label-checkbox input[type="checkbox"]:checked + .item-media i.icon-form-checkbox:after,
 label.label-checkbox input[type="radio"]:checked + .item-media i.icon-form-checkbox:after {
   border: none;
-  background: #007aff url(../img/i-form-checkbox-white.png) no-repeat center;
+  background: #007aff url("../img/i-form-checkbox-white.png") no-repeat center;
   -webkit-background-size: auto 9px;
   background-size: auto 9px;
 }
@@ -1724,10 +1727,10 @@ label.label-radio input[type="radio"] ~ .item-inner {
 }
 label.label-radio input[type="checkbox"]:checked ~ .item-inner,
 label.label-radio input[type="radio"]:checked ~ .item-inner {
-  background: url(../img/i-form-radio-blue.png) no-repeat -webkit-calc(100% - 15px) center;
-  background: url(../img/i-form-radio-blue.png) no-repeat -moz-calc(100% - 15px) center;
-  background: url(../img/i-form-radio-blue.png) no-repeat -ms-calc(100% - 15px) center;
-  background: url(../img/i-form-radio-blue.png) no-repeat calc(100% - 15px) center;
+  background: url("../img/i-form-radio-blue.png") no-repeat -webkit-calc(100% - 15px) center;
+  background: url("../img/i-form-radio-blue.png") no-repeat -moz-calc(100% - 15px) center;
+  background: url("../img/i-form-radio-blue.png") no-repeat -ms-calc(100% - 15px) center;
+  background: url("../img/i-form-radio-blue.png") no-repeat calc(100% - 15px) center;
   -webkit-background-size: auto 10px;
   background-size: auto 10px;
 }
@@ -2153,6 +2156,10 @@ input.modal-prompt-input {
     transform: translate3d(0, 1024px, 0);
   }
 }
+.modal .preloader {
+  width: 34px;
+  height: 34px;
+}
 .preloader-indicator-overlay {
   visibility: visible;
   opacity: 0;
@@ -2163,16 +2170,16 @@ input.modal-prompt-input {
   left: 50%;
   top: 50%;
   padding: 8px;
-  margin-left: -29px;
-  margin-top: -29px;
+  margin-left: -25px;
+  margin-top: -25px;
   background: rgba(0, 0, 0, 0.8);
   z-index: 11000;
   border-radius: 5px;
 }
 .preloader-indicator-modal .preloader {
   display: block;
-  width: 42px;
-  height: 42px;
+  width: 34px;
+  height: 34px;
 }
 /* === Panels === */
 .panel-overlay {
@@ -2438,10 +2445,6 @@ html.with-statusbar-overlay body .panel {
 }
 .preloader-white:after {
   background-image: url("data:image/svg+xml;charset=utf-8,<svg viewBox='0 0 120 120' xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink'><defs><line id='l' x1='60' x2='60' y1='7' y2='27' stroke='%23fff' stroke-width='11' stroke-linecap='round'/></defs><g><use xlink:href='%23l' opacity='.27'/><use xlink:href='%23l' opacity='.27' transform='rotate(30 60,60)'/><use xlink:href='%23l' opacity='.27' transform='rotate(60 60,60)'/><use xlink:href='%23l' opacity='.27' transform='rotate(90 60,60)'/><use xlink:href='%23l' opacity='.27' transform='rotate(120 60,60)'/><use xlink:href='%23l' opacity='.27' transform='rotate(150 60,60)'/><use xlink:href='%23l' opacity='.37' transform='rotate(180 60,60)'/><use xlink:href='%23l' opacity='.46' transform='rotate(210 60,60)'/><use xlink:href='%23l' opacity='.56' transform='rotate(240 60,60)'/><use xlink:href='%23l' opacity='.66' transform='rotate(270 60,60)'/><use xlink:href='%23l' opacity='.75' transform='rotate(300 60,60)'/><use xlink:href='%23l' opacity='.85' transform='rotate(330 60,60)'/></g></svg>");
-}
-.modal .preloader {
-  width: 34px;
-  height: 34px;
 }
 @-webkit-keyframes spin {
   0% {
