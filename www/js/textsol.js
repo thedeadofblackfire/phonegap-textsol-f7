@@ -17,6 +17,7 @@ var badgeChatCount = 0;
 var audioEnable = true;
 var isChatSession = false;
 var current_session_id = '';
+var totalVisitors = 0;
 
 var app = {
     // Application Constructor
@@ -303,8 +304,10 @@ jQuery(document).ready(function($){
 
 	$(document).on('click', "#btnLogin", handleLoginForm);
 	
-	$(document).on('change', '#toggleswitchremotechat', function(e) {		
-       var current_status = $(this).val();
+	$(document).on('change', '#toggleswitchremotechat', function(e) {	
+        //alert($(this).is(':checked') +' '+$(this).val());
+       var current_status = 'Off'; //$(this).val();
+       if ($(this).is(':checked') === true) current_status = 'On';
        console.log('toggleswitchremotechat '+current_status);
 	
 	   var url = API+"/account/onlinestatus";
@@ -324,8 +327,9 @@ jQuery(document).ready(function($){
 		
 	});
     
-    $(document).on('change', '#toggleswitchnotification', function(e) {		
-       var current_status = $(this).val();
+    $(document).on('change', '#toggleswitchnotification', function(e) {		      
+       var current_status = 'Off'; //$(this).val();
+       if ($(this).is(':checked') === true) current_status = 'On';
        console.log('toggleswitchnotification '+current_status);
 	
 	   var url = API+"/account/notificationstatus";
@@ -1007,8 +1011,24 @@ function refreshVisitors() {
       
       $.getJSON(API+"/account/totalvisitors?user_id="+objUser.user_id, function(res) {			
         console.log(res);
-                        
-        $('#').html(res.total);        
+        var oldTotal = totalVisitors;
+        totalVisitors = res.total;
+        $('.totalvisitors').html(res.total);    
+        
+        var diff = totalVisitors - oldTotal;
+        console.log('visitors diff='+diff);
+        $('#badgetotalvisitors').html('');
+        //$('.totalvisitors').removeClass('badge-green'); 
+        //$('.totalvisitors').removeClass('badge-red'); 
+        if (diff > 0) {
+            $('#badgetotalvisitors').html('<span class="badge badge-green">+'+diff+'</span>');
+            //$('.totalvisitors').html('+'+diff);        
+            //$('.totalvisitors').addClass('badge-green');   
+        } else if (diff < 0) {
+        $('#badgetotalvisitors').html('<span class="badge badge-red">-'+diff+'</span>');
+            //$('.totalvisitors').html('-'+diff);        
+            //$('.totalvisitors').addClass('badge-red');   
+        } 
                 
      });
 

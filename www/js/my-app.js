@@ -54,7 +54,11 @@ $$(document).on('pageInit', function (e) {
         // to prevent back url on login
         console.log(page.name);
       
-        loadChatInit();			
+        $$('#nickname').html(objUser.first_name);
+        
+        loadChatInit();		
+        
+        refreshVisitors();
 		
 		isChatSession = false;
     }
