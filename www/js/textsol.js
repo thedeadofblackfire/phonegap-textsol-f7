@@ -141,133 +141,7 @@ jQuery(document).ready(function($){
 		
 		isChatSession = false;
     });   
-
-//http://www.moretechtips.net/2012/07/dynamic-page-generation-in-jquery.html
-//http://jquerymobile.com/demos/1.0rc1/docs/pages/page-dynamic.html
-
-    // Listen for any attempts to call changePage().    
-    $(document).bind( "pagebeforechange", function( e, data ) {
-
-        // We only want to handle changePage() calls where the caller is
-        // asking us to load a page by URL.
-        if ( typeof data.toPage === "string" ) {
-
-            // We are being asked to load a page by URL, but we only
-            // want to handle URLs that request the data for a specific
-            // category.
-            var url = $.mobile.path.parseUrl( data.toPage ),
-                regex = /^#pageChatSession/;            
-            
-            if ( url.hash.search(regex) !== -1 ) {
-                //console.log(url);
-                
-                // We're being asked to display the items for a specific category.
-                // Call our internal method that builds the content for the category
-                // on the fly based on our in-memory category data structure.               
-                loadSession(url, data.options);
-
-                // Make sure to tell changePage() we've handled this call so it doesn't have to do anything.
-                e.preventDefault();
-            }
-        }
-    });
-
-    function loadSession(urlObj, options) {       
-        var params = hashParams(urlObj.hash);
-        //console.log(params);
-        
-        var sessionid = params['id'];
-        if( !sessionid ) {
-          //alert('Session not found!');
-          mofChangePage('#pageChat');
-          return
-        };
-        
-        console.log('loadSession '+sessionid);
-     
-       // show loading icon
-       mofLoading(true);
-      
-       $.ajax({
-          url: API+"/chat/get_conversation_by_session",
-          datatype: 'json',      
-          type: "post",
-          data: {replyname: objChat.support_display_name, session_id: sessionid, user_id: objUser.user_id},
-          //datatype:'xml',
-          success:function(res){                    
-             console.log(res);
-             //console.log(urlObj);
-         
-             // save xml document as a property of the array element
-             /*               
-             if( !objSession[ '_' + sessionid ] ) {
-                objSession[ '_' + sessionid ] = {};
-            
-              };
-             var book = objSession[ '_' + sessionid ];
-             book['text'] = res;
-             //book.text = res;        
-             console.log(objSession);
-             */
-                
-             // Get the empty page we are going to insert our content into.
-                var pageSelector = urlObj.hash.replace( /\?.*$/, "" );
-               //var $page = $('#pageChatSession');
-               var $page = $( pageSelector );
-              
-               // Get the header for the page to set it
-               $header = $page.children( ":jqmData(role=header)" );
-               $header.find( "h1" ).html( res.name );
-               //$header.find( "h1" ).html( res.name+' #'+sessionid );
-               
-               var chapterHTML = '';
-               /*
-               $( verseNodeName , chapter).each(function(i) {
-                  var vers = $(this);
-                  chapterHTML += '<p><sup>'+ (i+1) +'</sup> '+ vers.text() +'</p>'
-               });
-               */
-               //chapterHTML += res.html_visitor;
-               //chapterHTML += res.html_conversation;
-        
-                 chapterHTML += generatePageSession(res);
-                //var htmlUserConversation = templateChatUserConversation(res);
-                //chapterHTML += htmlUserConversation;
-                
-                //$('#container_chat_userlist').html(htmlUserConversation);
-                //$("chat_userlist").listview('refresh');
-               
-               // Get the content element for the page to set it
-               $content = $page.children( ".ui-content" );
-               $('#sessionContent').html(chapterHTML);
-			   //$content.html(chapterHTML);
-			   //alert($('#sessionContent').html());
-               //alert(chapterHTML);
-          
-				       
-               isChatSession = true;
-               // flag unread 
-               checkUnread(sessionid);
-               
-               options.dataUrl = urlObj.href;
-               //options.changeHash = false;
-               //console.log(options);     
-  
-               mofLoading(false);               
-
-               // switch to the page we just modified.
-               //$.mobile.changePage( $page, options );
-               mofChangePage($page, options);
-       
-          },
-          error: function(jqXHR, textStatus, errorThrown) {
-             alert('Error loading session, try again!');
-          }
-       });
-       
-    };
-
-
+ 
     $(document).on('pagebeforeshow', '#pageSettings', function(){  
 		console.log('#pageSettings pagebeforeshow');	
 		
@@ -566,6 +440,41 @@ jQuery(document).ready(function($){
         // do something
     } 
     
+    
+    function loadChatSession(sessionid) {
+        console.log('loadChatSession '+sessionid);
+        
+        // show loading icon
+        mofLoading(true);
+
+        $.ajax({
+              url: API+"/chat/get_conversation_by_session",
+              datatype: 'json',      
+              type: "post",
+              data: {replyname: objChat.support_display_name, session_id: sessionid, user_id: objUser.user_id},   
+              success:function(res){                    
+                 console.log(res);
+     
+                 var str = generatePageSession(res);
+                                          
+                 isChatSession = true;
+                 // flag unread 
+                 checkUnread(sessionid);
+         
+                 mofLoading(false);               
+
+                 mainView.loadContent(str);
+           
+              },
+              error: function(jqXHR, textStatus, errorThrown) {
+                 alert('Error loading session, try again!');
+              }
+           });
+           
+        return true;
+    }
+
+    
     function handleRefreshOnlineUser(loading) {
         console.log('handleRefreshOnlineUser');
         
@@ -620,7 +529,7 @@ function loadDataUserList(data) {
     if (isChatSession && !focusChatStillAvailable) {
         // we close chat
         console.log('force close chat by user #'+current_session_id);
-        mofChangePage('#pageChat');
+        mofChangePage('auth');
     }    
                       
 }

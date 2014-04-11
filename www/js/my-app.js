@@ -50,6 +50,7 @@ $$(document).on('pageInit', function (e) {
         if (Object.keys(objUser).length != 0) {
             mofChangePage('auth.html');
         } 
+        
     }
     
     if (page.name === 'auth') {
@@ -318,41 +319,6 @@ function createContentPage(){
 }
 */
 $$(document).tap('.ks-generate-page', createContentPage);
-
-function loadChatSession(sessionid) {
-    console.log('loadChatSession '+sessionid);
-    
-    // show loading icon
-    mofLoading(true);
-
-    $.ajax({
-          url: API+"/chat/get_conversation_by_session",
-          datatype: 'json',      
-          type: "post",
-          data: {replyname: objChat.support_display_name, session_id: sessionid, user_id: objUser.user_id},   
-          success:function(res){                    
-             console.log(res);
- 
-             var str = generatePageSession(res);
-                
-				       
-               isChatSession = true;
-               // flag unread 
-               checkUnread(sessionid);
-   
-  
-               mofLoading(false);               
-
-               mainView.loadContent(str);
-       
-          },
-          error: function(jqXHR, textStatus, errorThrown) {
-             alert('Error loading session, try again!');
-          }
-       });
-       
-	return true;
-}
 
 // init textsol
 app.initialize();
