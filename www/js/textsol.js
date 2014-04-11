@@ -1000,3 +1000,16 @@ function loadChatInit() {
 		}
         */
 }
+
+
+function refreshVisitors() {
+      console.log('refreshVisitors');
+      
+      $.getJSON(API+"/account/totalvisitors?user_id="+objUser.user_id, function(res) {			
+        console.log(res);
+                        
+        $('#').html(res.total);        
+                
+     });
+
+}
