@@ -325,7 +325,7 @@ jQuery(document).ready(function($){
 			if (ENV == 'dev') {
 				mofAlert('You must enter a username and password');                
 			} else {
-				//navigator.notification.alert("You must enter a username and password", alertDismissed);
+				navigator.notification.alert("You must enter a username and password", alertDismissed);
 			}
 			mofProcessBtn("#btnLogin", false);
 		}
