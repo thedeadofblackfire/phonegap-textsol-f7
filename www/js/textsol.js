@@ -470,7 +470,7 @@ function loadDataUserList(data) {
             
     });
     htmlUserList += '</ul></div>';
-    
+    alert('test');
 	$('#container_chat_userlist').html(htmlUserList);
     $('#panel_userlist').html(panelUser);
     
