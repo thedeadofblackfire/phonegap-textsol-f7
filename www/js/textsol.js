@@ -136,44 +136,17 @@ jQuery(document).ready(function($){
         //alert($(this).is(':checked') +' '+$(this).val());
        var current_status = 'Off'; //$(this).val();
        if ($(this).is(':checked') === true) current_status = 'On';
-       console.log('toggleswitchremotechat '+current_status);
-	
-	   var url = API+"/account/onlinestatus";
-       $.ajax({
-              url : url,
-              type: "POST",
-              dataType : 'json',
-              data:{user_id: objUser.user_id, action:'chatStatus', status:current_status},
-              success :function(data){
-              	//window.location.reload();
-				console.log(data);
-              },
-              error:function(data){    
-				console.log(data);			  
-              } 
-        });
-		
+      
+       handleUpdateAvailability(current_status);
+     		
 	});
     
     $(document).on('change', '#toggleswitchnotification', function(e) {		      
        var current_status = 'Off'; //$(this).val();
        if ($(this).is(':checked') === true) current_status = 'On';
-       console.log('toggleswitchnotification '+current_status);
-	
-	   var url = API+"/account/notificationstatus";
-       $.ajax({
-              url : url,
-              type: "POST",
-              dataType : 'json',
-              data:{user_id: objUser.user_id, operator_id: objUser.operator_id, action:'notificationStatus', status:current_status},
-              success :function(data){
-				console.log(data);
-              },
-              error:function(data){    
-				console.log(data);			  
-              } 
-        });
-		
+       
+       handleUpdateNotification(current_status);
+	       		
 	});
     
     $(document).on('change', '#selectlanguage', function(e) {		
@@ -189,22 +162,7 @@ jQuery(document).ready(function($){
                 });
        //lang.set(current_status);
 	});
-		
-	/*
-	function deviceReady() {  
-		console.log('deviceReady');
-		//$("#loginForm").on("submit",handleLogin);
-
-	}
-	*/
-     
-           
-  if (ENV == 'dev') {
-	//deviceReady();
-
-  }
-  
-	
+			
 });
 
     
@@ -367,8 +325,7 @@ jQuery(document).ready(function($){
 			if (ENV == 'dev') {
 				mofAlert('You must enter a username and password');                
 			} else {
-				//navigator.notification.vibrate(1000);
-				navigator.notification.alert("You must enter a username and password", alertDismissed);
+				//navigator.notification.alert("You must enter a username and password", alertDismissed);
 			}
 			mofProcessBtn("#btnLogin", false);
 		}
@@ -395,6 +352,42 @@ jQuery(document).ready(function($){
         // do something
     } 
     
+    function handleUpdateAvailability(current_status) {
+	   console.log('handleUpdateAvailability '+current_status);			
+      
+       $.ajax({
+              url : API+"/account/onlinestatus",
+              type: "POST",
+              dataType : 'json',
+              data:{user_id: objUser.user_id, action:'chatStatus', status:current_status},
+              success :function(data){
+              	//window.location.reload();
+				console.log(data);
+              },
+              error:function(data){    
+				console.log(data);			  
+              } 
+        });
+        
+    }
+    
+    function handleUpdateNotification(current_status) {
+		console.log('handleUpdateNotification '+current_status);			
+        
+        $.ajax({
+              url : API+"/account/notificationstatus",
+              type: "POST",
+              dataType : 'json',
+              data:{user_id: objUser.user_id, operator_id: objUser.operator_id, action:'notificationStatus', status:current_status},
+              success :function(data){
+				console.log(data);
+              },
+              error:function(data){    
+				console.log(data);			  
+              } 
+        });
+       
+    }
     
     function loadChatSession(sessionid) {
         console.log('loadChatSession '+sessionid);

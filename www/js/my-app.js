@@ -41,12 +41,14 @@ var authView = myApp.addView('.view-auth', {
 
 // Show/hide preloader for remote ajax loaded pages
 // Probably should be removed on a production/local app
+/*
 $$(document).on('ajaxStart', function () {
     myApp.showIndicator();
 });
 $$(document).on('ajaxComplete', function () {
     myApp.hideIndicator();
 });
+*/
 
 // Events for specific pages when it initialized
 $$(document).on('pageInit', function (e) {
