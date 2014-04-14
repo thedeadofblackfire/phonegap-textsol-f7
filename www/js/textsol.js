@@ -882,9 +882,16 @@ function loadChatInit() {
                 chat_start();
                 
             });
-       
-            // settings
-            $.getJSON(API+"/account/onlinestatus?user_id="+objUser.user_id, function(res) {
+                  
+            // visitors
+           refreshVisitors();
+		
+           isChatSession = false;         
+            
+        }
+        
+        // settings
+        $.getJSON(API+"/account/onlinestatus?user_id="+objUser.user_id, function(res) {
                 console.log(res);
                  var valeur = 'Off';
                  if (res.status == '1') {
@@ -897,9 +904,9 @@ function loadChatInit() {
                 // $('#toggleswitchremotechat option[value='+valeur+']').attr("selected", "selected");
                 //$('select').selectmenu('refresh', true);
       
-            });
+        });
             
-            $.getJSON(API+"/account/notificationstatus?user_id="+objUser.user_id+"&operator_id="+objUser.operator_id, function(res) {
+        $.getJSON(API+"/account/notificationstatus?user_id="+objUser.user_id+"&operator_id="+objUser.operator_id, function(res) {
                 console.log(res);
                 var valeur = 'Off';
                 if (res.status == '1') {
@@ -908,20 +915,12 @@ function loadChatInit() {
                 }		
                 //$('#toggleswitchnotification').val(valeur).slider("refresh");
       
-            });
+        });
 		          
-            //language
-            $('#selectlanguage').val(ln.language.code);
-            
-            // visitors
-           refreshVisitors();
-		
-           isChatSession = false;
-           
-           $('body').i18n();
-            
-        }
-        
+        //language
+        $('#selectlanguage').val(ln.language.code);
+                        
+        $('body').i18n();
         /*
 		if(window.localStorage["username"] != undefined && window.localStorage["password"] != undefined) {
 			$("#username", form).val(window.localStorage["username"]);
