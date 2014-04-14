@@ -692,6 +692,12 @@ function generatePageSession(data) {
     var displayChatClose = false;
     var str = '';
     
+    // shortcuts
+	var browser = pictureBrowser(data.visitor);        
+    if (browser != '') browser = '<img src="img/browser/64/'+browser+'" border="0" alt="'+data.visitor.browser+'" width="32">';    	
+    var lg = '<img src="img/country/64/us.png" alt="United States" border="0" width="32" style="margin-left:2px;">';
+        
+        
     str += '<div class="navbar">' +
             '<div class="navbar-inner">' +
             '<div class="left"><a href="#" class="back link"><i class="icon icon-back-blue"></i><span>Back</span></a></div>' +
@@ -712,15 +718,15 @@ function generatePageSession(data) {
     '<div class="page-content messages-content">'+    
      '<div class="list-block">'+
         '<ul>'+
-          '<li class="swipeout transitioning">'+
+          '<li class="swipeout demo-remove-callback transitioning">'+
             '<div class="item-content swipeout-content" style="-webkit-transform: translate3d(0px, 0px, 0px);">'+
-              '<div class="item-media"><i class="icon icon-f7"></i></div>'+
+              '<div class="item-media">'+browser+' '+lg+'</div>'+
               '<div class="item-inner">'+
                 '<div class="item-title">'+data.name+'</div>'+
               '</div>'+
             '</div>'+
             '<div class="swipeout-actions">'+
-              '<div class="swipeout-actions-inner"><a href="#" data-confirm="Are you sure you want to delete this item?" class="swipeout-delete">Delete</a></div>'+
+              '<div class="swipeout-actions-inner"><a href="#" data-confirm="Are you sure you want to delete this session?" class="swipeout-delete closeChat">'+i18n.t('label.closechat')+'</a></div>'+
             '</div>'+
           '</li>'+       
         '</ul>'+

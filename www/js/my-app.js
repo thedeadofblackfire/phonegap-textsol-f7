@@ -66,6 +66,11 @@ $$(document).on('pageInit', function (e) {
 		isChatSession = false;
     }
         
+    if (page.name === 'messages') {        
+         $$('.demo-remove-callback').on('deleted', function () {
+            myApp.alert('Thanks, item removed!', 'Live Chat');
+        });
+    }
     // handle login
     /*
     if (page.name === 'login') {
