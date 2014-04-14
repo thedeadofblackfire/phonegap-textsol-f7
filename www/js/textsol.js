@@ -462,7 +462,8 @@ function loadDataUserList(data) {
     
     var focusChatStillAvailable = false;
                     
-    htmlUserList += '<div class="content-block-title" id="activechat_title" data-i18n="'+title+'">'+i18n.t(title)+'</div>';
+    //htmlUserList += '<div class="content-block-title" id="activechat_title" data-i18n="'+title+'">'+i18n.t(title)+'</div>';
+    htmlUserList += '<p id="activechat_title" data-i18n="'+title+'">'+i18n.t(title)+'</p>';
     htmlUserList += '<div class="list-block"><ul id="chat_userlist">';
                            
     $.each(data.online_user, function(k, v) {
@@ -910,12 +911,14 @@ function loadChatInit() {
             });
 		          
             //language
-            $('#selectlanguage').val('fr');
+            $('#selectlanguage').val(ln.language.code);
             
             // visitors
            refreshVisitors();
 		
            isChatSession = false;
+           
+           $('body').i18n();
             
         }
         

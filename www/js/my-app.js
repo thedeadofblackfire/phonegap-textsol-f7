@@ -8,7 +8,7 @@ var myApp = new Framework7({
     onPageInit: function (page) {
         // Do something on page init
         // console.log(page);  
-        $('body').i18n();
+        //$('body').i18n();
     },
     onPageAfterAnimation: function (page) {
         // Do something on page before animation start
@@ -21,8 +21,7 @@ var myApp = new Framework7({
 });
 
 // Expose Internal DOM library
-//var $$ = Framework7.$;
-var $$=myApp.$;
+var $$ = Framework7.$;
 
 
 // Add view
@@ -56,7 +55,7 @@ $$(document).on('pageInit', function (e) {
         $('#nickname').html(objUser.first_name);
         
         loadChatInit();		
-
+                
     }
     
     if (page.name === 'login') {
