@@ -18,6 +18,7 @@ var audioEnable = true;
 var isChatSession = false;
 var current_session_id = '';
 var totalVisitors = 0;
+var doRefresh = true;
 
 var app = {
     // Application Constructor
@@ -43,17 +44,24 @@ var app = {
                 objUser = {};
             }                     
             
-            checkPreAuth();
+            //checkPreAuth(false);
+                                   
+            if (Object.keys(objUser).length == 0) {           
+                mofChangePage('login.html');
+                return;
+            } 
             
-            //$.mobile.transitionFallbacks.slideout = "none";
+            doRefresh = true;
+             
+            $('#nickname').html(objUser.first_name);
+            
+            loadChatInit();		
+
         }
 		        
 		//document.addEventListener('load', this.onDeviceReady, true);		
     },
     // deviceready Event Handler
-    //
-    // The scope of 'this' is the event. In order to call the 'receivedEvent'
-    // function, we must explicity call 'app.receivedEvent(...);'
     onDeviceReady: function() {
         //checkConnection();	
 		console.log('onDeviceReady');
@@ -70,27 +78,23 @@ var app = {
                 objUser = {};
             }                     
             
-            checkPreAuth();
+            //checkPreAuth(false);
             
-            //$.mobile.transitionFallbacks.slideout = "none";
+            if (Object.keys(objUser).length == 0) {           
+                mofChangePage('login.html');
+                return;
+            } 
+            
+            doRefresh = true;
+             
+            $('#nickname').html(objUser.first_name);
+            
+            loadChatInit();	
         }
         // save device info the first time for mobile's ower (device uuid)
         // http://docs.phonegap.com/en/3.2.0/cordova_device_device.md.html#Device
         
         //push_onDeviceReady();
-        //app.receivedEvent('deviceready');
-        // Do cool things here...
-    },	
-    // Update DOM on a Received Event
-    receivedEvent: function(id) {
-        var parentElement = document.getElementById(id);
-        var listeningElement = parentElement.querySelector('.listening');
-        var receivedElement = parentElement.querySelector('.received');
-
-        listeningElement.setAttribute('style', 'display:none;');
-        receivedElement.setAttribute('style', 'display:block;');
-
-        console.log('Received Event: ' + id);
     }
 };
   
@@ -127,11 +131,14 @@ function formatDateLight(d) {
 jQuery(document).ready(function($){
 		        
     //Insert code here
+    /*
     $(document).on('pageinit', '#pageLogin', function(e) {
-        console.log('#pageLogin pageinit');
-        checkPreAuth();
+        console.log('#pageLogin pageinit'); 
+        checkPreAuth(false);
     });
+    */
     
+    /*
 	$(document).on('pagebeforeshow', '#pageChat', function(){  
 		console.log('#pageChat pagebeforeshow');	
 		
@@ -139,6 +146,7 @@ jQuery(document).ready(function($){
 		
 		isChatSession = false;
     });   
+    */
  
     $(document).on('pagebeforeshow', '#pageSettings', function(){  
 		console.log('#pageSettings pagebeforeshow');	
@@ -233,14 +241,7 @@ jQuery(document).ready(function($){
                 });
        //lang.set(current_status);
 	});
-	
-	/*
-	$(document).on('submit', "#loginForm", function(event) {
-		event.preventDefault();
-		handleLogin();
-	});
-	*/
-	
+		
 	/*
 	function deviceReady() {  
 		console.log('deviceReady');
@@ -253,7 +254,6 @@ jQuery(document).ready(function($){
   if (ENV == 'dev') {
 	//deviceReady();
 
-	//checkPreAuth();
   }
   
 	
@@ -320,21 +320,17 @@ jQuery(document).ready(function($){
         }
     }
     
-	function checkPreAuth() {
+	function checkPreAuth(login) {
 		console.log('checkPreAuth');
-		//var form = $("#loginForm");	
-                            
+                          
 		if(Object.keys(objUser).length == 0 && window.localStorage["username"] != undefined && window.localStorage["password"] != undefined) {
 			//$("#username", form).val(window.localStorage["username"]);
 			//$("#password", form).val(window.localStorage["password"]);            
 			handleLogin(window.localStorage["username"], window.localStorage["password"]);
-		} else if (Object.keys(objUser).length != 0) {
-            mofChangePage('auth.html');
-        } else {
-            mofChangePage('login.html');
+		} else if (Object.keys(objUser).length == 0) {
+            if (login === false) mofChangePage('login.html');
         }
-        
- 
+         
         /*
         console.log('tot');
         if (objUser.country == 'FR') lang.set('fr');
@@ -408,8 +404,7 @@ jQuery(document).ready(function($){
 					
                     mofProcessBtn("#btnLogin", false);
                     
-                    mofChangePage('auth.html');
-                    //mofChangePage('#pageChat');
+                    mofChangePage('index.html');
 				} else {	
 					console.log(res.message);
 					if (ENV == 'dev') {
@@ -490,7 +485,7 @@ jQuery(document).ready(function($){
     function handleRefreshOnlineUser(loading) {
         console.log('handleRefreshOnlineUser');
         
-        if (loading) {            
+        if (loading && doRefresh) {            
             $.getJSON(API+"/chat/online_user?user_id="+objUser.user_id, function(res) {			
                 console.log(res);
                 
@@ -541,7 +536,7 @@ function loadDataUserList(data) {
     if (isChatSession && !focusChatStillAvailable) {
         // we close chat
         console.log('force close chat by user #'+current_session_id);
-        mofChangePage('auth');
+        mofChangePage('index.html');
     }    
                       
 }
@@ -939,6 +934,9 @@ function loadChatInit() {
                 
             });
        
+           refreshVisitors();
+		
+           isChatSession = false;
             
         }
         
@@ -954,20 +952,20 @@ function loadChatInit() {
 
 function refreshVisitors() {
       console.log('refreshVisitors');
-      
-      $.getJSON(API+"/account/totalvisitors?user_id="+objUser.user_id, function(res) {			
-        console.log(res);
-        var oldTotal = totalVisitors;
-        totalVisitors = res.total;
-        $('.totalvisitors').html(res.total);            
-        var diff = totalVisitors - oldTotal;
-        console.log('visitors diff='+diff);
-        $('#badgetotalvisitors').html('');
-        if (diff > 0) {
-            $('#badgetotalvisitors').html('<span class="badge badge-green">+'+diff+'</span>');    
-        } else if (diff < 0) {
-            $('#badgetotalvisitors').html('<span class="badge badge-red">-'+diff+'</span>');          
-        }                 
-     });
-
+      if (doRefresh) {
+          $.getJSON(API+"/account/totalvisitors?user_id="+objUser.user_id, function(res) {			
+            console.log(res);
+            var oldTotal = totalVisitors;
+            totalVisitors = res.total;
+            $('.totalvisitors').html(res.total);            
+            var diff = totalVisitors - oldTotal;
+            console.log('visitors diff='+diff);
+            $('#badgetotalvisitors').html('');
+            if (diff > 0) {
+                $('#badgetotalvisitors').html('<span class="badge badge-green">+'+diff+'</span>');    
+            } else if (diff < 0) {
+                $('#badgetotalvisitors').html('<span class="badge badge-red">-'+diff+'</span>');          
+            }                 
+         });
+     }
 }

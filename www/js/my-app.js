@@ -7,9 +7,8 @@ var myApp = new Framework7({
     },
     onPageInit: function (page) {
         // Do something on page init
-        // console.log(page);
-        //console.log('XXXXX'+page.name);
-        $('body').i18n();
+        // console.log(page);  
+        //$('body').i18n();
     },
     onPageAfterAnimation: function (page) {
         // Do something on page before animation start
@@ -24,7 +23,6 @@ var myApp = new Framework7({
 // Expose Internal DOM library
 //var $$ = Framework7.$;
 var $$=myApp.$;
-
 
 
 // Add view
@@ -43,45 +41,38 @@ var authView = myApp.addView('.view-auth', {
 // Events for specific pages when it initialized
 $$(document).on('pageInit', function (e) {
     var page = e.detail.page;
+    
     // handle index loader
-     if (page.name === 'index') {
+    if (page.name === 'index') {
         // to prevent back url on login
         //alert(page.name);
-        if (Object.keys(objUser).length != 0) {
-            mofChangePage('auth.html');
+        if (Object.keys(objUser).length == 0) {
+           mofChangePage('login.html');
+           return;
         } 
         
-    }
-    
-    if (page.name === 'auth') {
-        // to prevent back url on login
-        console.log(page.name);
-      
-        $$('#nickname').html(objUser.first_name);
+        doRefresh = true;
+        
+        $('#nickname').html(objUser.first_name);
         
         loadChatInit();		
-        
-        refreshVisitors();
-		
-		isChatSession = false;
+
     }
+    
+    if (page.name === 'login') {
+        console.log('login.html pageinit'); 
+        //alert('login');
+        doRefresh = false;
         
+        checkPreAuth(true);       
+    }
+           
     if (page.name === 'messages') {        
          $$('.demo-remove-callback').on('deleted', function () {
             myApp.alert('Thanks, item removed!', 'Live Chat');
         });
     }
-    // handle login
-    /*
-    if (page.name === 'login') {
-        // to prevent back url on login
-        alert(page.name);
-        if (Object.keys(objUser).length != 0) {
-            mofChangePage('auth.html');
-        } 
-    }
-    */
-    
+
     // Handle Modals Page event when it is init
     if (page.name === 'modals') {
         $$('.demo-alert').on('click', function () {

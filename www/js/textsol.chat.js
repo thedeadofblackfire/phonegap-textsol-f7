@@ -246,7 +246,7 @@ function chat_start()
     // refresh visitors
     auto_refresh_visitors = setInterval(function() {
         refreshVisitors();
-    }, 60000); // refresh every 1 min 
+    }, 240000); // refresh every 4 min 
     	
 }
 
@@ -320,79 +320,79 @@ function chat_save_reply_message($this) {
 }
 	
    
-function chat_update()
-{
-    var wrapper = $(".messageWrapper");
-	//var wrapper = $(".tab-content .active .messageWrapper");
-    //var selector = $('#chat li.active a').attr('href');
-    //session_id = selector && selector.replace(/#/, ''); //strip for ie7   
-    
-    var current_session_id = $('#current_session_id').val();
-    var last_message_id = $(".messageWrapper .message-received:last").attr('mid');
-    var last_reply_id = $(".messageWrapper .reply:last").attr('rid');
-    if (current_session_id != undefined) {
-        console.log(current_session_id+' mid='+last_message_id+' rid='+last_reply_id);
-    }
-    
-    $.ajax({  
-		url: API+'/chat/update_chat',
-        dataType: "json",
-        type: 'POST',
-        //headers: {'X-Requested-With': 'XMLHttpRequest', 'Content-type': 'application/x-www-form-urlencoded'},
-        //crossDomain: false,
-        data: {session_id: current_session_id, user_id: objUser.user_id, mid: last_message_id, rid: last_reply_id},
-        success: function(data) {
-			console.log(data);
-			
-            //badgeChatCount = 1;            
-            //displayBadgeChat();
-            
-            //$("#app-status-ul").append('<li>--update_chat-- mid=' + last_message_id +'</li>');
-            
-            if (data.users != null) {
-                $.each(data.users, function(k, v) {                
-                    // incoming chat
-                    var find = $('#chat_userlist').find('a[sid="' + v.session_id + '"]');
-                    //var find = $('#chat_userlist').find('a[href="#pageChatSession?id=' + v.session_id + '"]');                    
-                    //console.log(find);
-                    if (find.length == 0) {    
-                        updateDataUserList(v);
-                    }                    
-                })
-            }
-            
-            //console.log(data.alert);
-            if (data.alert != null) {
-                $.each(data.alert, function(k, v) {
-                    for (var i = 0; i < v.no; i++) {
-                        new_message(v.session_id);
-                    }
-                })
-            }
-			
-			if (data.messages != null) {
-				//console.log(data.messages);
-				$.each(data.messages, function(k, v) {
-				    var newfind = $(".messageWrapper .message-received[mid='" + v.id + "']");
-					if (newfind.length == 0) {
-                        updateSessionMessage(v, true);					
-					}
-                })
-			}               
-                
-            if (data.replies != null) {
-				//console.log(data.replies);
-				$.each(data.replies, function(k, v) {
-				    var newfind = $(".messageWrapper .reply[rid='" + v.id + "']");
-					if (newfind.length == 0) {
-                        updateSessionReply(v, true);	
-					}
-                })				
-			}
-
+function chat_update() {
+    if (doRefresh) {
+        var wrapper = $(".messageWrapper");
+        //var wrapper = $(".tab-content .active .messageWrapper");
+        //var selector = $('#chat li.active a').attr('href');
+        //session_id = selector && selector.replace(/#/, ''); //strip for ie7   
+        
+        var current_session_id = $('#current_session_id').val();
+        var last_message_id = $(".messageWrapper .message-received:last").attr('mid');
+        var last_reply_id = $(".messageWrapper .reply:last").attr('rid');
+        if (current_session_id != undefined) {
+            console.log(current_session_id+' mid='+last_message_id+' rid='+last_reply_id);
         }
-    });
-    
+        
+        $.ajax({  
+            url: API+'/chat/update_chat',
+            dataType: "json",
+            type: 'POST',
+            //headers: {'X-Requested-With': 'XMLHttpRequest', 'Content-type': 'application/x-www-form-urlencoded'},
+            //crossDomain: false,
+            data: {session_id: current_session_id, user_id: objUser.user_id, mid: last_message_id, rid: last_reply_id},
+            success: function(data) {
+                console.log(data);
+                
+                //badgeChatCount = 1;            
+                //displayBadgeChat();
+                
+                //$("#app-status-ul").append('<li>--update_chat-- mid=' + last_message_id +'</li>');
+                
+                if (data.users != null) {
+                    $.each(data.users, function(k, v) {                
+                        // incoming chat
+                        var find = $('#chat_userlist').find('a[sid="' + v.session_id + '"]');
+                        //var find = $('#chat_userlist').find('a[href="#pageChatSession?id=' + v.session_id + '"]');                    
+                        //console.log(find);
+                        if (find.length == 0) {    
+                            updateDataUserList(v);
+                        }                    
+                    })
+                }
+                
+                //console.log(data.alert);
+                if (data.alert != null) {
+                    $.each(data.alert, function(k, v) {
+                        for (var i = 0; i < v.no; i++) {
+                            new_message(v.session_id);
+                        }
+                    })
+                }
+                
+                if (data.messages != null) {
+                    //console.log(data.messages);
+                    $.each(data.messages, function(k, v) {
+                        var newfind = $(".messageWrapper .message-received[mid='" + v.id + "']");
+                        if (newfind.length == 0) {
+                            updateSessionMessage(v, true);					
+                        }
+                    })
+                }               
+                    
+                if (data.replies != null) {
+                    //console.log(data.replies);
+                    $.each(data.replies, function(k, v) {
+                        var newfind = $(".messageWrapper .reply[rid='" + v.id + "']");
+                        if (newfind.length == 0) {
+                            updateSessionReply(v, true);	
+                        }
+                    })				
+                }
+
+            }
+        });
+    }
 }
 
 function chat_view(id) {

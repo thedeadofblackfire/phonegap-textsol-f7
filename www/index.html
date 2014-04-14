@@ -66,36 +66,107 @@
       <!-- Your main view, should have "view-main" class-->
       <div class="view view-main">
         <!-- Top Navbar-->
-        <div class="navbar">
-		
-		<!--
+       <div class="navbar">
           <div class="navbar-inner">
-            <div class="left"><a href="#" class="link">Left Link</a></div>
-            <div class="center sliding">App</div>
-            <div class="right"><a href="#" class="link">Right Link</a></div>
-          </div>
-		  -->
-        </div> 
-		
-        <!-- Pages, because we need fixed-through navbar and toolbar, it has additional appropriate classes-->
-        <div class="pages navbar-through toolbar-through">
-          <!-- Page, data-page contains page name-->
-          <div data-page="index" class="page">
-                    
-            <!-- Scrollable page content-->
-            <div class="page-content" style="background: url('img/homebg.png') repeat">
-                <div style="text-align:center" data-controltype="image" class="topband">               
-				  <img style="width: 478px; height: 130px" src="img/homelogo.png">
-                 </div>
-				 
-               <div class="content-block row ks-preloaders">                
-                 <center>Loading...<br><span class="preloader ks-preloader-big"></span></center>
-               </div>                           
-         
-            </div>
+            <div class="left"></div>
+            <div class="center sliding" id="nickname" style="color:#007AFF;">Live Chat</div>
+            <div class="right"><a href="#" class="open-panel link icon-only"><i class="icon icon-bars-blue"></i></a></div>
           </div>
         </div>
-      
+		
+        <!-- Pages, because we need fixed-through navbar and toolbar, it has additional appropriate classes-->
+        <div class="pages navbar-through">
+          <!-- Page, data-page contains page name-->
+          <div data-page="index" class="page no-toolbar toolbar-fixed">
+            <div class="toolbar tabbar tabbar-labels">
+              <div class="toolbar-inner">
+                <a href="#tab-1" class="tab-link active"><i class="icon ks-tabbar-icon-2"></i><span class="tabbar-label" data-i18n="label.chats">label.chats</span></a>
+                <a href="#tab-2" class="tab-link"><i id="badgetotalvisitors" class="icon ks-tabbar-icon-1"></i><span class="tabbar-label" data-i18n="label.visitors">label.visitors</span></a>
+                <a href="#tab-3" class="tab-link"><i class="icon ks-tabbar-icon-3"></i><span class="tabbar-label" data-i18n="label.settings">label.settings</span></a>
+              </div>
+            </div>     
+            <!-- Scrollable page content-->
+            <div class="page-content" style="background: url('img/homebgxxx.png') repeat;/*background:#99CCCC;*/"> 
+       
+       <div class="tabs">
+        <div id="tab-1" class="tab active">
+          <div class="content-block" id="container_chat_userlist">
+          </div>
+        </div>
+        <div id="tab-2" class="tab">
+          <div class="content-block">
+            <p>Active Visitors: <span class="totalvisitors">0</span></p>
+            <p>put simple chart here</p>
+          </div>
+        </div>
+        <div id="tab-3" class="tab">
+          <div class="content-block">
+                 
+              <span data-i18n="description.settings">description.settings</span>
+         
+              <div class="list-block">
+               <ul>  
+                  <li>
+                    <div class="item-content">
+                      <div class="item-inner">
+                        <div class="item-title label" style="width: 48%;" data-i18n="label.availability">label.availability</div>
+                        <div class="item-input">
+                          <label class="label-switch">
+                            <input type="checkbox" name="toggleswitchremotechat" id="toggleswitchremotechat" value="On" checked >
+                          </label>
+                        </div>
+                      </div>
+                    </div>
+                  </li>          
+                  <li>
+                    <div class="item-content">
+                      <div class="item-inner">
+                        <div class="item-title label" style="width: 48%;" data-i18n="label.notification">label.notification</div>
+                        <div class="item-input">
+                          <label class="label-switch">
+                            <input type="checkbox" name="toggleswitchnotification" id="toggleswitchnotification" value="On" >
+                          </label>
+                        </div>
+                      </div>
+                    </div>
+                  </li>          
+                  <li>
+                    <div class="item-content">
+                      <div class="item-inner">
+                        <div class="item-title label" style="width: 48%;" data-i18n="label.language">label.language</div>
+                        <div class="item-input">
+                          <select name="selectlanguage" id="selectlanguage">
+                             <option value="en">English</option>
+                             <option value="es">Spanish</option>
+                             <option value="fr">French</option>
+                             <option value="in">India</option>
+                             <option value="zh">Chinese</option>
+                          </select>
+                        </div>
+                      </div>
+                    </div>
+                  </li>          
+                </ul>
+              </div>      
+              
+              <div class="list-block insetxxx">
+                <ul>    
+                  <li><a href="#" class="list-button item-link button-red btn-logout" data-i18n="label.signout">label.signout</a></li> 
+                </ul>
+              </div>
+    
+          </div>
+        </div>      
+        <!-- end settings -->
+        
+      </div>   
+      <!-- end tab -->
+           
+            </div>
+            
+          </div>
+        </div>     
+		
       </div>
    
    </div>
