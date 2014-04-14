@@ -298,6 +298,17 @@ jQuery(document).ready(function($){
         else myApp.hidePreloader();               
     }
     
+    /* 
+     * mobile framework - Show/hide loading page
+     * show: true/false
+     */
+    function mofAlert(message, title) {
+        //$.mobile.loading('show');
+        //$.mobile.loading('hide');
+        if (title == undefined) title = 'Live Chat';
+        myApp.alert(message, title);               
+    }
+    
     function mofProcessBtn(id, state) {
         if (state) {
             //$(id).addClass("ui-state-disabled");
@@ -402,7 +413,7 @@ jQuery(document).ready(function($){
 				} else {	
 					console.log(res.message);
 					if (ENV == 'dev') {
-						alert(res.message);
+						mofAlert(res.message);
 					} else {
 						navigator.notification.alert(res.message, alertDismissed);
 					}					
@@ -411,7 +422,7 @@ jQuery(document).ready(function($){
 			},"json");
 		} else {        
 			if (ENV == 'dev') {
-				alert('You must enter a username and password');
+				mofAlert('You must enter a username and password');                
 			} else {
 				//navigator.notification.vibrate(1000);
 				navigator.notification.alert("You must enter a username and password", alertDismissed);
