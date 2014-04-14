@@ -1,5 +1,6 @@
 // Initialize your app
-//var myApp = new Framework7();
+var myApp = new Framework7();
+/*
 var myApp = new Framework7({
     onBeforePageInit: function (page) {
         // Do something when page just added to DOM   
@@ -19,6 +20,7 @@ var myApp = new Framework7({
         // console.log(page);
     }
 });
+*/
 
 // Expose Internal DOM library
 var $$ = Framework7.$;
@@ -36,6 +38,15 @@ var authView = myApp.addView('.view-auth', {
     dynamicNavbar: true
 });
 */
+
+// Show/hide preloader for remote ajax loaded pages
+// Probably should be removed on a production/local app
+$$(document).on('ajaxStart', function () {
+    myApp.showIndicator();
+});
+$$(document).on('ajaxComplete', function () {
+    myApp.hideIndicator();
+});
 
 // Events for specific pages when it initialized
 $$(document).on('pageInit', function (e) {
