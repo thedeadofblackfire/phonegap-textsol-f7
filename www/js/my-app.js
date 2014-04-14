@@ -8,7 +8,7 @@ var myApp = new Framework7({
     onPageInit: function (page) {
         // Do something on page init
         // console.log(page);  
-        //$('body').i18n();
+        $('body').i18n();
     },
     onPageAfterAnimation: function (page) {
         // Do something on page before animation start

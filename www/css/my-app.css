@@ -122,7 +122,7 @@
 }
 .page[data-page="tabbar"] .toolbar,
 .page[data-page="tabbar-labels"] .toolbar,
-.page[data-page="auth"] .toolbar {
+.page[data-page="index"] .toolbar {
   -webkit-transform: none;
   -moz-transform: none;
   -ms-transform: none;
@@ -131,7 +131,7 @@
 }
 .page[data-page="tabbar"] .page-content,
 .page[data-page="tabbar-labels"] .page-content,
-.page[data-page="auth"] .page-content {
+.page[data-page="index"] .page-content {
   padding-bottom: 44px;
 }
 i.ks-tabbar-icon-1 {

@@ -93,8 +93,6 @@ var app = {
         }
         // save device info the first time for mobile's ower (device uuid)
         // http://docs.phonegap.com/en/3.2.0/cordova_device_device.md.html#Device
-        
-        //push_onDeviceReady();
     }
 };
   
@@ -120,7 +118,7 @@ function formatDateLight(d) {
 }
 	
            
-            //http://stackoverflow.com/questions/8163703/cross-domain-ajax-doesnt-send-x-requested-with-header
+//http://stackoverflow.com/questions/8163703/cross-domain-ajax-doesnt-send-x-requested-with-header
             /*
              $.ajaxSetup({
                 //headers: {"X-Requested-With":"XMLHttpRequest"},
@@ -130,56 +128,6 @@ function formatDateLight(d) {
             
 jQuery(document).ready(function($){
 		        
-    //Insert code here
-    /*
-    $(document).on('pageinit', '#pageLogin', function(e) {
-        console.log('#pageLogin pageinit'); 
-        checkPreAuth(false);
-    });
-    */
-    
-    /*
-	$(document).on('pagebeforeshow', '#pageChat', function(){  
-		console.log('#pageChat pagebeforeshow');	
-		
-		loadChatInit();			
-		
-		isChatSession = false;
-    });   
-    */
- 
-    $(document).on('pagebeforeshow', '#pageSettings', function(){  
-		console.log('#pageSettings pagebeforeshow');	
-		
-		// save the online chat status
-		$.getJSON(API+"/account/onlinestatus?user_id="+objUser.user_id, function(res) {
-			console.log(res);
-			 var valeur = 'Off';
-			 if (res.status == '1') {
-				valeur = 'On';
-			 }
-			 //console.log(valeur);
-			 //$('#toggleswitchremotechat option[value=Off]').removeAttr("selected");
-			// $('#toggleswitchremotechat option[value=On]').removeAttr("selected");
-			// $('#toggleswitchremotechat option[value='+valeur+']').attr("selected", "selected");
-			//$('select').selectmenu('refresh', true);
-			$('#toggleswitchremotechat').val(valeur).slider("refresh");
-  
-		});
-        
-        $.getJSON(API+"/account/notificationstatus?user_id="+objUser.user_id+"&operator_id="+objUser.operator_id, function(res) {
-			console.log(res);
-			var valeur = 'Off';
-			if (res.status == '1') {
-				valeur = 'On';
-			}		
-			$('#toggleswitchnotification').val(valeur).slider("refresh");
-  
-		});
-		
-    });
-    
-  	
 	$(document).on('click', '.btn-logout', handleLogout);
 
 	$(document).on('click', "#btnLogin", handleLoginForm);
@@ -934,6 +882,37 @@ function loadChatInit() {
                 
             });
        
+            // settings
+            $.getJSON(API+"/account/onlinestatus?user_id="+objUser.user_id, function(res) {
+                console.log(res);
+                 var valeur = 'Off';
+                 if (res.status == '1') {
+                    valeur = 'On';
+                    $('#toggleswitchremotechat').attr( "checked", "checked");
+                 }
+                 //console.log(valeur);
+                 //$('#toggleswitchremotechat option[value=Off]').removeAttr("selected");
+                // $('#toggleswitchremotechat option[value=On]').removeAttr("selected");
+                // $('#toggleswitchremotechat option[value='+valeur+']').attr("selected", "selected");
+                //$('select').selectmenu('refresh', true);
+      
+            });
+            
+            $.getJSON(API+"/account/notificationstatus?user_id="+objUser.user_id+"&operator_id="+objUser.operator_id, function(res) {
+                console.log(res);
+                var valeur = 'Off';
+                if (res.status == '1') {
+                    valeur = 'On';
+                    $('#toggleswitchnotification').attr( "checked", "checked");
+                }		
+                //$('#toggleswitchnotification').val(valeur).slider("refresh");
+      
+            });
+		          
+            //language
+            $('#selectlanguage').val('fr');
+            
+            // visitors
            refreshVisitors();
 		
            isChatSession = false;
