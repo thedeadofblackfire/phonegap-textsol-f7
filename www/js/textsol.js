@@ -509,8 +509,8 @@ function displayBadgeChat() {
 	console.log('displayBadgeChat '+badgeChatCount);
     //if (badgeChatCount > 0) $('.badge-chat').html(badgeChatCount).fadeIn();
     //else $('.badge-chat').html('').fadeOut();
-	if (badgeChatCount > 0) $('badge-chat').html('<span class="badge badge-green">'+badgeChatCount+'</span>').fadeIn();
-	else $('.badge-chat').html('').fadeOut();
+	if (badgeChatCount > 0) $('#badge-chat').html('<span class="badge badge-green">'+badgeChatCount+'</span>');
+	else $('#badge-chat').html('');
 }
 
 function addUnread(session_id) {
