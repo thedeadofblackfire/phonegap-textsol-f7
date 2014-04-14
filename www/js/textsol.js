@@ -507,8 +507,10 @@ function updateSession(v) {
 
 function displayBadgeChat() {
 	console.log('displayBadgeChat '+badgeChatCount);
-    if (badgeChatCount > 0) $('.badge-chat').html(badgeChatCount).fadeIn();
-    else $('.badge-chat').html('').fadeOut();
+    //if (badgeChatCount > 0) $('.badge-chat').html(badgeChatCount).fadeIn();
+    //else $('.badge-chat').html('').fadeOut();
+	if (badgeChatCount > 0) $('badge-chat').html('<span class="badge badge-green">'+badgeChatCount+'</span>').fadeIn();
+	else $('.badge-chat').html('').fadeOut();
 }
 
 function addUnread(session_id) {
@@ -519,7 +521,7 @@ function addUnread(session_id) {
 		// do nothing but play the incoming message sound
 	} else {
 		var sess = objSession[ session_id ]; 
-        if (sess) {
+        if (sess) {		 
             sess.unreadMessage += 1; 
             badgeChatCount += 1;
             displayBadgeChat();
