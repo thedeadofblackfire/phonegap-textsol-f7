@@ -128,8 +128,6 @@ jQuery(document).ready(function($){
 		        
     //Insert code here
     $(document).on('pageinit', '#pageLogin', function(e) {
-    //$(document).on('pagebeforeshow', '#pageLogin', function(){  
-		//$("#pageLogin").on("pageinit", function(e) {
         console.log('#pageLogin pageinit');
         checkPreAuth();
     });
@@ -728,7 +726,7 @@ function generatePageSession(data) {
         '</ul>'+
       '</div>'+
           
-      '<div class="messages">';
+      '<div class="messages messageWrapper">';
       
   
     if (data.conversation != null) {
@@ -834,7 +832,10 @@ function updateDataUserList(v) {
     //$('#chat_userlist li:first').html(i18n.t('description.currentlyactivechats')); 
 	
     $('#activechat_title').html(i18n.t('description.currentlyactivechats'));
-    $('#chat_userlist').after(str);
+    $('#chat_userlist').append(str);
+    //$('#chat_userlist').after(str);
+    
+    $('#panel_userlist').append(str);
  
     // play incoming chat
     play_audio(objChat.chat_sound_path_local_incomingchat);      
@@ -849,9 +850,15 @@ function updateSessionMessage(v, toAppend) {
     
     //var str = '<li class="message right" mid="'+v.id+'"><div class="message_text">'+v.message+'<time datetime="'+v.post_date+'">'+formatDateLight(v.post_date)+'</time></div></li>';         
 				
-    var str = '<div class="message message-received" mid="'+v.id+'">'+v.message+'<time datetime="'+v.post_date+'">'+formatDateLight(v.post_date)+'</time></div>';
-    //if (toAppend) $(".messageWrapper").append(str);	
-	if (toAppend) $(".messages").append(str);   
+    var str = '<div class="message message-received" mid="'+v.id+'">'+v.message+' <time datetime="'+v.post_date+'">'+formatDateLight(v.post_date)+'</time></div>';
+    if (toAppend) {
+        $(".messageWrapper").append(str);	 
+        
+        var messagesContent = $('.messages-content');
+        var messages = messagesContent.find('.messages');
+        myApp.updateMessagesAngles(messages);
+        myApp.scrollMessagesContainer(messagesContent);
+    }
     else return str;
 }  
 
@@ -863,9 +870,15 @@ function updateSessionReply(v, toAppend) {
     
     //var str = '<li class="reply" rid="'+v.id+'"><div class="message_text">'+v.reply+'<time datetime="'+v.post_date+'">'+formatDateLight(v.post_date)+'</time></div></li>';         
 		    
-    var str = '<div class="message message-sent reply" rid="'+v.id+'">'+v.reply+'<time datetime="'+v.post_date+'">'+formatDateLight(v.post_date)+'</time></div>';
-    //if (toAppend) $(".messageWrapper").append(str);	
-    if (toAppend) $(".messages").append(str);    
+    var str = '<div class="message message-sent reply" rid="'+v.id+'">'+v.reply+' <time datetime="'+v.post_date+'">'+formatDateLight(v.post_date)+'</time></div>';
+    if (toAppend) {
+        $(".messageWrapper").append(str);	   
+        
+        var messagesContent = $('.messages-content');
+        var messages = messagesContent.find('.messages');
+        myApp.updateMessagesAngles(messages);
+        myApp.scrollMessagesContainer(messagesContent);
+    }
     else return str;    
 }      
 
@@ -929,23 +942,15 @@ function refreshVisitors() {
         console.log(res);
         var oldTotal = totalVisitors;
         totalVisitors = res.total;
-        $('.totalvisitors').html(res.total);    
-        
+        $('.totalvisitors').html(res.total);            
         var diff = totalVisitors - oldTotal;
         console.log('visitors diff='+diff);
         $('#badgetotalvisitors').html('');
-        //$('.totalvisitors').removeClass('badge-green'); 
-        //$('.totalvisitors').removeClass('badge-red'); 
         if (diff > 0) {
-            $('#badgetotalvisitors').html('<span class="badge badge-green">+'+diff+'</span>');
-            //$('.totalvisitors').html('+'+diff);        
-            //$('.totalvisitors').addClass('badge-green');   
+            $('#badgetotalvisitors').html('<span class="badge badge-green">+'+diff+'</span>');    
         } else if (diff < 0) {
-        $('#badgetotalvisitors').html('<span class="badge badge-red">-'+diff+'</span>');
-            //$('.totalvisitors').html('-'+diff);        
-            //$('.totalvisitors').addClass('badge-red');   
-        } 
-                
+            $('#badgetotalvisitors').html('<span class="badge badge-red">-'+diff+'</span>');          
+        }                 
      });
 
 }

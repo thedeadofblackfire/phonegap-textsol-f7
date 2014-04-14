@@ -77,13 +77,16 @@ function new_message(id) {
 
 var auto_refresh;
 var auto_refresh_users;
+var auto_refresh_visitors;
 
 $(document).ready(function() {
 
+    /*
     $('#chat a').on('click', function(e) {
         e.preventDefault();
         $(this).tab('show');
     })   
+    */
 
 	$(document).on('click', ".btnChatSendReply", function(e) {
 		e.preventDefault();		
@@ -91,8 +94,9 @@ $(document).ready(function() {
     });
     
     // When the user presses enter on the message input, write the message to firebase.	
-    $(document).on('keypress', ".chatform #chatInput", function(e) {	   
+    $(document).on('keypress', "#chatInput", function(e) {	   
         if (e.keyCode == 13) {
+          e.preventDefault();		
           chat_save_reply_message($('.btnChatSendReply'));     
         }
     });
@@ -238,6 +242,11 @@ function chat_start()
     auto_refresh_users = setInterval(function() {
         handleRefreshOnlineUser(true);
     }, 120000); // refresh every 2 min 
+    
+    // refresh visitors
+    auto_refresh_visitors = setInterval(function() {
+        refreshVisitors();
+    }, 60000); // refresh every 1 min 
     	
 }
 
@@ -246,7 +255,7 @@ function chat_save_reply_message($this) {
         var session_id = $this.attr('data-session');
       
         var wrapper = $(".messageWrapper");
-        var id = $(".messageWrapper .message:last").attr('mid');
+        var id = $(".messageWrapper .message-received:last").attr('mid');
         //  var wrapper = $(".tab-content .active .messageWrapper");
         //var id = $(".tab-content .active .messageWrapper p.message:last").attr('mid');
         var textarea = $('#chatInput');
@@ -284,7 +293,6 @@ function chat_save_reply_message($this) {
             url: API + "/chat/save_reply_message",
             dataType: "json",
             type: "POST",
-            //data: {id: id, message: message, support: SupportName},
 			data: {id: id, message: message, support: objChat.support_display_name, user_id: objUser.user_id, session_id: session_id, processing_id: reply_processing.id},
             success: function(data) {                
                 if (data.reply) {                    
@@ -320,7 +328,7 @@ function chat_update()
     //session_id = selector && selector.replace(/#/, ''); //strip for ie7   
     
     var current_session_id = $('#current_session_id').val();
-    var last_message_id = $(".messageWrapper .message:last").attr('mid');
+    var last_message_id = $(".messageWrapper .message-received:last").attr('mid');
     var last_reply_id = $(".messageWrapper .reply:last").attr('rid');
     if (current_session_id != undefined) {
         console.log(current_session_id+' mid='+last_message_id+' rid='+last_reply_id);
@@ -339,7 +347,7 @@ function chat_update()
             //badgeChatCount = 1;            
             //displayBadgeChat();
             
-            $("#app-status-ul").append('<li>--update_chat-- mid=' + last_message_id +'</li>');
+            //$("#app-status-ul").append('<li>--update_chat-- mid=' + last_message_id +'</li>');
             
             if (data.users != null) {
                 $.each(data.users, function(k, v) {                
@@ -365,7 +373,7 @@ function chat_update()
 			if (data.messages != null) {
 				//console.log(data.messages);
 				$.each(data.messages, function(k, v) {
-				    var newfind = $(".messageWrapper .message[mid='" + v.id + "']");
+				    var newfind = $(".messageWrapper .message-received[mid='" + v.id + "']");
 					if (newfind.length == 0) {
                         updateSessionMessage(v, true);					
 					}

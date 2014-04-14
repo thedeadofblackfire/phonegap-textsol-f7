@@ -186,6 +186,7 @@ $$(document).on('pageInit', function (e) {
         var answerTimeout;
         $$('.ks-messages-form').on('submit', function (e) {
             e.preventDefault();
+            alert('input');
             var input = $$(this).find('.ks-messages-input');
             var messageText = input.val();
             if (messageText.length === 0) return;
