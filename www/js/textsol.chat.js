@@ -146,8 +146,7 @@ $(document).ready(function() {
 
 	$(document).on('click', ".closeChat", function(e) {    
 		e.preventDefault();	
-    //$('.closeChat').on('click', function() {
-
+  
         if (!confirm(i18n.t('label.confirmclosechat')))
         {
             return false;
@@ -173,7 +172,8 @@ $(document).ready(function() {
                     
                     handleRefreshOnlineUser(true);
                     
-                    mofChangePage('#pageChat');
+                    //mofChangePage('index');
+                    mainView.goBack('index.html');
 					//$('.tab-content .active .chatBtn').siblings('textarea').remove();
                     //$('.tab-content .active .chatBtn').remove();
 					
