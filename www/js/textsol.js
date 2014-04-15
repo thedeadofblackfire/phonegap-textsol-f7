@@ -614,8 +614,8 @@ function generateDetailVisitor(data) {
     //str += '<h3>'+i18n.t('label.details')+'</h3>';
     str += '<p>';
     //str += '<strong>User Info:</strong>&nbsp;&nbsp;';
-    //if (data.visitor.email != '' || data.visitor.email != '0') str += '&nbsp;&nbsp;<b>Email:</b> '+data.visitor.email;
-    //if (data.visitor.phone != '' || data.visitor.phone != '0') str += '&nbsp;&nbsp;<b>Phone:</b> '+data.visitor.phone;
+    if (data.visitor.email != '' || data.visitor.email != '0') str += '<br><b>'+i18n.t('label.email')+':</b> '+data.visitor.email;
+    if (data.visitor.phone != '' || data.visitor.phone != '0') str += '<br><b>'+i18n.t('label.phone')+':</b> '+data.visitor.phone;
     if (data.visitor.ip != '') str += '<br><b>'+i18n.t('label.ip')+':</b> '+data.visitor.ip;
     if (data.visitor.country != '') str += '<br><b>'+i18n.t('label.country')+':</b> '+data.visitor.country;   
     if (data.visitor.city != '') str += '<br><b>'+i18n.t('label.city')+':</b> '+data.visitor.city;
@@ -667,10 +667,10 @@ function generatePageSession(data) {
     '<div class="page-content messages-content">'+    
     
        '<div class="content-block">'+
-          '<div class="row">'+
-            '<div class="col-33">'+browser+' '+lg+'</div>'+
-            '<div class="col-33"><a href="#" data-panel="right" class="button button-round active open-panel" data-i18n="label.details">'+i18n.t('label.details')+'</a></div>'+
-            '<div class="col-33"><a href="#" class="button button-round button-cancel closeChat" data-i18n="label.closechat">'+i18n.t('label.closechat')+'</a></div>'+
+          '<div class="row no-gutter">'+
+            '<div class="col-20">'+browser+' '+lg+'</div>'+
+            '<div class="col-40"><a href="#" data-panel="right" class="button button-round active open-panel" data-i18n="label.details">'+i18n.t('label.details')+'</a></div>'+
+            '<div class="col-40"><a href="#" class="button button-round button-cancel closeChat" data-i18n="label.closechat">'+i18n.t('label.closechat')+'</a></div>'+
           '</div>'+         
         '</div>';
 // <a href="#" data-popover=".popover-menu" class="button button-round active open-popover">Info</a>   

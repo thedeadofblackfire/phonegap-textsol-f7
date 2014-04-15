@@ -1,5 +1,4 @@
 
-
 (function($) {
 
     $.extend({
@@ -395,6 +394,7 @@ function chat_update() {
     }
 }
 
+// archives
 function chat_view(id) {
     console.log('chat_view');
         

@@ -28,7 +28,9 @@
         "platform": "Platform",
         "region": "Region",
         "visittime": "Visit Time",
-        "ip": "IP Address"        
+        "ip": "IP Address",
+        "email": "Email",
+        "phone": "Phone"        
     },
     "description":
     {
