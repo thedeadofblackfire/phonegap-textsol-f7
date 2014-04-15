@@ -682,6 +682,13 @@ function generatePageSession(data) {
         '</ul>'+
       '</div>'+
           
+        '<div class="content-block">'+
+          '<div class="row">'+
+            '<div class="col-50"><a href="#" class="button active">Info</a></div>'+
+            '<div class="col-50"><a href="#" class="button button-round closeChat">'+i18n.t('label.closechat')+'</a></div>'+
+          '</div>'+         
+        '</div>'+
+        
       '<div class="messages messageWrapper">';
       
   

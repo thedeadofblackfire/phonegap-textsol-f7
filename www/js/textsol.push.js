@@ -2,7 +2,7 @@
             
             var push_senderID = '304393421639';
             
-            var push_homeid = '#pageChat';
+            var push_homeid = 'index';
             
             function push_onDeviceReady() {
                 console.log('push_onDeviceReady');
@@ -13,11 +13,11 @@
 				{
                 	traceHandler('<li>backbutton event received</li>');
   					
-      				if( $("#home").length > 0 || $(push_homeid).length > 0 )
+      				if( $("#home").length > 0 || $(push_homeid).length > 0 || doRefresh)
 					{
 						// call this to get a new token each time. don't call it to reuse existing token.						
 						e.preventDefault();
-                        pushNotification.unregister(successHandler, errorHandler);
+                        //pushNotification.unregister(successHandler, errorHandler);
                         
                         /*
                         ImPush.userId = objUser.user_id;
@@ -188,7 +188,8 @@
             }
             
             function traceHandler(message) {
-                console.log(message);
+                console.log(message);                
+                $("#app-status-ul").append(message);
                 //$("#app-status-ul").append(message);
             }
             

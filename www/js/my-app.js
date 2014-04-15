@@ -58,11 +58,12 @@ $$(document).on('pageInit', function (e) {
         // to prevent back url on login
         //alert(page.name);
         if (Object.keys(objUser).length == 0) {
-           mofChangePage('login.html');
+           //mofChangePage('login.html');
+           checkPreAuth(false);   
            return;
-        } 
+        }                 
         
-        doRefresh = true;
+        doRefresh = true;                
         
         $('#nickname').html(objUser.first_name);
         
@@ -75,7 +76,7 @@ $$(document).on('pageInit', function (e) {
         //alert('login');
         doRefresh = false;
         
-        checkPreAuth(true);       
+        //checkPreAuth(true);       
     }
            
     if (page.name === 'messages') {        
