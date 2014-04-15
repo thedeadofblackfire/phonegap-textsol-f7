@@ -478,7 +478,7 @@ function loadDataUserList(data) {
     if (isChatSession && !focusChatStillAvailable) {
         // we close chat
         console.log('force close chat by user #'+current_session_id);
-        mofChangePage('index.html');
+        //mofChangePage('index.html');
     }    
                       
 }
