@@ -313,6 +313,9 @@ jQuery(document).ready(function($){
                     mofChangePage('index.html');
 				} else {	
 					console.log(res.message);
+                     
+                    mofLoading(false);
+                    
 					if (ENV == 'dev') {
 						mofAlert(res.message);
 					} else {
