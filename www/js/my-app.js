@@ -333,4 +333,4 @@ function createContentPage(){
 $$(document).on('click', '.ks-generate-page', createContentPage);
 
 // init textsol
-app.initialize();
+//app.initialize();
