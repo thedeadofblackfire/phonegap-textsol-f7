@@ -1,6 +1,5 @@
 // Initialize your app
-var myApp = new Framework7();
-/*
+//var myApp = new Framework7();
 var myApp = new Framework7({
     onBeforePageInit: function (page) {
         // Do something when page just added to DOM   
@@ -20,7 +19,7 @@ var myApp = new Framework7({
         // console.log(page);
     }
 });
-*/
+
 
 // Expose Internal DOM library
 var $$ = Framework7.$;
