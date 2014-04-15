@@ -610,8 +610,8 @@ function generateDetailVisitor(data) {
     console.log('generateDetailVisitor');
     var str = '';
     
-    str += '<div class="ui-panel-inner user_infox both_shadowx">';
-    str += '<h3>'+i18n.t('label.details')+'</h3>';
+    //str += '<div class="ui-panel-inner user_infox both_shadowx">';
+    //str += '<h3>'+i18n.t('label.details')+'</h3>';
     str += '<p>';
     //str += '<strong>User Info:</strong>&nbsp;&nbsp;';
     //if (data.visitor.email != '' || data.visitor.email != '0') str += '&nbsp;&nbsp;<b>Email:</b> '+data.visitor.email;
@@ -626,13 +626,11 @@ function generateDetailVisitor(data) {
     if (data.visitor.visit != '') str += '<br><b>'+i18n.t('label.visittime')+':</b> '+data.visitor.visit;
         
     str += '</p>';
-    str += '<a href="#" data-rel="close" data-theme="d" class="ui-btn ui-btn-d ui-mini ui-shadow ui-corner-all ui-icon-delete ui-btn-icon-left ui-btn-inline theme">'+i18n.t('label.closepanel')+'</a>';
-    
-    str += '</div>';
+    //str += '<a href="#" data-rel="close" data-theme="d" class="ui-btn ui-btn-d ui-mini ui-shadow ui-corner-all ui-icon-delete ui-btn-icon-left ui-btn-inline theme">'+i18n.t('label.closepanel')+'</a>';    
+    //str += '</div>';
       
     
     $('#panelvisitor').html(str);
-    //$( "#panelvisitor" ).trigger( "updatelayout" );
     
     return str;
 }
@@ -647,7 +645,8 @@ function generatePageSession(data) {
     if (browser != '') browser = '<img src="img/browser/64/'+browser+'" border="0" alt="'+data.visitor.browser+'" width="32">';    	
     var lg = '<img src="img/country/64/us.png" alt="United States" border="0" width="32" style="margin-left:2px;">';
         
-        
+    generateDetailVisitor(data);
+            
     str += '<div class="navbar">' +
             '<div class="navbar-inner">' +
             '<div class="left"><a href="#" class="back link"><i class="icon icon-back-blue"></i><span>Back</span></a></div>' +
@@ -666,6 +665,17 @@ function generatePageSession(data) {
       '</form>'+
     '</div>'+
     '<div class="page-content messages-content">'+    
+    
+       '<div class="content-block">'+
+          '<div class="row">'+
+            '<div class="col-33">'+browser+' '+lg+'</div>'+
+            '<div class="col-33"><a href="#" data-panel="right" class="button button-round active open-panel" data-i18n="label.details">'+i18n.t('label.details')+'</a></div>'+
+            '<div class="col-33"><a href="#" class="button button-round button-cancel closeChat" data-i18n="label.closechat">'+i18n.t('label.closechat')+'</a></div>'+
+          '</div>'+         
+        '</div>';
+// <a href="#" data-popover=".popover-menu" class="button button-round active open-popover">Info</a>   
+     
+     /*
      '<div class="list-block">'+
         '<ul>'+
           '<li class="swipeout demo-remove-callback transitioning">'+
@@ -681,15 +691,9 @@ function generatePageSession(data) {
           '</li>'+       
         '</ul>'+
       '</div>'+
-          
-        '<div class="content-block">'+
-          '<div class="row">'+
-            '<div class="col-50"><a href="#" class="button active">Info</a></div>'+
-            '<div class="col-50"><a href="#" class="button button-round closeChat">'+i18n.t('label.closechat')+'</a></div>'+
-          '</div>'+         
-        '</div>'+
-        
-      '<div class="messages messageWrapper">';
+          */
+     
+      str += '<div class="messages messageWrapper">';
       
   
     if (data.conversation != null) {
@@ -742,7 +746,17 @@ function generatePageSession(data) {
   '</div>'+
 '</div>';
 
-        
+     
+ //popup
+ /*
+    var popover = '<ul>'+
+            '<li><a href="modals.html" class="list-button item-link">Modals</a></li>'+
+            '<li><a href="popover.html" class="list-button item-link">Popover</a></li>'+
+          '</ul>';
+    
+
+    $('#popovervisitor').html(popover);    
+*/    
        /*
     str += '<div class="zone_session2" id="'+data.session_id+'">';
     //str += generateDetailVisitor(data);
