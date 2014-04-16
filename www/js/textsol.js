@@ -853,7 +853,9 @@ function updateSessionReply(v, toAppend) {
     
     //var str = '<li class="reply" rid="'+v.id+'"><div class="message_text">'+v.reply+'<time datetime="'+v.post_date+'">'+formatDateLight(v.post_date)+'</time></div></li>';         
 		    
-    var str = '<div class="message message-sent reply" rid="'+v.id+'">'+v.reply+' <time datetime="'+v.post_date+'">'+formatDateLight(v.post_date)+'</time></div>';
+    var str = '<div class="message message-sent reply" rid="'+v.id+'">'+v.reply+'</div>';
+	//var str = '<div class="message message-sent reply" rid="'+v.id+'">'+v.reply+' <time datetime="'+v.post_date+'">'+formatDateLight(v.post_date)+'</time></div>';
+    
     if (toAppend) {
         $(".messageWrapper").append(str);	   
         
