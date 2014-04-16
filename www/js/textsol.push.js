@@ -189,7 +189,6 @@
             
             function traceHandler(message) {
                 console.log(message);                
-                $("#app-status-ul").append(message);
                 //$("#app-status-ul").append(message);
             }
             
