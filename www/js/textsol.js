@@ -871,7 +871,8 @@ function completeSessionReply(v) {
     var newfind = $(".messageWrapper .reply[rid='"+v.processing_id+"']"); 
     if (newfind.length > 0) {
         console.log('complete '+v.processing_id+' changed');
-        newfind.attr('rid', v.id);	  
+        newfind.attr('rid', v.id);	
+        //newfind.child('time').html(formatDateLight(v.post_date));
     }
     // put a loader
 }      
