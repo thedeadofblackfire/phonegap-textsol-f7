@@ -986,9 +986,9 @@ function generateLineVisitor(v) {
     //if (v.region && v.region != '') info += v.region+',';
     if (v.country && v.country != '' && v.country != 'Reserved' ) info += ' '+v.country;
     
-    var referrer = 'Unknow referrer';
+    var referrer = i18n.t('label.unknowreferrer');
     if (v.referrer != '') referrer = v.referrer;
-    
+    //  data-i18n="label.details">'+i18n.t('label.details')+'
     
     var day = '';
     //2014-04-15 06:54:48 18
@@ -999,7 +999,7 @@ function generateLineVisitor(v) {
     var visit = v.visit_time;
     var currentday = visit.substr(0,10);
     //console.log(currentday);
-    if (currentday !== myDate_string) day = 'Yesterday at '; // @todo change this to more accurate
+    if (currentday !== myDate_string) day = i18n.t('label.yesterday')+' - '; // @todo change this to more accurate
     var currenttime = day + visit.substr(11,5);   
     //time_on_site
     
@@ -1034,11 +1034,11 @@ function refreshVisitors() {
                     $('#badgetotalvisitors').html('<span class="badge badge-red">-'+diff+'</span>');          
                 }          
             }            
-            
+          
             // update visitors list
             var htmlVisitorList = '';
-            if (totalVisitors > limit) htmlVisitorList += '<div class="content-block-title">Browsing ('+totalVisitors+'), '+limit+' displayed</div>';
-            else htmlVisitorList += '<div class="content-block-title">Browsing ('+totalVisitors+')</div>';
+            if (totalVisitors > limit) htmlVisitorList += '<div class="content-block-title">'+i18n.t('label.browsing')+' ('+totalVisitors+'), '+limit+' displayed</div>';
+            else htmlVisitorList += '<div class="content-block-title">'+i18n.t('label.browsing')+' ('+totalVisitors+')</div>';
             
             htmlVisitorList += '<div class="list-block"><ul>';                           
             $.each(res.visitors, function(k, v) {

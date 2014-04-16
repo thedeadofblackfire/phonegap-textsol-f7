@@ -30,7 +30,10 @@
         "visittime": "Visit Time",
         "ip": "IP Address",
         "email": "Email",
-        "phone": "Phone"
+        "phone": "Phone",
+        "browsing": "Browsing",
+        "unknowreferrer": "Unknow referrer",
+        "yesterday": "Yesterday"
     },
     "description":
     {

@@ -2,6 +2,13 @@
   background: #222;
   color: #dddddd;
 }
+.panel-left {
+   background: #22504E;
+   filter: alpha(opacity=80);
+   filter: progid:DXImageTransform.Microsoft.Alpha(opacity=80);
+   opacity:0.8;
+   -moz-opacity: 0.80; 
+}
 .panel-left .content-block,
 .panel-left .content-block-title {
   color: #dddddd;

@@ -30,7 +30,10 @@
         "visittime": "Duración de la visita",
         "ip": "IP",
         "email": "Email",
-        "phone": "Teléfono"
+        "phone": "Teléfono",
+        "browsing": "Navegación",
+        "unknowreferrer": "Unknow referrer",
+        "yesterday": "Ayer"
     },
     "description":
     {
