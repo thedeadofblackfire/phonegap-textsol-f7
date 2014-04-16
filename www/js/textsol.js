@@ -955,8 +955,12 @@ function loadChatInit() {
 function pictureCountry(country) {
     var str = ''; 
     if (country != undefined && country != 'Reserved') {
-        country = country.replace(" ", "-");
-        str = country+'-flag.png'; 
+        if (country == 'United States') {
+            str = 'United-states-flag.png';
+        } else {
+            country = country.replace(" ", "-");
+            str = country+'-flag.png'; 
+        }
     } else {
         str = 'United-states-flag.png';
     }
