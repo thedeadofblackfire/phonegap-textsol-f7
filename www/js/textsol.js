@@ -982,11 +982,11 @@ function generateLineVisitor(v) {
     if (lg != '') lg = '<img src="img/country/32/'+lg+'" alt="'+v.country+'" border="0" width="16">';
 
     var info = lg;
-    if (v.city && v.city != '') info += ' '+v.city+', ';
-    //if (v.region && v.region != '') info += v.region+', ';
-    if (v.country && v.country != '' && v.country != 'Reserved' ) info += v.country;
+    if (v.city && v.city != '') info += ' '+v.city+',';
+    //if (v.region && v.region != '') info += v.region+',';
+    if (v.country && v.country != '' && v.country != 'Reserved' ) info += ' '+v.country;
     
-    var referrer = 'unknow referrer';
+    var referrer = 'Unknow referrer';
     if (v.referrer != '') referrer = v.referrer;
     
     

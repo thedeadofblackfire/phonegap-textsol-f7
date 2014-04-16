@@ -303,24 +303,25 @@ function createContentPage() {
     return;
 }
 
-function goTab() {
- var newTab = $(clicked.attr('href'));
+function goMainTab(link) {
+ var newTab = $$(link);
                     if (newTab.length === 0) return;
-                    var oldTab = newTab.parent().find('.tab.active').removeClass('active');
+                    var oldTab = $$('.tabs').find('.tab.active').removeClass('active');
                     newTab.addClass('active');
                     newTab.trigger('show');
-                    var clickedParent = clicked.parent();
-                    if (clickedParent.hasClass('buttons-row') || clicked.parents('.tabbar').length > 0) {
-                        clickedParent.find('.active').removeClass('active');
-                        clicked.addClass('active');
-                    }
+                    var clickedParent = $$('.toolbar-inner');
+                    
+                    clickedParent.find('.active').removeClass('active');
+                    $$('a[href="'+link+'"]').addClass('active');
+                    
                     if (newTab.find('.navbar').length > 0) {
                         // Find tab's view
                         var viewContainer;
                         if (newTab.hasClass('view')) viewContainer = newTab[0];
                         else viewContainer = newTab.parents('.view')[0];
-                        app.sizeNavbars(viewContainer);
+                        myApp.sizeNavbars(viewContainer);
                     }
+                    
 }
 
 $$(document).on('click', '.ks-generate-page', createContentPage);
