@@ -580,7 +580,10 @@ function generateLineUser(v, newuser) {
 	browser = pictureBrowser(v);        
     if (browser != '') browser = '<img src="img/browser/64/'+browser+'" border="0" alt="'+v.browser+'" width="32">';
     	
-    var lg = '<img src="img/country/64/us.png" alt="United States" border="0" width="32" style="margin-left:2px;">';
+    var lg = '';
+    lg = pictureCountry(v.country);
+    if (lg != '') lg = '<img src="img/country/32/'+lg+'" alt="'+v.country+'" border="0" width="32" style="margin-left:2px;">';    
+    //var lg = '<img src="img/country/64/us.png" alt="United States" border="0" width="32" style="margin-left:2px;">';
         
     var info = lg;
     if (v.city && v.city != '') info += ' '+v.city;
@@ -949,23 +952,99 @@ function loadChatInit() {
         */
 }
 
+function pictureCountry(country) {
+    var str = ''; 
+    if (country != undefined) {
+        country = country.replace(" ", "-");
+        str = country+'-flag.png'; 
+    } else {
+        str = 'United-states-flag.png';
+    }
+/*    
+    if (country == 'United States') str = 'us.png';
+    else if (country == 'France') str = 'fr.png';
+    else if (country == 'Canada') str = 'ca.png';
+    else if (country == 'Mexico') str = 'mx.png';
+    else if (country == 'England') str = 'en.png';
+    else if (country == 'Germany') str = 'de.png';
+    else str = 'us.png';
+    */
+    return str;
+}
+
+function generateLineVisitor(v) {
+    var browser = '';
+	browser = pictureBrowser(v);        
+    if (browser != '') browser = '<img src="img/browser/64/'+browser+'" border="0" alt="'+v.browser+'" width="32">';
+    	
+    var lg = '';
+    lg = pictureCountry(v.country);
+    if (lg != '') lg = '<img src="img/country/32/'+lg+'" alt="'+v.country+'" border="0" width="16">';
+
+    var info = lg;
+    if (v.city && v.city != '') info += ' '+v.city;
+    if (v.region && v.region != '') info += ', '+v.region;
+    if (v.country && v.country != '' && v.country != 'Reserved' ) info += ' ,'+v.country;
+    
+    var day = '';
+    //2014-04-15 06:54:48 18
+    var myDate = new Date();
+    var myDate_string = myDate.toISOString();
+    var myDate_string = myDate_string.substr(0,10);
+
+    var visit = v.visit_time;
+    var currentday = visit.substr(0,10);
+    //console.log(currentday);
+    if (currentday !== myDate_string) day = 'Yesterday at '; // @todo change this to more accurate
+    var currenttime = day + visit.substr(11,5);   
+    //time_on_site
+    
+    var str = '<li><div class="item-content">'+
+              '<div class="item-media">'+browser+'</div>'+
+              '<div class="item-inner"><div class="item-title">'+v.ip+'<br>'+info+'<br>'+v.referrer+'</div><p>'+currenttime+'</p></div>'+
+              '</div></li>';                            
+              
+    return str;
+}
+
 
 function refreshVisitors() {
       console.log('refreshVisitors');
       if (doRefresh) {
-          $.getJSON(API+"/account/totalvisitors?user_id="+objUser.user_id, function(res) {			
+          var limit = 20;
+          //$.getJSON(API+"/account/totalvisitors?user_id="+objUser.user_id, function(res) {	
+          $.getJSON(API+"/account/visitors?limit="+limit+"&user_id="+objUser.user_id, function(res) {			
             console.log(res);
+            
+            // update total            
             var oldTotal = totalVisitors;
             totalVisitors = res.total;
-            $('.totalvisitors').html(res.total);            
+            $('.totalvisitors').html(totalVisitors);            
             var diff = totalVisitors - oldTotal;
             console.log('visitors diff='+diff);
             $('#badgetotalvisitors').html('');
-            if (diff > 0) {
-                $('#badgetotalvisitors').html('<span class="badge badge-green">+'+diff+'</span>');    
-            } else if (diff < 0) {
-                $('#badgetotalvisitors').html('<span class="badge badge-red">-'+diff+'</span>');          
-            }                 
+            if (oldTotal > 0) {
+                if (diff > 0) {
+                    $('#badgetotalvisitors').html('<span class="badge badge-green">+'+diff+'</span>');    
+                } else if (diff < 0) {
+                    $('#badgetotalvisitors').html('<span class="badge badge-red">-'+diff+'</span>');          
+                }          
+            }            
+            
+            // update visitors list
+            var htmlVisitorList = '';
+            if (totalVisitors > limit) htmlVisitorList += '<div class="content-block-title">Browsing ('+totalVisitors+'), '+limit+' displayed</div>';
+            else htmlVisitorList += '<div class="content-block-title">Browsing ('+totalVisitors+')</div>';
+            
+            htmlVisitorList += '<div class="list-block"><ul>';                           
+            $.each(res.visitors, function(k, v) {
+                var line = generateLineVisitor(v);     
+                htmlVisitorList += line;                             
+            });
+            htmlVisitorList += '</ul></div>';
+    
+            $('#container_visitor_list').html(htmlVisitorList);
+            
          });
      }
 }

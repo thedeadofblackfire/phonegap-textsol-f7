@@ -199,3 +199,7 @@ i.ks-tabbar-icon-4 {
   -ms-transform: scale(1);
   transform: scale(1);
 }
+
+.content-block-title.title_blue {
+ color:#007AFF;
+} 
