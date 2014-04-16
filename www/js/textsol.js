@@ -954,7 +954,7 @@ function loadChatInit() {
 
 function pictureCountry(country) {
     var str = ''; 
-    if (country != undefined) {
+    if (country != undefined && country != 'Reserved') {
         country = country.replace(" ", "-");
         str = country+'-flag.png'; 
     } else {
@@ -982,9 +982,13 @@ function generateLineVisitor(v) {
     if (lg != '') lg = '<img src="img/country/32/'+lg+'" alt="'+v.country+'" border="0" width="16">';
 
     var info = lg;
-    if (v.city && v.city != '') info += ' '+v.city;
-    if (v.region && v.region != '') info += ', '+v.region;
-    if (v.country && v.country != '' && v.country != 'Reserved' ) info += ' ,'+v.country;
+    if (v.city && v.city != '') info += ' '+v.city+', ';
+    //if (v.region && v.region != '') info += v.region+', ';
+    if (v.country && v.country != '' && v.country != 'Reserved' ) info += v.country;
+    
+    var referrer = 'unknow referrer';
+    if (v.referrer != '') referrer = v.referrer;
+    
     
     var day = '';
     //2014-04-15 06:54:48 18
@@ -1001,7 +1005,7 @@ function generateLineVisitor(v) {
     
     var str = '<li><div class="item-content">'+
               '<div class="item-media">'+browser+'</div>'+
-              '<div class="item-inner"><div class="item-title">'+v.ip+'<br>'+info+'<br>'+v.referrer+'</div><p>'+currenttime+'</p></div>'+
+              '<div class="item-inner"><div class="item-title">'+v.ip+'<br>'+info+'<br>'+referrer+'<br>'+currenttime+'</div></div>'+
               '</div></li>';                            
               
     return str;

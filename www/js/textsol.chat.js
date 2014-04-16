@@ -245,7 +245,7 @@ function chat_start()
     // refresh visitors
     auto_refresh_visitors = setInterval(function() {
         refreshVisitors();
-    }, 240000); // refresh every 4 min 
+    }, 90000); // refresh every 1,30 min 
     	
 }
 
