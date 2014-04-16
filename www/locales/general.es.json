@@ -23,14 +23,14 @@
         "somethingwrong": "Se presento un error. Por favor inténtalo de nuevo más tarde.",
         "wait": "Un momento...",
         "pleaseenteryourmessage": "Por favor agrega tu mensaje.",
-        "closepanel": "Close panel",
-        "details": "Details",
-        "platform": "Platform",
-        "region": "Region",
-        "visittime": "Visit Time",
-        "ip": "IP Address",
+        "closepanel": "Cerrar panel",
+        "details": "Detalles",
+        "platform": "Plataforma",
+        "region": "Región",
+        "visittime": "Duración de la visita",
+        "ip": "IP",
         "email": "Email",
-        "phone": "Phone"
+        "phone": "Teléfono"
     },
     "description":
     {
