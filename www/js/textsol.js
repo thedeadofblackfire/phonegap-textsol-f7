@@ -405,7 +405,7 @@ jQuery(document).ready(function($){
               type: "post",
               data: {replyname: objChat.support_display_name, session_id: sessionid, user_id: objUser.user_id},   
               success:function(res){                    
-                 console.log(res);
+                 //console.log(res);
      
                  var str = generatePageSession(res);
                                           
@@ -437,9 +437,9 @@ jQuery(document).ready(function($){
                 
                 objChat.online_user = res.online_user;
                 
-                // bug here : clean badge, bad thing
-                badgeChatCount = 0;
-                displayBadgeChat();
+                // @todo bug here : clean badge, bad thing
+                //badgeChatCount = 0;
+                //displayBadgeChat();
                           
                 // loop online users to display list of active chats
                 loadDataUserList(objChat);
@@ -485,6 +485,7 @@ function loadDataUserList(data) {
         console.log('force close chat by user #'+current_session_id);
         current_session_id = '';
         mofAlert('User has closed this session');   
+        // should be removed the unreadmessage
         //mofChangePage('index.html');
     }    
                       
@@ -547,7 +548,7 @@ function checkUnread(session_id) {
         sess.unreadMessage = 0;         
         displayBadgeChat();    
            
-        removeNewUserTag(session_id);        
+        //removeNewUserTag(session_id);        
         //console.log(sess); 
     }
 }
@@ -637,8 +638,7 @@ function generateDetailVisitor(data) {
     str += '</p>';
     //str += '<a href="#" data-rel="close" data-theme="d" class="ui-btn ui-btn-d ui-mini ui-shadow ui-corner-all ui-icon-delete ui-btn-icon-left ui-btn-inline theme">'+i18n.t('label.closepanel')+'</a>';    
     //str += '</div>';
-      
-    
+          
     $('#panelvisitor').html(str);
     
     return str;
@@ -654,8 +654,12 @@ function generatePageSession(data) {
     // shortcuts
 	var browser = pictureBrowser(data.visitor);        
     if (browser != '') browser = '<img src="img/browser/64/'+browser+'" border="0" alt="'+data.visitor.browser+'" width="32">';    	
-    var lg = '<img src="img/country/64/us.png" alt="United States" border="0" width="32" style="margin-left:2px;">';
+    //var lg = '<img src="img/country/64/us.png" alt="United States" border="0" width="32" style="margin-left:2px;">';
         
+    var lg = '';
+    lg = pictureCountry(data.visitor.country);
+    if (lg != '') lg = '<img src="img/country/32/'+lg+'" alt="'+data.visitor.country+'" border="0" width="32" style="margin-left:2px;">';          
+      
     generateDetailVisitor(data);
             
     str += '<div class="navbar">' +
@@ -829,6 +833,43 @@ function updateDataUserList(v) {
     }
 }     
 
+// move active user to offline
+function removeDataUserList(v) {
+    var find = $('#chat_userlist').find('a[sid="' + v.session_id + '"]');   
+    if (find.length > 0) { 
+       console.log('removeDataUserList '+v.session_id);         
+       find.parent().remove();
+       $('#panel_userlist').find('a[sid="' + v.session_id + '"]').parent().remove();
+        
+        // check if last user active
+        var count = $("#chat_userlist > li").length;
+        if (count == 0) {
+            $('#activechat_title').html(i18n.t('description.nochatsinprogress'));
+        }
+       
+        // clean unread 
+        checkUnread(v.session_id);
+       
+        // generate close chats
+        refreshArchives();
+        
+        /*
+        var findclose = $('#chat_userlist').find('a[sid="' + v.session_id + '"]');   
+        if (findclose.length == 0) {    
+            var str = generateLineUser(v,true);    
+        }
+        */
+        
+        // play close chat
+        /*
+        if (firstAudioChat) {
+            play_audio(objChat.chat_sound_path_local_incomingchat);      
+            firstAudioChat = false;
+        }
+        */
+    }
+}  
+
 function updateSessionMessage(v, toAppend) {
     //var str = '<p class="message tmessage" mid="'+v.id+'"><b>'+v.name+'</b>: '+v.message+' <span class="time">'+formatDate(v.post_date)+'</span></p>';
     //var str = '<div class="message bubble_me me" mid="'+v.id+'"><span class="tail">&nbsp;</span>'+v.message+'<time datetime="'+v.post_date+'">'+v.name+' • '+formatDate(v.post_date)+'</time></div>';
@@ -949,7 +990,10 @@ function loadChatInit() {
                 //$('#toggleswitchnotification').val(valeur).slider("refresh");
       
         });
-		          
+		     
+        // archives
+        refreshArchives();
+        
         //language
         $('#selectlanguage').val(ln.language.code);
                         
@@ -1033,7 +1077,7 @@ function refreshVisitors() {
           var limit = 20;
           //$.getJSON(API+"/account/totalvisitors?user_id="+objUser.user_id, function(res) {	
           $.getJSON(API+"/account/visitors?limit="+limit+"&user_id="+objUser.user_id, function(res) {			
-            console.log(res);
+            //console.log(res);
             
             // update total            
             var oldTotal = totalVisitors;
@@ -1067,3 +1111,211 @@ function refreshVisitors() {
          });
      }
 }
+
+function loadArchiveSession(sessionid) {
+        console.log('loadArchiveSession '+sessionid);
+        
+        // show loading icon
+        mofLoading(true);
+
+        $.ajax({
+              url: API+"/chat/get_conversation_by_session",
+              datatype: 'json',      
+              type: "post",
+              data: {replyname: objChat.support_display_name, session_id: sessionid, user_id: objUser.user_id},   
+              success:function(res){                    
+                 console.log(res);
+     
+                 var str = generatePageArchive(res);
+               
+                 mofLoading(false);               
+
+                 mainView.loadContent(str);
+           
+              },
+              error: function(jqXHR, textStatus, errorThrown) {
+                 alert('Error loading session, try again!');
+              }
+           });
+           
+        return true;
+}
+    
+function generatePageArchive(data) {
+    console.log('generatePageArchive');
+    var displayChatClose = false;
+    var str = '';
+    
+    current_session_id = data.session_id;
+      
+    // shortcuts
+	var browser = pictureBrowser(data.visitor);        
+    if (browser != '') browser = '<img src="img/browser/64/'+browser+'" border="0" alt="'+data.visitor.browser+'" width="32">';    	
+ 
+    var lg = '';
+    lg = pictureCountry(data.visitor.country);
+    if (lg != '') lg = '<img src="img/country/32/'+lg+'" alt="'+data.visitor.country+'" border="0" width="32" style="margin-left:2px;">';    
+      
+      
+    generateDetailVisitor(data);
+            
+    str += '<div class="navbar">' +
+            '<div class="navbar-inner">' +
+            '<div class="left"><a href="#" class="back link"><i class="icon icon-back-blue"></i><span>Back</span></a></div>' +
+            '<div class="center sliding">'+data.name+'</div>' +
+            '<div class="right"><a href="#" class="link open-panel icon-only"><i class="icon icon-bars-blue"></i></a></div>' +
+            '</div>'+
+            '</div>'+        
+'<div class="pages navbar-through">'+
+  '<div data-page="messages" class="page no-toolbar toolbar-fixed">'+
+    '<div class="toolbar">'+
+     '<form class="ks-messages-form">'+
+        '<div class="toolbar-inner">'+
+         '<input type="hidden" name="current_session_id" id="current_session_id" value="'+data.session_id+'" />'+    
+          '<input type="text" data-session="'+data.session_id+'" name="chatText" id="chatInput" placeholder="'+i18n.t('label.pressenter')+'" class="ks-messages-input"/><a href="#" class="link ks-send-message btnChatSendReply" data-i18n="label.send">'+i18n.t('label.send')+'</a>'+
+        '</div>'+
+      '</form>'+
+    '</div>'+
+    '<div class="page-content messages-content">'+    
+    
+       '<div class="content-block">'+
+          '<div class="row no-gutter">'+
+            '<div class="col-20">'+browser+' '+lg+'</div>'+
+            '<div class="col-40"><a href="#" data-panel="right" class="button button-round active open-panel" data-i18n="label.details">'+i18n.t('label.details')+'</a></div>'+
+            '<div class="col-40"><a href="#" data-session="'+data.session_id+'" class="button button-round button-cancel closeChat" data-i18n="label.closechat">'+i18n.t('label.closechat')+'</a></div>'+
+          '</div>'+         
+        '</div>';
+// <a href="#" data-popover=".popover-menu" class="button button-round active open-popover">Info</a>   
+     
+     
+      str += '<div class="messages messageWrapper">';
+      
+  
+    if (data.conversation != null) {
+         var conversationStarted = false;
+            
+        $.each(data.conversation, function(k, v) {        
+            //str += updateSessionMessage(v.message, false);			
+            var day = !conversationStarted ? 'Today' : false;
+            //var time = !conversationStarted ? (new Date()).getHours() + ':' + (new Date()).getMinutes() : false;
+            var time = !conversationStarted ? formatDateLight(v.message.post_date) : false;
+          
+            if (day) {
+                str += '<div class="messages-date">' + day + (time ? ',' : '') + (time ? ' <span>' + time + '</span>' : '') + '</div>';
+            }
+            str += '<div class="message message-received" mid="'+v.message.id+'">'+v.message.message+' <time datetime="'+v.message.post_date+'">'+formatDateLight(v.message.post_date)+'</time></div>';    
+            conversationStarted = true;
+             
+            if (v.reply != null) {
+                $.each(v.reply, function(i, r) {
+                    //str += updateSessionReply(r, false, true);
+                    str += '<div class="message message-sent reply" rid="'+r.id+'">'+r.reply+' <time datetime="'+r.post_date+'">'+formatDateLight(r.post_date)+'</time></div>';   
+                }); 
+            }
+        });
+    }
+    /*
+        <div class="messages-date">Sunday, Feb 9, <span>12:58</span></div>
+        <div class="message message-sent">Hello</div>
+        <div class="message message-sent">How are you?</div>
+        <div class="message message-received">Hi</div>
+        <div class="message message-received">I am fine, thanks! And how are you?</div>
+        <div class="message message-sent">I am great!</div>
+        <div class="message message-sent">What do you think about my new logo?</div>
+        <div class="messages-date">Wednesday, Feb 12, <span>19:33</span></div>
+        <div class="message message-sent">Hey? Any thoughts about my new logo?</div>
+        <div class="messages-date">Thursday, Feb 13, <span>11:20</span></div>
+        <div class="message message-sent">Alo...</div>
+        <div class="message message-sent">Are you there?</div>
+        <div class="message message-received">Hi, i am here</div>
+        <div class="message message-received">Your logo is great</div>
+        <div class="message message-received">Leave me alone!</div>
+        <div class="message message-sent">:(</div>
+        <div class="message message-sent">Hey, look, cutest kitten ever!</div>
+        <div class="message message-sent message-pic"><img src="http://placekitten.com/g/300/400"/></div>
+        <div class="message message-received">Yep</div>
+        */
+        
+      str += '</div>'+
+    '</div>'+
+  '</div>'+
+'</div>';
+    
+    return str;
+}
+
+function generateLineArchive(v) {
+    var browser = '';
+	browser = pictureBrowser(v);        
+    if (browser != '') browser = '<img src="img/browser/64/'+browser+'" border="0" alt="'+v.browser+'" width="32">';
+    	
+    var lg = '';
+    lg = pictureCountry(v.country);
+    if (lg != '') lg = '<img src="img/country/32/'+lg+'" alt="'+v.country+'" border="0" width="32" style="margin-left:2px;">';    
+      
+    var info = lg;
+    if (v.city && v.city != '') info += ' '+v.city;
+    if (v.region && v.region != '') info += ', '+v.region;
+    //if (v.country && v.country != '' && v.country != 'Reserved' ) info += ' '+v.country;
+      
+    var referrer = i18n.t('label.unknowreferrer');
+    if (v.referrer != '') referrer = v.referrer;
+    //  data-i18n="label.details">'+i18n.t('label.details')+'
+    
+    /*
+    var day = '';
+    //2014-04-15 06:54:48 18
+    var myDate = new Date();
+    var myDate_string = myDate.toISOString();
+    var myDate_string = myDate_string.substr(0,10);
+
+    var visit = v.visit_time;
+    var currentday = visit.substr(0,10);
+    //console.log(currentday);
+    if (currentday !== myDate_string) day = i18n.t('label.yesterday')+' - '; // @todo change this to more accurate
+    var currenttime = day + visit.substr(11,5);   
+    */
+    var currenttime = v.end_date; 
+    
+    var str = '<li><a href="#" sid="'+v.session_id+'" onclick="return loadArchiveSession(\''+v.session_id+'\');" class="item-link"><div class="item-content">'+
+              '<div class="item-media">'+browser+'</div>'+
+              '<div class="item-inner">'+
+              '<div class="item-title">'+v.name+'<br>'+info+'<br>'+referrer+'<br>'+currenttime+'</div>'+
+              '<div class="item-after"><span class="badge">'+(parseInt(v.totalmsg) + parseInt(v.totalreply))+'</span></div>'+
+              '</div>'+
+              '</div></a></li>';   
+              
+              /*
+    var str = '<li><a href="#" sid="'+v.session_id+'" onclick="return loadChatSession(\''+v.session_id+'\');" class="item-link">'+
+                      '<div class="item-content">'+
+                        '<div class="item-media">'+browser+' '+lg+'</div>'+
+                        '<div class="item-inner">'+
+                          '<div class="item-title">'+v.name+'</div>'+
+						  '<div class="item-after"><span class="badge">'+(parseInt(v.totalmsg) + parseInt(v.totalreply))+'</span></div>'+
+                        '</div>'+
+                      '</div></a></li>';
+                      */
+                      
+    return str;
+}
+
+function refreshArchives() {
+      console.log('refreshArchives');
+      //if (doRefresh) {
+          var limit = 20;     
+          $.getJSON(API+"/chat/offline_user?limit="+limit+"&user_id="+objUser.user_id, function(data) {			
+            console.log(data);
+                             
+            var htmlUserList = '';
+            htmlUserList += '<div class="content-block-title">'+i18n.t('label.archives')+' ('+limit+')</div>';
+            htmlUserList += '<div class="list-block"><ul>';                                  
+            $.each(data.offline_user, function(k, v) {
+                htmlUserList += generateLineArchive(v);         
+            });
+            htmlUserList += '</ul></div>';
+
+            $('#container_archives_list').html(htmlUserList);            
+         });
+     //}
+}
+

@@ -9,6 +9,7 @@
     <title>Live Chat</title>
     <!-- Path to Framework7 Library CSS-->
     <link rel="stylesheet" href="css/framework7.min.css">
+    <link rel="stylesheet" href="css/ionicons.min.css">
     <!-- Path to your custom app styles-->
     <link rel="stylesheet" href="css/my-app.css">
   </head>
@@ -87,9 +88,11 @@
           <div data-page="index" class="page no-toolbar toolbar-fixed">
             <div class="toolbar tabbar tabbar-labels">
               <div class="toolbar-inner">
-                <a href="#tab-1" class="tab-link active"><i id="badge-chat" class="icon ks-tabbar-icon-2"></i><span class="tabbar-label" data-i18n="label.chats">label.chats</span></a>
+                <a href="#tab-1" class="tab-link active"><i id="badge-chat" class="icon size-32 ion-ios7-chatbubble-outline"></i><span class="tabbar-label" data-i18n="label.chats">label.chats</span></a>
                 <a href="#tab-2" class="tab-link"><i id="badgetotalvisitors" class="icon ks-tabbar-icon-1"></i><span class="tabbar-label" data-i18n="label.visitors">label.visitors</span></a>
+                <a href="#tab-archives" class="tab-link"><i class="icon ks-tabbar-icon-2"></i> <span class="tabbar-label" data-i18n="label.archives">label.archives</span></a>
                 <a href="#tab-3" class="tab-link"><i class="icon ks-tabbar-icon-3"></i><span class="tabbar-label" data-i18n="label.settings">label.settings</span></a>
+                 <!--<a href="#tab-3" class="tab-link"><i class="iconx size-32 ion-ios7-chatbubble-outline"></i> <span class="tabbar-label" data-i18n="label.chats">label.chats</span></a>--->
               </div>
             </div>     
             <!-- Scrollable page content-->
@@ -151,6 +154,10 @@
 -->      
             
             <ul id="app-status-ul"></ul>
+          </div>
+        </div>
+        <div id="tab-archives" class="tab">
+          <div id="container_archives_list" class="content-block">               
           </div>
         </div>
         <div id="tab-3" class="tab">

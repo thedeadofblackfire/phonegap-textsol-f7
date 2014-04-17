@@ -142,7 +142,7 @@ $(document).ready(function() {
                     $('.btnChatSendReply').siblings('textarea').remove();
                     $('.btnChatSendReply').remove();
                     
-                    handleRefreshOnlineUser(true);
+                    //handleRefreshOnlineUser(true);
                     
                     //mofChangePage('index');
                     mainView.goBack('index.html');
@@ -170,9 +170,11 @@ function chat_start()
     }, 5000); // refresh every 25 seconds 
     
     // clean old users
+    /*
     auto_refresh_users = setInterval(function() {
         handleRefreshOnlineUser(true);
     }, 120000); // refresh every 2 min 
+    */
     
     // refresh visitors
     auto_refresh_visitors = setInterval(function() {
@@ -270,6 +272,16 @@ function chat_update() {
                         //console.log(find);
                         if (find.length == 0) {    
                             updateDataUserList(v);
+                        }                    
+                    })
+                }
+                
+                // last 3 offline users (close chat)
+                if (data.users_offline != null) {
+                    $.each(data.users_offline, function(k, v) {                                      
+                        var find = $('#chat_userlist').find('a[sid="' + v.session_id + '"]');                                     
+                        if (find.length > 0) {    
+                            removeDataUserList(v);
                         }                    
                     })
                 }
