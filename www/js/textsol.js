@@ -19,6 +19,8 @@ var isChatSession = false;
 var current_session_id = '';
 var totalVisitors = 0;
 var doRefresh = true;
+var firstAudioMessage = true;
+var firstAudioChat = true;
 
 var app = {
     // Application Constructor
@@ -345,7 +347,6 @@ jQuery(document).ready(function($){
                 
                 mofProcessBtn(".btn-logout", false);
                 mofChangePage('login.html');
-                //mofChangePage('#pageLogin');
 			}
 		});
 				
@@ -409,6 +410,7 @@ jQuery(document).ready(function($){
                  var str = generatePageSession(res);
                                           
                  isChatSession = true;
+                 
                  // flag unread 
                  checkUnread(sessionid);
          
@@ -481,6 +483,8 @@ function loadDataUserList(data) {
     if (isChatSession && !focusChatStillAvailable) {
         // we close chat
         console.log('force close chat by user #'+current_session_id);
+        current_session_id = '';
+        mofAlert('User has closed this session');   
         //mofChangePage('index.html');
     }    
                       
@@ -489,7 +493,7 @@ function loadDataUserList(data) {
 function updateSession(v) {
     if( !objSession[ v.session_id ] ) {
         console.log('updateUser new='+v.session_id);
-        v.unreadMessage = 0;
+        v.unreadMessage = 0; // should be 1
         objSession[ v.session_id ] = v; //{}
     } else {
         // update
@@ -498,14 +502,15 @@ function updateSession(v) {
         var sess = objSession[ v.session_id ];     
         sess.end_date = v.end_date;
         var newIncomingMessage = parseInt(v.totalmsg) - parseInt(sess.totalmsg);
+        sess.totalmsg = v.totalmsg;
         sess.unreadMessage = sess.unreadMessage + newIncomingMessage;
+        //objSession[ v.session_id ] = sess;
         
         badgeChatCount += newIncomingMessage;
         displayBadgeChat();
 
         console.log(sess); 
-    }
-        
+    }        
 }
 
 function displayBadgeChat() {
@@ -527,7 +532,7 @@ function addUnread(session_id) {
             sess.unreadMessage += 1; 
             badgeChatCount += 1;
             displayBadgeChat();
-            console.log(sess);
+            //console.log(sess);
         }
 	}
 }
@@ -542,19 +547,18 @@ function checkUnread(session_id) {
         sess.unreadMessage = 0;         
         displayBadgeChat();    
            
-        removeNewUserTag(session_id);
-        
-        console.log(sess); 
+        removeNewUserTag(session_id);        
+        //console.log(sess); 
     }
 }
 
 function removeNewUserTag(session_id) {
-	 console.log('removeNewUserTag '+session_id);
-     var find = $('#chat_userlist').find('a[href="#pageChatSession?id=' + session_id + '"]');
-	 console.log(find);
+	 console.log('removeNewUserTag '+session_id);     
+     var find = $('#chat_userlist').find('a[sid="' + session_id + '"]');
+	 //console.log(find);     
 	 if (find.length > 0) {	    
-		find.parent('li').removeClass('new_user');
-	 }        
+		//find.parent('li').removeClass('new_user');
+	 }       
 }
 
 function pictureBrowser(v) {
@@ -815,12 +819,14 @@ function updateDataUserList(v) {
 	
     $('#activechat_title').html(i18n.t('description.currentlyactivechats'));
     $('#chat_userlist').append(str);
-    //$('#chat_userlist').after(str);
     
     $('#panel_userlist').append(str);
  
     // play incoming chat
-    play_audio(objChat.chat_sound_path_local_incomingchat);      
+    if (firstAudioChat) {
+        play_audio(objChat.chat_sound_path_local_incomingchat);      
+        firstAudioChat = false;
+    }
 }     
 
 function updateSessionMessage(v, toAppend) {
@@ -909,11 +915,13 @@ function loadChatInit() {
             });
                   
             // visitors
-           refreshVisitors();
-		
-           isChatSession = false;         
+           refreshVisitors();		    
             
         }
+        
+        // no current session
+        isChatSession = false; 
+        current_session_id = '';
         
         // settings
         $.getJSON(API+"/account/onlinestatus?user_id="+objUser.user_id, function(res) {

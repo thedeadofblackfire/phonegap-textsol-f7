@@ -50,8 +50,11 @@ function new_message(id) {
 
     addUnread(id);
         
-	// incoming message
-    play_audio(objChat.chat_sound_path_local_incomingmessage);
+	// 1 incoming message for all new messages coming
+    if (firstAudioMessage) {
+        play_audio(objChat.chat_sound_path_local_incomingmessage);
+        firstAudioMessage = false;
+    }
            
 }
 
@@ -161,16 +164,7 @@ $(document).ready(function() {
 })
 
 function chat_start() 
-{
- 	//console.log(objChat.session_id);
-    /*
-    if (objChat.session_id && objChat.session_id!="") {
-        $('#chat a[href="#' + objChat.session_id + '"]').tab('show');         
-    } else {
-        $('#chat a:first').tab('show');      
-    }
-    */
-	    
+{		   
     auto_refresh = setInterval(function() {
         chat_update();
     }, 5000); // refresh every 25 seconds 
@@ -188,22 +182,15 @@ function chat_start()
 }
 
 function chat_save_reply_message($this) {
-
         var session_id = $this.attr('data-session');
       
         var wrapper = $(".messageWrapper");
         var id = $(".messageWrapper .message-received:last").attr('mid');
-        //  var wrapper = $(".tab-content .active .messageWrapper");
-        //var id = $(".tab-content .active .messageWrapper p.message:last").attr('mid');
         var textarea = $('#chatInput');
-		//var textarea = $this.siblings('input[type=text]');
-		//var textarea = $this.siblings('textarea');
         var message = $.trim(textarea.val());
         
         console.log('sessionid='+session_id + ' message='+message+' mid='+id);
-	
-        //$this.siblings('p.err').remove();
-
+	  
         if (message.length < 1)
         {
             if (ENV == 'dev') {
@@ -238,9 +225,7 @@ function chat_save_reply_message($this) {
                     
                     //var str = '<p class="reply" rid="'+data.reply.id+'"><b>'+objChat.support_display_name+'</b>: '+data.reply.reply+' <span class="time">'+data.reply.post_date_format+'</span></p>';
                     //$(".messageWrapper").append(str);
-                }
-                //$(".tab-content .active .messageWrapper").append(data);
-                //var wrapper=$(".tab-content .active .messageWrapper");
+                }  
                 //var selector=$('#chat li.active a').attr('href');
                 // session_id = selector && selector.replace(/#/, ''); //strip for ie7                  
                 $this.removeAttr('disabled');
@@ -248,7 +233,7 @@ function chat_save_reply_message($this) {
                 textarea.val('');
                 //textarea.removeClass('bordererr');
                 //$('p.err').remove();
-                wrapper.scrollTop = wrapper.animate({scrollTop: 10000});
+                //wrapper.scrollTop = wrapper.animate({scrollTop: 10000});
                 // $('#messagesDiv')[0].scrollTop = $('#messagesDiv')[0].scrollHeight;
             }
         })
@@ -262,6 +247,9 @@ function chat_update() {
         if (current_session_id != undefined && current_session_id != '') {
             console.log(current_session_id+' mid='+last_message_id+' rid='+last_reply_id);
         }
+        
+        firstAudioMessage = true;
+        firstAudioChat = true;
         
         $.ajax({  
             url: API+'/chat/update_chat',
@@ -287,7 +275,7 @@ function chat_update() {
                 }
                 
                 //console.log(data.alert);
-                if (data.alert != null) {
+                if (data.alert != null) {                    
                     $.each(data.alert, function(k, v) {
                         for (var i = 0; i < v.no; i++) {
                             new_message(v.session_id);
