@@ -425,6 +425,7 @@ jQuery(document).ready(function($){
               },
               error: function(jqXHR, textStatus, errorThrown) {
                  alert('Error loading session, try again!');
+				 mofLoading(false);  
               }
            });
            
