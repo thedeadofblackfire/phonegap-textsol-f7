@@ -39,7 +39,7 @@
             cacheDuration: 1000 * 60 * 10, // Ten minutes 
             preloadPreviousPage: true,
             // Fast clicks
-            fastClicks : false,
+            fastClicks : true,
             // 
             animateNavBackIcon: false,
             // Swipe Back

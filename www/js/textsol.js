@@ -719,7 +719,7 @@ function generatePageSession(data) {
              
             if (v.reply != null) {
                 $.each(v.reply, function(i, r) {
-                    //str += updateSessionReply(r, false);
+                    //str += updateSessionReply(r, false, true);
                     str += '<div class="message message-sent reply" rid="'+r.id+'">'+r.reply+' <time datetime="'+r.post_date+'">'+formatDateLight(r.post_date)+'</time></div>';   
                 }); 
             }
@@ -845,16 +845,17 @@ function updateSessionMessage(v, toAppend) {
     else return str;
 }  
 
-function updateSessionReply(v, toAppend) {
+function updateSessionReply(v, toAppend, markTime) {
     //var str = '<p class="reply treply" rid="'+v.id+'"><b>'+objChat.support_display_name+'</b>: '+v.reply+' <span class="time">'+formatDate(v.post_date)+'</span></p>';
     
     //var str = '<div class="reply bubble_you you" rid="'+v.id+'"><span class="tail2">&nbsp;</span>'+v.reply+'<time datetime="'+v.post_date+'">'+formatDateLight(v.post_date)+'</time></div>';    
     //var str = '<li class="reply" rid="'+v.id+'"><img src="img/placeholders/avatars/avatar.jpg" class="img-circle" width="26"><div class="message_text">'+v.reply+'<time datetime="'+v.post_date+'">'+formatDateLight(v.post_date)+'</time></div></li>';         
     
     //var str = '<li class="reply" rid="'+v.id+'"><div class="message_text">'+v.reply+'<time datetime="'+v.post_date+'">'+formatDateLight(v.post_date)+'</time></div></li>';         
-		    
-    var str = '<div class="message message-sent reply" rid="'+v.id+'">'+v.reply+'</div>';
-	//var str = '<div class="message message-sent reply" rid="'+v.id+'">'+v.reply+' <time datetime="'+v.post_date+'">'+formatDateLight(v.post_date)+'</time></div>';
+		      
+	var str = '<div class="message message-sent reply" rid="'+v.id+'">'+v.reply;
+    if (markTime === true) str += ' <time datetime="'+v.post_date+'">'+formatDateLight(v.post_date)+'</time>';
+    str += '</div>';
     
     if (toAppend) {
         $(".messageWrapper").append(str);	   
@@ -863,8 +864,7 @@ function updateSessionReply(v, toAppend) {
         var messages = messagesContent.find('.messages');
         myApp.updateMessagesAngles(messages);
         myApp.scrollMessagesContainer(messagesContent);
-    }
-    else return str;    
+    } else return str;    
 }      
 
 
@@ -874,6 +874,7 @@ function completeSessionReply(v) {
     if (newfind.length > 0) {
         console.log('complete '+v.processing_id+' changed');
         newfind.attr('rid', v.id);	
+        newfind.append(' <time datetime="'+v.post_date+'">'+formatDateLight(v.post_date)+'</time>');
         //newfind.child('time').html(formatDateLight(v.post_date));
     }
     // put a loader

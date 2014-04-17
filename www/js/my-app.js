@@ -1,6 +1,7 @@
 // Initialize your app
 //var myApp = new Framework7();
 var myApp = new Framework7({
+    fastClicks : false,
     onBeforePageInit: function (page) {
         // Do something when page just added to DOM   
         // console.log(page);        

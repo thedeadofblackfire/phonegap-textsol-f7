@@ -286,7 +286,7 @@ function chat_save_reply_message($this) {
         var reply_processing = {id: generateProcessingId(), reply: message, post_date: generateProcessingPostDate()};
         console.log(reply_processing);
         //2013-10-29 17:44:54
-        updateSessionReply(reply_processing, true);
+        updateSessionReply(reply_processing, true, false);
         
         $.ajax({
             url: API + "/chat/save_reply_message",
@@ -296,7 +296,6 @@ function chat_save_reply_message($this) {
             success: function(data) {                
                 if (data.reply) {                    
                     // use processing_id to finalize reply message with rid
-                    //updateSessionReply(data.reply, true);
                     completeSessionReply(data.reply);
                     
                     //var str = '<p class="reply" rid="'+data.reply.id+'"><b>'+objChat.support_display_name+'</b>: '+data.reply.reply+' <span class="time">'+data.reply.post_date_format+'</span></p>';
@@ -384,7 +383,7 @@ function chat_update() {
                     $.each(data.replies, function(k, v) {
                         var newfind = $(".messageWrapper .reply[rid='" + v.id + "']");
                         if (newfind.length == 0) {
-                            updateSessionReply(v, true);	
+                            updateSessionReply(v, true, true);	
                         }
                     })				
                 }
