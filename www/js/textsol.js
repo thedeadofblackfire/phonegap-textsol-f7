@@ -1105,7 +1105,7 @@ function refreshVisitors() {
                 if (diff > 0) {
                     $('#badgetotalvisitors').html('<span class="badge badge-green">+'+diff+'</span>');    
                 } else if (diff < 0) {
-                    $('#badgetotalvisitors').html('<span class="badge badge-red">-'+diff+'</span>');          
+                    $('#badgetotalvisitors').html('<span class="badge badge-red">'+diff+'</span>');          
                 }          
             }            
           

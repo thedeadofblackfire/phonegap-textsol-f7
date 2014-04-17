@@ -2,6 +2,7 @@
 //var myApp = new Framework7();
 var myApp = new Framework7({
     fastClicks : false,
+	cache: false,
     onBeforePageInit: function (page) {
         // Do something when page just added to DOM   
         // console.log(page);        
@@ -53,7 +54,7 @@ $$(document).on('ajaxComplete', function () {
 // Events for specific pages when it initialized
 $$(document).on('pageInit', function (e) {
     var page = e.detail.page;
-    
+    //console.log(page.name);
     // handle index loader
     if (page.name === 'index') {
         // to prevent back url on login
