@@ -62,7 +62,11 @@
             function onNotificationAPN(e) {
                 if (e.alert) {
                      traceHandler('<li>push-notification: ' + e.alert + '</li>');
-                     navigator.notification.alert(e.alert);
+                     //navigator.notification.alert(e.alert);
+                     
+                     chat_update();
+                     traceHandler('<li>--chat_update--' + '</li>');
+                        
                      // JSON.stringify(e)  //if you want to access additional custom data in the payload
                 }
                     
@@ -130,8 +134,8 @@
 							var my_media = new Media("/android_asset/www/"+e.payload.soundname);
 							my_media.play();
                             
-                            chat_update();
-							traceHandler('<li>--chat_update--' + '</li>');
+                            //chat_update();
+							//traceHandler('<li>--chat_update--' + '</li>');
 						}
 						else
 						{	// otherwise we were launched because the user touched a notification in the notification tray.
@@ -141,6 +145,9 @@
 							traceHandler('<li>--BACKGROUND NOTIFICATION--' + '</li>');
 						}
 							
+                        chat_update();
+                        traceHandler('<li>--chat_update--' + '</li>');
+                             
 						traceHandler('<li>MESSAGE -> MSG: ' + e.payload.message + '</li>');
 						traceHandler('<li>MESSAGE -> MSGCNT: ' + e.payload.msgcnt + '</li>');
                     break;

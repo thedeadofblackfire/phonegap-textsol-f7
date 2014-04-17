@@ -10,13 +10,6 @@
 })(jQuery);
 
 
-function select_tab_by_id(id)
-{
-    $(function() {
-        $('#chat a[href="#' + id + '"]').tab('show');
-    })
-}
-
 // Audio player
 var my_media = null;
         
@@ -25,10 +18,8 @@ function play_audio(audiofile) {
     if (audioEnable) {
         if (ENV == 'dev') {
             $.playSound(audiofile);
-        } else {
-            // phonegap    
-            if (my_media == null) {
-                // Create Media object from src
+        } else {   
+            if (my_media == null) {           
                 //ar myMedia = new Media("documents://beer.mp3")
                 my_media = new Media(audiofile, onMediaSuccess, onMediaError);
             } // else play current audio
@@ -57,21 +48,11 @@ function onMediaError(error) {
 
 function new_message(id) {
 
-    //if ($(".soundOff").hasClass('btn-success'))
-    
     addUnread(id);
         
 	// incoming message
     play_audio(objChat.chat_sound_path_local_incomingmessage);
-      
-      /*
-    $(function() {
-        //$('#chat a[href="#' + id + '"]').tab('show');
-		
-		// @todo detect incoming chat (sounds)
-		$('#chat a[href="#' + id + '"]').tab('new_message');
-    })
-    */
+           
 }
 
 var auto_refresh;
@@ -79,13 +60,6 @@ var auto_refresh_users;
 var auto_refresh_visitors;
 
 $(document).ready(function() {
-
-    /*
-    $('#chat a').on('click', function(e) {
-        e.preventDefault();
-        $(this).tab('show');
-    })   
-    */
 
 	$(document).on('click', ".btnChatSendReply", function(e) {
 		e.preventDefault();		
@@ -111,8 +85,6 @@ $(document).ready(function() {
 
 
     $('.btn_sendEmail').on('click', function() {
-        //var session_id = $('#session_id').val();
-		var session_id = $('#current_session_id').val();
         var emailAdd = $('#toEmail').val();
         $('#toEmail').siblings('p.err').remove();
         if (!IsEmail(emailAdd))
@@ -127,7 +99,7 @@ $(document).ready(function() {
         $.ajax({
             url: API + "/chat/send_chat_transcript_to_email",
             type: "GET",
-            data: {user_id: objUser.user_id, session_id: session_id, email: emailAdd, support: objChat.support_display_name, status: false},
+            data: {user_id: objUser.user_id, session_id: current_session_id, email: emailAdd, support: objChat.support_display_name, status: false},
             success: function(data) {
                 $('.btn_sendEmail').remove();
                 if (data == "OK")
@@ -151,16 +123,13 @@ $(document).ready(function() {
         {
             return false;
         }
-        var $this = $(this);
-		var session_id = $('#current_session_id').val();
-        //var session_id = $('#chat li.active a').attr('href');
-        //session_id = session_id && session_id.replace(/#/, ''); //strip for ie7 
+        var $this = $(this);	
         $this.html(' '+i18n.t('label.wait')+' ');
         $this.addClass('disabled');
         $.ajax({
             url: API + "/chat/send_chat_transcript_to_email",
             type: "GET",
-            data: {user_id: objUser.user_id, session_id: session_id, email: objUser.email, support: objChat.support_display_name, status: true},
+            data: {user_id: objUser.user_id, session_id: current_session_id, email: objUser.email, support: objChat.support_display_name, status: true},
             success: function(data) {
                 if (data == 'OK')
                 {
@@ -188,37 +157,6 @@ $(document).ready(function() {
             }
         })
     });
-
-/*
-    $('.soundOff').on('click', function() {
-
-        var $this = $(this);
-        var user_id = $this.attr('user_id');
-
-        $.ajax({
-            url: AjaxURL + "chat_sound",
-            type: "POST",
-            data: {user_id: user_id},
-            success: function(data) {
-                if (data == 'off')
-                {
-                    $this.addClass('btn-danger');
-                    $this.removeClass('btn-success');
-                    $this.html('Sound<i class="icon-remove"></i>');
-                }
-                else
-                {
-                    $this.addClass('btn-success');
-                    $this.removeClass('btn-danger');
-                    $this.html('Sound<i class="icon-ok"></i>');
-                }
-
-
-            }
-
-        })
-    });
-*/
 
 })
 
@@ -305,7 +243,6 @@ function chat_save_reply_message($this) {
                 //var wrapper=$(".tab-content .active .messageWrapper");
                 //var selector=$('#chat li.active a').attr('href');
                 // session_id = selector && selector.replace(/#/, ''); //strip for ie7                  
-                // select_tab_by_id(session_id);
                 $this.removeAttr('disabled');
                 $this.html(i18n.t('label.send'));
                 textarea.val('');
@@ -320,15 +257,9 @@ function chat_save_reply_message($this) {
    
 function chat_update() {
     if (doRefresh) {
-        var wrapper = $(".messageWrapper");
-        //var wrapper = $(".tab-content .active .messageWrapper");
-        //var selector = $('#chat li.active a').attr('href');
-        //session_id = selector && selector.replace(/#/, ''); //strip for ie7   
-        
-        var current_session_id = $('#current_session_id').val();
         var last_message_id = $(".messageWrapper .message-received:last").attr('mid');
         var last_reply_id = $(".messageWrapper .reply:last").attr('rid');
-        if (current_session_id != undefined) {
+        if (current_session_id != undefined && current_session_id != '') {
             console.log(current_session_id+' mid='+last_message_id+' rid='+last_reply_id);
         }
         
@@ -341,17 +272,13 @@ function chat_update() {
             data: {session_id: current_session_id, user_id: objUser.user_id, mid: last_message_id, rid: last_reply_id},
             success: function(data) {
                 console.log(data);
-                
-                //badgeChatCount = 1;            
-                //displayBadgeChat();
-                
+       
                 //$("#app-status-ul").append('<li>--update_chat-- mid=' + last_message_id +'</li>');
                 
                 if (data.users != null) {
                     $.each(data.users, function(k, v) {                
                         // incoming chat
-                        var find = $('#chat_userlist').find('a[sid="' + v.session_id + '"]');
-                        //var find = $('#chat_userlist').find('a[href="#pageChatSession?id=' + v.session_id + '"]');                    
+                        var find = $('#chat_userlist').find('a[sid="' + v.session_id + '"]');               
                         //console.log(find);
                         if (find.length == 0) {    
                             updateDataUserList(v);

@@ -517,8 +517,7 @@ function displayBadgeChat() {
 }
 
 function addUnread(session_id) {
-	console.log('addUnread '+session_id+' badgeChatCount='+badgeChatCount);
-	current_session_id = $('#current_session_id').val();
+	console.log('addUnread '+session_id+' badgeChatCount='+badgeChatCount);	
 	// don't display bubble if current session
 	if (isChatSession && session_id == current_session_id) {
 		// do nothing but play the incoming message sound
@@ -646,6 +645,8 @@ function generatePageSession(data) {
     var displayChatClose = false;
     var str = '';
     
+    current_session_id = data.session_id;
+      
     // shortcuts
 	var browser = pictureBrowser(data.visitor);        
     if (browser != '') browser = '<img src="img/browser/64/'+browser+'" border="0" alt="'+data.visitor.browser+'" width="32">';    	
@@ -780,8 +781,6 @@ function generatePageSession(data) {
     str += '</div>';
     
     str += '<input type="hidden" name="current_session_id" id="current_session_id" value="'+data.session_id+'" />';
-    
-    current_session_id = data.session_id;
     
     str += '<ul class="messageWrapper chat-messages">';
     if (data.conversation != null) {
