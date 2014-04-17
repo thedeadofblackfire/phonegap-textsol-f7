@@ -300,7 +300,7 @@ function chat_update() {
                     $.each(data.messages, function(k, v) {
                         var newfind = $(".messageWrapper .message-received[mid='" + v.id + "']");
                         if (newfind.length == 0) {
-                            updateSessionMessage(v, true);					
+                            updateSessionMessage(v, true, true);					
                         }
                     })
                 }               

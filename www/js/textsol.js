@@ -624,14 +624,22 @@ function generateDetailVisitor(data) {
     //str += '<h3>'+i18n.t('label.details')+'</h3>';
     str += '<p>';
     //str += '<strong>User Info:</strong>&nbsp;&nbsp;';
+    
+    var browser = pictureBrowser(data.visitor);        
+    if (browser != '') browser = '<img src="img/browser/64/'+browser+'" border="0" alt="'+data.visitor.browser+'" width="16">';    	
+ 
+    var lg = '';
+    lg = pictureCountry(data.visitor.country);
+    if (lg != '') lg = '<img src="img/country/32/'+lg+'" alt="'+data.visitor.country+'" border="0" width="16"';    
+            
     if (data.visitor.email != '' || data.visitor.email != '0') str += '<br><b>'+i18n.t('label.email')+':</b> '+data.visitor.email;
     if (data.visitor.phone != '' || data.visitor.phone != '0') str += '<br><b>'+i18n.t('label.phone')+':</b> '+data.visitor.phone;
     if (data.visitor.ip != '') str += '<br><b>'+i18n.t('label.ip')+':</b> '+data.visitor.ip;
-    if (data.visitor.country != '') str += '<br><b>'+i18n.t('label.country')+':</b> '+data.visitor.country;   
+    if (data.visitor.country != '') str += '<br><b>'+i18n.t('label.country')+':</b> '+data.visitor.country+' '+lg;   
     if (data.visitor.city != '') str += '<br><b>'+i18n.t('label.city')+':</b> '+data.visitor.city;
     if (data.visitor.region != '') str += '<br><b>'+i18n.t('label.region')+':</b> '+data.visitor.region;
     if (data.visitor.platform != '') str += '<br><b>'+i18n.t('label.platform')+':</b> '+data.visitor.platform;
-    if (data.visitor.browser != '') str += '<br><b>'+i18n.t('label.browser')+':</b> '+data.visitor.browser;
+    if (data.visitor.browser != '') str += '<br><b>'+i18n.t('label.browser')+':</b> '+data.visitor.browser+' '+browser;
     if (data.visitor.referrer != '') str += '<br><b>'+i18n.t('label.url')+':</b> '+data.visitor.referrer;       
     if (data.visitor.visit != '') str += '<br><b>'+i18n.t('label.visittime')+':</b> '+data.visitor.visit;
         
@@ -712,10 +720,9 @@ function generatePageSession(data) {
       
   
     if (data.conversation != null) {
-         var conversationStarted = false;
+        var conversationStarted = false;
             
-        $.each(data.conversation, function(k, v) {        
-            //str += updateSessionMessage(v.message, false);			
+        $.each(data.conversation, function(k, v) {                    	
             var day = !conversationStarted ? 'Today' : false;
             //var time = !conversationStarted ? (new Date()).getHours() + ':' + (new Date()).getMinutes() : false;
             var time = !conversationStarted ? formatDateLight(v.message.post_date) : false;
@@ -723,13 +730,14 @@ function generatePageSession(data) {
             if (day) {
                 str += '<div class="messages-date">' + day + (time ? ',' : '') + (time ? ' <span>' + time + '</span>' : '') + '</div>';
             }
-            str += '<div class="message message-received" mid="'+v.message.id+'">'+v.message.message+' <time datetime="'+v.message.post_date+'">'+formatDateLight(v.message.post_date)+'</time></div>';    
+            str += updateSessionMessage(v.message, false, true);	
+            //str += '<div class="message message-received" mid="'+v.message.id+'">'+v.message.message+' <time datetime="'+v.message.post_date+'">'+formatDateLight(v.message.post_date)+'</time></div>';    
             conversationStarted = true;
              
             if (v.reply != null) {
-                $.each(v.reply, function(i, r) {
-                    //str += updateSessionReply(r, false, true);
-                    str += '<div class="message message-sent reply" rid="'+r.id+'">'+r.reply+' <time datetime="'+r.post_date+'">'+formatDateLight(r.post_date)+'</time></div>';   
+                $.each(v.reply, function(i, r) {    
+                    str += updateSessionReply(r, false, true);
+                    //str += '<div class="message message-sent reply" rid="'+r.id+'">'+r.reply+' <time datetime="'+r.post_date+'">'+formatDateLight(r.post_date)+'</time></div>';   
                 }); 
             }
         });
@@ -870,7 +878,7 @@ function removeDataUserList(v) {
     }
 }  
 
-function updateSessionMessage(v, toAppend) {
+function updateSessionMessage(v, toAppend, markTime) {
     //var str = '<p class="message tmessage" mid="'+v.id+'"><b>'+v.name+'</b>: '+v.message+' <span class="time">'+formatDate(v.post_date)+'</span></p>';
     //var str = '<div class="message bubble_me me" mid="'+v.id+'"><span class="tail">&nbsp;</span>'+v.message+'<time datetime="'+v.post_date+'">'+v.name+' • '+formatDate(v.post_date)+'</time></div>';
     
@@ -879,7 +887,10 @@ function updateSessionMessage(v, toAppend) {
     
     //var str = '<li class="message right" mid="'+v.id+'"><div class="message_text">'+v.message+'<time datetime="'+v.post_date+'">'+formatDateLight(v.post_date)+'</time></div></li>';         
 				
-    var str = '<div class="message message-received" mid="'+v.id+'">'+v.message+' <time datetime="'+v.post_date+'">'+formatDateLight(v.post_date)+'</time></div>';
+    var str = '<div class="message message-received" mid="'+v.id+'">'+v.message;
+    if (markTime === true) str += ' <time datetime="'+v.post_date+'">'+formatDateLight(v.post_date)+'</time>';
+    str += '</div>';
+    
     if (toAppend) {
         $(".messageWrapper").append(str);	 
         
@@ -887,8 +898,7 @@ function updateSessionMessage(v, toAppend) {
         var messages = messagesContent.find('.messages');
         myApp.updateMessagesAngles(messages);
         myApp.scrollMessagesContainer(messagesContent);
-    }
-    else return str;
+    } else return str;
 }  
 
 function updateSessionReply(v, toAppend, markTime) {
@@ -1009,7 +1019,7 @@ function loadChatInit() {
 
 function pictureCountry(country) {
     var str = ''; 
-    if (country != undefined && country != 'Reserved') {
+    if (country != undefined && country != 'Reserved' && country != '') {
         if (country == 'United States') {
             str = 'United-states-flag.png';
         } else {
@@ -1112,6 +1122,9 @@ function refreshVisitors() {
      }
 }
 
+/* ---------------------- */
+// ARCHIVES 
+/* ---------------------- */
 function loadArchiveSession(sessionid) {
         console.log('loadArchiveSession '+sessionid);
         
@@ -1143,11 +1156,8 @@ function loadArchiveSession(sessionid) {
     
 function generatePageArchive(data) {
     console.log('generatePageArchive');
-    var displayChatClose = false;
     var str = '';
     
-    current_session_id = data.session_id;
-      
     // shortcuts
 	var browser = pictureBrowser(data.visitor);        
     if (browser != '') browser = '<img src="img/browser/64/'+browser+'" border="0" alt="'+data.visitor.browser+'" width="32">';    	
@@ -1155,8 +1165,7 @@ function generatePageArchive(data) {
     var lg = '';
     lg = pictureCountry(data.visitor.country);
     if (lg != '') lg = '<img src="img/country/32/'+lg+'" alt="'+data.visitor.country+'" border="0" width="32" style="margin-left:2px;">';    
-      
-      
+            
     generateDetailVisitor(data);
             
     str += '<div class="navbar">' +
@@ -1169,33 +1178,24 @@ function generatePageArchive(data) {
 '<div class="pages navbar-through">'+
   '<div data-page="messages" class="page no-toolbar toolbar-fixed">'+
     '<div class="toolbar">'+
-     '<form class="ks-messages-form">'+
-        '<div class="toolbar-inner">'+
-         '<input type="hidden" name="current_session_id" id="current_session_id" value="'+data.session_id+'" />'+    
-          '<input type="text" data-session="'+data.session_id+'" name="chatText" id="chatInput" placeholder="'+i18n.t('label.pressenter')+'" class="ks-messages-input"/><a href="#" class="link ks-send-message btnChatSendReply" data-i18n="label.send">'+i18n.t('label.send')+'</a>'+
+        '<div class="toolbar-inner">'+         
         '</div>'+
-      '</form>'+
     '</div>'+
     '<div class="page-content messages-content">'+    
     
        '<div class="content-block">'+
           '<div class="row no-gutter">'+
             '<div class="col-20">'+browser+' '+lg+'</div>'+
-            '<div class="col-40"><a href="#" data-panel="right" class="button button-round active open-panel" data-i18n="label.details">'+i18n.t('label.details')+'</a></div>'+
-            '<div class="col-40"><a href="#" data-session="'+data.session_id+'" class="button button-round button-cancel closeChat" data-i18n="label.closechat">'+i18n.t('label.closechat')+'</a></div>'+
+            '<div class="col-80"><a href="#" data-panel="right" class="button button-round active open-panel" data-i18n="label.details">'+i18n.t('label.details')+'</a></div>'+
           '</div>'+         
         '</div>';
-// <a href="#" data-popover=".popover-menu" class="button button-round active open-popover">Info</a>   
-     
-     
-      str += '<div class="messages messageWrapper">';
       
+    str += '<div class="messages messageWrapper">';      
   
     if (data.conversation != null) {
          var conversationStarted = false;
             
-        $.each(data.conversation, function(k, v) {        
-            //str += updateSessionMessage(v.message, false);			
+         $.each(data.conversation, function(k, v) {        		
             var day = !conversationStarted ? 'Today' : false;
             //var time = !conversationStarted ? (new Date()).getHours() + ':' + (new Date()).getMinutes() : false;
             var time = !conversationStarted ? formatDateLight(v.message.post_date) : false;
@@ -1203,37 +1203,19 @@ function generatePageArchive(data) {
             if (day) {
                 str += '<div class="messages-date">' + day + (time ? ',' : '') + (time ? ' <span>' + time + '</span>' : '') + '</div>';
             }
-            str += '<div class="message message-received" mid="'+v.message.id+'">'+v.message.message+' <time datetime="'+v.message.post_date+'">'+formatDateLight(v.message.post_date)+'</time></div>';    
+            
+            str += updateSessionMessage(v.message, false, true);
             conversationStarted = true;
              
             if (v.reply != null) {
                 $.each(v.reply, function(i, r) {
-                    //str += updateSessionReply(r, false, true);
-                    str += '<div class="message message-sent reply" rid="'+r.id+'">'+r.reply+' <time datetime="'+r.post_date+'">'+formatDateLight(r.post_date)+'</time></div>';   
+                    str += updateSessionReply(r, false, true);                    
                 }); 
             }
         });
     }
     /*
-        <div class="messages-date">Sunday, Feb 9, <span>12:58</span></div>
-        <div class="message message-sent">Hello</div>
-        <div class="message message-sent">How are you?</div>
-        <div class="message message-received">Hi</div>
-        <div class="message message-received">I am fine, thanks! And how are you?</div>
-        <div class="message message-sent">I am great!</div>
-        <div class="message message-sent">What do you think about my new logo?</div>
-        <div class="messages-date">Wednesday, Feb 12, <span>19:33</span></div>
-        <div class="message message-sent">Hey? Any thoughts about my new logo?</div>
-        <div class="messages-date">Thursday, Feb 13, <span>11:20</span></div>
-        <div class="message message-sent">Alo...</div>
-        <div class="message message-sent">Are you there?</div>
-        <div class="message message-received">Hi, i am here</div>
-        <div class="message message-received">Your logo is great</div>
-        <div class="message message-received">Leave me alone!</div>
-        <div class="message message-sent">:(</div>
-        <div class="message message-sent">Hey, look, cutest kitten ever!</div>
-        <div class="message message-sent message-pic"><img src="http://placekitten.com/g/300/400"/></div>
-        <div class="message message-received">Yep</div>
+        <div class="messages-date">Sunday, Feb 9, <span>12:58</span></div>       
         */
         
       str += '</div>'+
