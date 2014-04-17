@@ -424,8 +424,10 @@ jQuery(document).ready(function($){
            
               },
               error: function(jqXHR, textStatus, errorThrown) {
-                 alert('Error loading session, try again!');
-				 mofLoading(false);  
+				 mofLoading(false); 
+                 alert('Error loading session, try again!');				 
+				 alert(textStatus);
+				 alert(errorThrown);
               }
            });
            
@@ -1153,7 +1155,10 @@ function loadArchiveSession(sessionid) {
            
               },
               error: function(jqXHR, textStatus, errorThrown) {
+				 mofLoading(false);  
                  alert('Error loading session, try again!');
+				 alert(textStatus);
+				 alert(errorThrown);
               }
            });
            
