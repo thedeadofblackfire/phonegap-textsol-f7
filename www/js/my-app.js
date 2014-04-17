@@ -75,7 +75,9 @@ $$(document).on('pageInit', function (e) {
     if (page.name === 'login') {
         console.log('login.html pageinit'); 
         //alert('login');
-        doRefresh = false;
+		if (Object.keys(objUser).length == 0) {
+			doRefresh = false;
+		}
         
         //checkPreAuth(true);       
     }

@@ -49,7 +49,8 @@ var app = {
             //checkPreAuth(false);
                                    
             if (Object.keys(objUser).length == 0) {           
-                mofChangePage('login.html');
+                //mofChangePage('login.html');
+				checkPreAuth(false); 
                 return;
             } 
             
@@ -83,7 +84,8 @@ var app = {
             //checkPreAuth(false);
             
             if (Object.keys(objUser).length == 0) {           
-                mofChangePage('login.html');
+                //mofChangePage('login.html');
+				checkPreAuth(false); 
                 return;
             } 
             
@@ -343,7 +345,9 @@ jQuery(document).ready(function($){
 		$.getJSON(API+"/account/logout", function(res) {
 			if (res.success) {
 				window.localStorage.clear();  
-				window.sessionStorage.clear();		
+				window.sessionStorage.clear();	
+
+			    objUser = {};				
                 
                 mofProcessBtn(".btn-logout", false);
                 mofChangePage('login.html');
