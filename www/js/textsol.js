@@ -1234,7 +1234,7 @@ function generateLineArchive(v) {
     	
     var lg = '';
     lg = pictureCountry(v.country);
-    if (lg != '') lg = '<img src="img/country/32/'+lg+'" alt="'+v.country+'" border="0" width="32" style="margin-left:2px;">';    
+    if (lg != '') lg = '<img src="img/country/32/'+lg+'" alt="'+v.country+'" border="0" width="16">';    
       
     var info = lg;
     if (v.city && v.city != '') info += ' '+v.city;
