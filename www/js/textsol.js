@@ -630,7 +630,7 @@ function generateDetailVisitor(data) {
  
     var lg = '';
     lg = pictureCountry(data.visitor.country);
-    if (lg != '') lg = '<img src="img/country/32/'+lg+'" alt="'+data.visitor.country+'" border="0" width="16"';    
+    if (lg != '') lg = '<img src="img/country/32/'+lg+'" alt="'+data.visitor.country+'" border="0" width="16">';    
             
     if (data.visitor.email != '' || data.visitor.email != '0') str += '<br><b>'+i18n.t('label.email')+':</b> '+data.visitor.email;
     if (data.visitor.phone != '' || data.visitor.phone != '0') str += '<br><b>'+i18n.t('label.phone')+':</b> '+data.visitor.phone;
