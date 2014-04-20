@@ -1312,3 +1312,7 @@ function refreshArchives() {
      //}
 }
 
+function goRegister() {
+	window.plugins.ChildBrowser.showWebPage('http://m.blastis.com',
+                                        { showLocationBar: true });
+}

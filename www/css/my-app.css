@@ -183,7 +183,7 @@ i.ks-tabbar-icon-4 {
 
 
 /* switch orange */
-.label-switch input[type="checkbox"]:before {
+.label-switch input[type="checkbox"] + .checkbox:before {
   content: ' ';
   position: absolute;
   left: 2px;
