@@ -1106,7 +1106,7 @@ function generateLineVisitor(v) {
 function refreshVisitors() {
       console.log('refreshVisitors');
       if (doRefresh) {
-          var limit = 20;
+          var limit = 25;
           //$.getJSON(API+"/account/totalvisitors?user_id="+objUser.user_id, function(res) {	
           $.getJSON(API+"/account/visitors?limit="+limit+"&user_id="+objUser.user_id, function(res) {			
             //console.log(res);
@@ -1117,6 +1117,7 @@ function refreshVisitors() {
             $('.totalvisitors').html(totalVisitors);            
             var diff = totalVisitors - oldTotal;
             console.log('visitors diff='+diff);
+			/*
             $('#badgetotalvisitors').html('');
             if (oldTotal > 0) {
                 if (diff > 0) {
@@ -1124,7 +1125,8 @@ function refreshVisitors() {
                 } else if (diff < 0) {
                     $('#badgetotalvisitors').html('<span class="badge badge-red">'+diff+'</span>');          
                 }          
-            }            
+            }    
+			*/			
           
             // update visitors list
             var htmlVisitorList = '';
