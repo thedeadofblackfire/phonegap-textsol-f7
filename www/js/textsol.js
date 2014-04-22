@@ -34,8 +34,10 @@ var app = {
     bindEvents: function() {
         document.addEventListener('deviceready', this.onDeviceReady, true);
         //document.addEventListener('deviceready', this.onDeviceReady, false);
-       
+   
         if (ENV == 'dev') {
+            initFramework();
+        
             // get automatically user from session
             objUser = window.sessionStorage.getItem('user');
             if (objUser) {
@@ -45,20 +47,13 @@ var app = {
             } else {
                 objUser = {};
             }                     
-            
-            //checkPreAuth(false);
-                                   
-            if (Object.keys(objUser).length == 0) {           
-                //mofChangePage('login.html');
-				checkPreAuth(false); 
-                return;
+                                            
+            if (Object.keys(objUser).length == 0) {                           
+				var result = checkPreAuth(false); 
+                if (!result) return;
             } 
             
-            doRefresh = true;
-             
-            $('#nickname').html(objUser.first_name);
-            
-            loadChatInit();		
+            initAfterLogin();			
 
         }
 		        
@@ -72,6 +67,8 @@ var app = {
         ln.init();
         
         if (ENV == 'production') {
+            initFramework();
+            
             objUser = window.sessionStorage.getItem('user');
             if (objUser) {
                 objUser = JSON.parse(objUser);	
@@ -81,31 +78,27 @@ var app = {
                 objUser = {};
             }                     
             
-            //checkPreAuth(false);
-            
             if (Object.keys(objUser).length == 0) {           
-                //mofChangePage('login.html');
-				checkPreAuth(false); 
-                return;
+				var result = checkPreAuth(false); 
+                if (!result) return;
             } 
             
-            doRefresh = true;
-             
-            $('#nickname').html(objUser.first_name);
-            
-            loadChatInit();	
+            initAfterLogin();	
         }
         // save device info the first time for mobile's ower (device uuid)
         // http://docs.phonegap.com/en/3.2.0/cordova_device_device.md.html#Device
     }
 };
   
-/*
-function init() {
-   document.addEventListener("deviceready", deviceReady, true);
-   delete init;
+
+function initAfterLogin() {
+  doRefresh = true;
+             
+  $('#nickname').html(objUser.first_name);
+            
+  loadChatInit();		
 }
-*/
+
 
 // --
 // functions
@@ -190,6 +183,7 @@ jQuery(document).ready(function($){
      * pageid = test.html or #changePage
      */
     function mofChangePage(pageid, options) {
+        console.log('mofChangePage '+pageid);
         //$.mobile.changePage("some.html");				
         //$.mobile.changePage(pageid, options);
         mainView.loadPage(pageid);
@@ -233,21 +227,16 @@ jQuery(document).ready(function($){
 	function checkPreAuth(login) {
 		console.log('checkPreAuth');
                           
+        var result = false;                    
 		if(Object.keys(objUser).length == 0 && window.localStorage["username"] != undefined && window.localStorage["password"] != undefined) {
 			//$("#username", form).val(window.localStorage["username"]);
 			//$("#password", form).val(window.localStorage["password"]);            
-			handleLogin(window.localStorage["username"], window.localStorage["password"]);
+			handleLogin(window.localStorage["username"], window.localStorage["password"], false);
 		} else if (Object.keys(objUser).length == 0) {
             if (login === false) mofChangePage('login.html');
         }
-         
-        /*
-        console.log('tot');
-        if (objUser.country == 'FR') lang.set('fr');
-        else if (objUser.country == 'MEX') lang.set('es');
-        lang.initialize();
-        */        
         
+        return result; 
 	}
 
     function handleLoginForm() {
@@ -258,18 +247,18 @@ jQuery(document).ready(function($){
 		//$("#btnLogin").attr("disabled","disabled");
 		var u = $("#username", form).val();
 		var p = $("#password", form).val();
-        handleLogin(u,p);
+        handleLogin(u, p, true); 
     }
         
-	function handleLogin(u,p) {
-		console.log('handleLogin');		
+	function handleLogin(u,p,fromform) {
+		console.log('handleLogin fromform='+fromform);		
 
         // show loading icon
        //$.mobile.showPageLoadingMsg(); 
        //$.mobile.loading( 'show' );
        //$.mobile.showPageLoadingMsg("b", "This is only a test", true);
    
-        mofProcessBtn("#btnLogin", true);
+        if (fromform === true) mofProcessBtn("#btnLogin", true);
 		//var form = $("#loginForm");  	
 		//disable the button so we can't resubmit while we wait
 		//$("#submitButton",form).attr("disabled","disabled");
@@ -278,63 +267,79 @@ jQuery(document).ready(function($){
 		//var p = $("#password", form).val();	
 		if(u != '' && p!= '') {            
             mofLoading(true);
-			$.post(API+"/account/login", {username:u,password:p}, function(res, textStatus, jqXHR) {
-				console.log(res);
-                //$.mobile.hidePageLoadingMsg();
-				if(res.success == true) {
-                    //http://stackoverflow.com/questions/5124300/where-cookie-is-managed-in-phonegap-app-with-jquery
-                    //http://stackoverflow.com/questions/8358588/how-do-i-enable-third-party-cookies-under-phonegap-and-android-3-2
-                    var header = jqXHR.getAllResponseHeaders();
-                    var match = header.match(/(Set-Cookie|set-cookie): (.+?);/);
-                    console.log(match);
-                    if(match) {
-                        my_saved_cookie = match[2];
-                        console.log(my_saved_cookie);
-                         window.localStorage.setItem("session",my_saved_cookie);
-                    }
-                        
-					//store
-					window.localStorage["username"] = u;
-					window.localStorage["password"] = p; 			
-					//window.sessionStorage["user_id"] = res.user.user_id; 
-					window.sessionStorage.setItem('user', JSON.stringify(res.user));
+                      
+            $.ajax({
+                type: "POST",
+                url: API+"/account/login",
+                async: true,
+                dataType: 'json',
+                data: {username:u,password:p},
+                success: function(res, textStatus, jqXHR) {
+                    console.log(res);
+                    //$.mobile.hidePageLoadingMsg();
+                    if(res.success == true) {
+                        //http://stackoverflow.com/questions/5124300/where-cookie-is-managed-in-phonegap-app-with-jquery
+                        //http://stackoverflow.com/questions/8358588/how-do-i-enable-third-party-cookies-under-phonegap-and-android-3-2
+                        var header = jqXHR.getAllResponseHeaders();
+                        var match = header.match(/(Set-Cookie|set-cookie): (.+?);/);
+                        console.log(match);
+                        if(match) {
+                            my_saved_cookie = match[2];
+                            console.log(my_saved_cookie);
+                             window.localStorage.setItem("session",my_saved_cookie);
+                        }
+                            
+                        //store
+                        window.localStorage["username"] = u;
+                        window.localStorage["password"] = p; 			
+                        //window.sessionStorage["user_id"] = res.user.user_id; 
+                        window.sessionStorage.setItem('user', JSON.stringify(res.user));
 
-				    objUser = res.user;
-                    
-                    /*
-                    if (objUser.country == 'FR') lang.set('fr');
-                    else if (objUser.country == 'MEX') lang.set('es');
-                    lang.initialize();
-                    */
-        
-                    // launch the push notification center because it's required objUser
-                    push_onDeviceReady();
-					
-                    mofLoading(false);
-					
-                    mofProcessBtn("#btnLogin", false);
-                    
-                    mofChangePage('index.html');
-				} else {	
-					console.log(res.message);
-                     
-                    mofLoading(false);
-                    
-					if (ENV == 'dev') {
-						mofAlert(res.message);
-					} else {
-						navigator.notification.alert(res.message, alertDismissed);
-					}					
-                    mofProcessBtn("#btnLogin", false);
-			   }			
-			},"json");
+                        objUser = res.user;
+                        
+                        /*
+                        if (objUser.country == 'FR') lang.set('fr');
+                        else if (objUser.country == 'MEX') lang.set('es');
+                        lang.initialize();
+                        */
+            
+                        // launch the push notification center because it's required objUser
+                        if (ENV == 'production') {
+                            push_onDeviceReady();
+                        }
+                        
+                        mofLoading(false);
+                        
+                        if (fromform === true) {
+                            mofProcessBtn("#btnLogin", false);
+                        
+                            mofChangePage('index.html');
+                        } else {
+                            console.log('auto login success');     
+                            
+                            initAfterLogin();	                           
+                        }
+                    } else {	
+                        console.log(res.message);
+                         
+                        mofLoading(false);
+                        
+                        if (ENV == 'dev') {
+                            mofAlert(res.message);
+                        } else {
+                            navigator.notification.alert(res.message, alertDismissed);
+                        }					
+                        if (fromform === true) mofProcessBtn("#btnLogin", false);
+                   }	
+                }                   
+			});
 		} else {        
 			if (ENV == 'dev') {
 				mofAlert('You must enter a username and password');                
 			} else {
 				navigator.notification.alert("You must enter a username and password", alertDismissed);
 			}
-			mofProcessBtn("#btnLogin", false);
+			if (fromform === true) mofProcessBtn("#btnLogin", false);
 		}
 		return false;
 	}
@@ -1016,13 +1021,7 @@ function loadChatInit() {
         $('#selectlanguage').val(ln.language.code);
                         
         $('body').i18n();
-        /*
-		if(window.localStorage["username"] != undefined && window.localStorage["password"] != undefined) {
-			$("#username", form).val(window.localStorage["username"]);
-			$("#password", form).val(window.localStorage["password"]);
-			handleLogin();
-		}
-        */
+       
 }
 
 function pictureCountry(country) {
@@ -1315,4 +1314,100 @@ function refreshArchives() {
 function goRegister() {
 	window.plugins.ChildBrowser.showWebPage('http://m.blastis.com',
                                         { showLocationBar: true });
+}
+
+var myApp;
+var $$;
+var mainView;
+function initFramework() {
+    myApp = new Framework7({
+        fastClicks : false,
+        cache: false
+    });
+    
+    // Expose Internal DOM library
+    $$ = Framework7.$;
+    
+    mainView = myApp.addView('.view-main', {
+        // Because we use fixed-through navbar we can enable dynamic navbar
+        dynamicNavbar: true
+    });
+    
+    // Events for specific pages when it initialized
+    $$(document).on('pageInit', function (e) {
+        var page = e.detail.page;
+        //console.log(page.name);
+        // handle index loader
+        if (page.name === 'index' || page.name === 'index.html') {
+            // to prevent back url on login
+            //alert(page.name);
+            if (Object.keys(objUser).length == 0) {        
+               var result = checkPreAuth(false); 
+               if (!result) return;
+            }                 
+            
+            initAfterLogin();
+                    
+        }
+        
+        if (page.name === 'login') {
+            console.log('login.html pageinit'); 
+            //alert('login');
+            if (Object.keys(objUser).length == 0) {
+                doRefresh = false;
+            }
+  
+        }
+               
+        if (page.name === 'messages') {        
+             $$('.demo-remove-callback').on('deleted', function () {
+                myApp.alert('Thanks, item removed!', 'Live Chat');
+            });
+
+            console.log('message to load');
+        
+            $$('.ks-send-message').on('click', function () {
+                $$('.ks-messages-form').trigger('submit');
+            });
+        }
+
+    });
+
+    // Required for demo popover
+    $$('.popover a').on('click', function () {
+        myApp.closeModal('.popover');
+    });
+
+    // Change statusbar bg when panel opened/closed
+    $$('.panel-left').on('open', function () {
+        $$('.statusbar-overlay').addClass('with-panel-left');
+    });
+    $$('.panel-right').on('open', function () {
+        $$('.statusbar-overlay').addClass('with-panel-right');
+    });
+    $$('.panel-left, .panel-right').on('close', function () {
+        $$('.statusbar-overlay').removeClass('with-panel-left with-panel-right');
+    });
+
+}
+
+function goMainTab(link) {
+ var newTab = $$(link);
+                    if (newTab.length === 0) return;
+                    var oldTab = $$('.tabs').find('.tab.active').removeClass('active');
+                    newTab.addClass('active');
+                    newTab.trigger('show');
+                    var clickedParent = $$('.toolbar-inner');
+                    
+                    clickedParent.find('.active').removeClass('active');
+                    $$('a[href="'+link+'"]').addClass('active');
+                    
+                    if (newTab.find('.navbar').length > 0) {
+                        // Find tab's view
+                        var viewContainer;
+                        if (newTab.hasClass('view')) viewContainer = newTab[0];
+                        else viewContainer = newTab.parents('.view')[0];
+                        myApp.sizeNavbars(viewContainer);
+                    }
+                    
 }

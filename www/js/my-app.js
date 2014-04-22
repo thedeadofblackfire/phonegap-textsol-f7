@@ -56,7 +56,7 @@ $$(document).on('pageInit', function (e) {
     var page = e.detail.page;
     //console.log(page.name);
     // handle index loader
-    if (page.name === 'index') {
+    if (page.name === 'index' || page.name === 'index.html') {
         // to prevent back url on login
         //alert(page.name);
         if (Object.keys(objUser).length == 0) {
