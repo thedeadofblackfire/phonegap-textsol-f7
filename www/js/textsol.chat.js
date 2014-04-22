@@ -225,6 +225,7 @@ function chat_save_reply_message($this) {
                     // use processing_id to finalize reply message with rid
                     completeSessionReply(data.reply);
                     
+                    updateBadgeUser(session_id);
                     //var str = '<p class="reply" rid="'+data.reply.id+'"><b>'+objChat.support_display_name+'</b>: '+data.reply.reply+' <span class="time">'+data.reply.post_date_format+'</span></p>';
                     //$(".messageWrapper").append(str);
                 }  

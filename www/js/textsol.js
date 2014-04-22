@@ -548,6 +548,21 @@ function addUnread(session_id) {
             //console.log(sess);
         }
 	}
+        
+    // update total in list        
+    updateBadgeUser(session_id);
+}
+
+function updateBadgeUser(session_id) {
+    // update total in list        
+    var currentLi = $('#chat_userlist').find('a[sid="' + session_id + '"]'); 
+    //alert(currentLi.length);    
+    if (currentLi.length > 0) {    
+        var currentTotal = currentLi.find('.badge').html();
+        currentTotal = parseInt(currentTotal) + 1;
+        console.log('currentTotal='+currentTotal);
+        currentLi.find('.badge').html(currentTotal);
+    }
 }
 
 function checkUnread(session_id) {
