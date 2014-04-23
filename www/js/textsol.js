@@ -457,7 +457,7 @@ jQuery(document).ready(function($){
                 loadDataUserList(objChat);
                 
             });
-        } else {       
+        } else {  			
             // loop online users to display list of active chats
             loadDataUserList(objChat);
         }
@@ -994,9 +994,16 @@ function loadChatInit() {
             });
                   
             // visitors
-           refreshVisitors();		    
+           //refreshVisitors();		    
             
-        }
+        } else {
+			console.log('Chat restart');
+			console.log(objChat);
+		    handleRefreshOnlineUser(true);
+		}
+		
+		// visitors
+        refreshVisitors();	
         
         // no current session
         isChatSession = false; 
