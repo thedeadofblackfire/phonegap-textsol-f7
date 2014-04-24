@@ -1346,7 +1346,8 @@ var mainView;
 function initFramework() {
     myApp = new Framework7({
         fastClicks : false,
-        cache: false
+        cache: false,
+		modalTitle: 'Live Chat'
     });
     
     // Expose Internal DOM library
