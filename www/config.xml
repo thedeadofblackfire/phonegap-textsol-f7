@@ -4,12 +4,12 @@
 <widget xmlns     = "http://www.w3.org/ns/widgets"
         xmlns:gap = "http://phonegap.com/ns/1.0"
         id        = "com.blastis.livechat"
-        version   = "0.6.2">
+        version   = "0.6.3">
 
     <name>Live Chat</name>
 
     <description>
-        Live Chat is a chat mobile app to expand live chat with your customers.
+        Live Chat is a mobile app that allows you to chat with your web site visitors in real time.
     </description>
 
     <author href="http://www.blastis.com" email="dave@blastis.com">
