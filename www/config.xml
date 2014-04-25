@@ -4,7 +4,7 @@
 <widget xmlns     = "http://www.w3.org/ns/widgets"
         xmlns:gap = "http://phonegap.com/ns/1.0"
         id        = "com.webcreators.textsol"
-        version   = "0.5.2">
+        version   = "0.5.3">
 
     <name>Live Chat</name>
 
@@ -59,6 +59,8 @@
     <icon src="res/icon/android/48.png"   gap:platform="android"    gap:density="mdpi" />
     <icon src="res/icon/android/72.png"   gap:platform="android"    gap:density="hdpi" />
     <icon src="res/icon/android/96.png"  gap:platform="android"    gap:density="xhdpi" />
+    <icon src="res/icon/android/144.png"  gap:platform="android"    gap:density="xxhdpi" />
+    <icon src="res/icon/android/192.png"  gap:platform="android"    gap:density="xxxhdpi" />
   
     <icon src="res/icon/ios/57.png"            gap:platform="ios"        width="57" height="57" />
     <icon src="res/icon/ios/72.png"            gap:platform="ios"        width="72" height="72" />
