@@ -65,6 +65,9 @@ var app = {
 		console.log('onDeviceReady');
         
         ln.init();
+		
+		// hide the status bar using the StatusBar plugin
+		StatusBar.hide();
         
         if (ENV == 'production') {
             initFramework();
