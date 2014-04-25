@@ -688,14 +688,15 @@ function generatePageSession(data) {
     current_session_id = data.session_id;
       
     // shortcuts
+    /*
 	var browser = pictureBrowser(data.visitor);        
     if (browser != '') browser = '<img src="img/browser/64/'+browser+'" border="0" alt="'+data.visitor.browser+'" width="32">';    	
-    //var lg = '<img src="img/country/64/us.png" alt="United States" border="0" width="32" style="margin-left:2px;">';
-        
+   
     var lg = '';
     lg = pictureCountry(data.visitor.country);
     if (lg != '') lg = '<img src="img/country/32/'+lg+'" alt="'+data.visitor.country+'" border="0" width="32" style="margin-left:2px;">';          
-      
+    */
+    
     generateDetailVisitor(data);
             
     str += '<div class="navbar">' +
@@ -717,11 +718,11 @@ function generatePageSession(data) {
     '</div>'+
     '<div class="page-content messages-content">'+    
     
+    // '<div class="col-20">'+browser+' '+lg+'</div>'+
        '<div class="content-block">'+
-          '<div class="row no-gutter">'+
-            '<div class="col-20">'+browser+' '+lg+'</div>'+
-            '<div class="col-40"><a href="#" data-panel="right" class="button button-round active open-panel" data-i18n="label.details">'+i18n.t('label.details')+'</a></div>'+
-            '<div class="col-40"><a href="#" data-session="'+data.session_id+'" class="button button-round button-cancel closeChat" data-i18n="label.closechat">'+i18n.t('label.closechat')+'</a></div>'+
+          '<div class="row no-gutter">'+         
+            '<div class="col-50"><a href="#" data-session="'+data.session_id+'" class="button button-round button-cancel closeChat" data-i18n="label.closechat">'+i18n.t('label.closechat')+'</a></div>'+
+            '<div class="col-50"><a href="#" data-panel="right" class="button button-round active open-panel" data-i18n="label.details">'+i18n.t('label.details')+'</a></div>'+           
           '</div>'+         
         '</div>';
 // <a href="#" data-popover=".popover-menu" class="button button-round active open-popover">Info</a>   
@@ -1219,8 +1220,8 @@ function generatePageArchive(data) {
     
        '<div class="content-block">'+
           '<div class="row no-gutter">'+
-            '<div class="col-20">'+browser+' '+lg+'</div>'+
-            '<div class="col-80"><a href="#" data-panel="right" class="button button-round active open-panel" data-i18n="label.details">'+i18n.t('label.details')+'</a></div>'+
+            '<div class="col-50">'+browser+' '+lg+'</div>'+
+            '<div class="col-50"><a href="#" data-panel="right" class="button button-round active open-panel" data-i18n="label.details">'+i18n.t('label.details')+'</a></div>'+
           '</div>'+         
         '</div>';
       
