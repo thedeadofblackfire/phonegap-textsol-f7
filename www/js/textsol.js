@@ -720,7 +720,7 @@ function generatePageSession(data) {
     
     // '<div class="col-20">'+browser+' '+lg+'</div>'+
        '<div class="content-block">'+
-          '<div class="row no-gutter">'+         
+          '<div class="row no-gutterxxx">'+         
             '<div class="col-50"><a href="#" data-session="'+data.session_id+'" class="button button-round button-cancel closeChat" data-i18n="label.closechat">'+i18n.t('label.closechat')+'</a></div>'+
             '<div class="col-50"><a href="#" data-panel="right" class="button button-round active open-panel" data-i18n="label.details">'+i18n.t('label.details')+'</a></div>'+           
           '</div>'+         
@@ -908,14 +908,7 @@ function removeDataUserList(v) {
 }  
 
 function updateSessionMessage(v, toAppend, markTime) {
-    //var str = '<p class="message tmessage" mid="'+v.id+'"><b>'+v.name+'</b>: '+v.message+' <span class="time">'+formatDate(v.post_date)+'</span></p>';
-    //var str = '<div class="message bubble_me me" mid="'+v.id+'"><span class="tail">&nbsp;</span>'+v.message+'<time datetime="'+v.post_date+'">'+v.name+' • '+formatDate(v.post_date)+'</time></div>';
-    
-	//var str = '<div class="message bubble_me me" mid="'+v.id+'"><span class="tail">&nbsp;</span>'+v.message+'<time datetime="'+v.post_date+'">'+formatDateLight(v.post_date)+'</time></div>';
-    //var str = '<li class="message right" mid="'+v.id+'"><img src="img/placeholders/avatars/2.jpg" class="img-circle"><div class="message_text">'+v.message+'<time datetime="'+v.post_date+'">'+formatDateLight(v.post_date)+'</time></div></li>';         
-    
-    //var str = '<li class="message right" mid="'+v.id+'"><div class="message_text">'+v.message+'<time datetime="'+v.post_date+'">'+formatDateLight(v.post_date)+'</time></div></li>';         
-				
+    //var str = '<li class="message right" mid="'+v.id+'"><div class="message_text">'+v.message+'<time datetime="'+v.post_date+'">'+formatDateLight(v.post_date)+'</time></div></li>';         				
     var str = '<div class="message message-received" mid="'+v.id+'">'+v.message;
     if (markTime === true) str += ' <time datetime="'+v.post_date+'">'+formatDateLight(v.post_date)+'</time>';
     str += '</div>';
@@ -932,12 +925,7 @@ function updateSessionMessage(v, toAppend, markTime) {
 
 function updateSessionReply(v, toAppend, markTime) {
     //var str = '<p class="reply treply" rid="'+v.id+'"><b>'+objChat.support_display_name+'</b>: '+v.reply+' <span class="time">'+formatDate(v.post_date)+'</span></p>';
-    
-    //var str = '<div class="reply bubble_you you" rid="'+v.id+'"><span class="tail2">&nbsp;</span>'+v.reply+'<time datetime="'+v.post_date+'">'+formatDateLight(v.post_date)+'</time></div>';    
-    //var str = '<li class="reply" rid="'+v.id+'"><img src="img/placeholders/avatars/avatar.jpg" class="img-circle" width="26"><div class="message_text">'+v.reply+'<time datetime="'+v.post_date+'">'+formatDateLight(v.post_date)+'</time></div></li>';         
-    
-    //var str = '<li class="reply" rid="'+v.id+'"><div class="message_text">'+v.reply+'<time datetime="'+v.post_date+'">'+formatDateLight(v.post_date)+'</time></div></li>';         
-		      
+    //var str = '<li class="reply" rid="'+v.id+'"><div class="message_text">'+v.reply+'<time datetime="'+v.post_date+'">'+formatDateLight(v.post_date)+'</time></div></li>';         		     
 	var str = '<div class="message message-sent reply" rid="'+v.id+'">'+v.reply;
     if (markTime === true) str += ' <time datetime="'+v.post_date+'">'+formatDateLight(v.post_date)+'</time>';
     str += '</div>';
@@ -1219,7 +1207,7 @@ function generatePageArchive(data) {
     '<div class="page-content messages-content">'+    
     
        '<div class="content-block">'+
-          '<div class="row no-gutter">'+
+          '<div class="row no-gutterxxx">'+
             '<div class="col-50">'+browser+' '+lg+'</div>'+
             '<div class="col-50"><a href="#" data-panel="right" class="button button-round active open-panel" data-i18n="label.details">'+i18n.t('label.details')+'</a></div>'+
           '</div>'+         
@@ -1230,14 +1218,20 @@ function generatePageArchive(data) {
     if (data.conversation != null) {
          var conversationStarted = false;
             
-         $.each(data.conversation, function(k, v) {        		
-            var day = !conversationStarted ? 'Today' : false;
+         $.each(data.conversation, function(k, v) {    
+            var day = !conversationStarted ? v.message.post_date : false;      
+            if (day) {            
+                str += '<div class="messages-date">'+day+'</div>';
+            }
+            /*
+            var day = !conversationStarted ? 'Today' : false;            
             //var time = !conversationStarted ? (new Date()).getHours() + ':' + (new Date()).getMinutes() : false;
             var time = !conversationStarted ? formatDateLight(v.message.post_date) : false;
-          
+            
             if (day) {
-                str += '<div class="messages-date">' + day + (time ? ',' : '') + (time ? ' <span>' + time + '</span>' : '') + '</div>';
+                str += '<div class="messages-date">' + day + (time ? ',' : '') + (time ? ' <span>' + time + '</span>' : '') + '</div>';                
             }
+            */
             
             str += updateSessionMessage(v.message, false, true);
             conversationStarted = true;
