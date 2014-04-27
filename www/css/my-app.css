@@ -164,13 +164,13 @@ html.with-statusbar-overlay .statusbar-overlay.with-popup-opened {
   flex-shrink: 0;
 }
 .statusbar-overlay {
-  background: #000;
+  background: #ff0000;
 }
 .statusbar-overlay.with-panel-left {
-  background: #222;
+  background: #00FF40;
 }
 .statusbar-overlay.with-panel-right {
-  background: #000;
+  background: #FFFF26;
 }
 .page[data-page="tabbar"] .toolbar,
 .page[data-page="tabbar-labels"] .toolbar,
