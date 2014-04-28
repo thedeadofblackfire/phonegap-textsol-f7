@@ -4,7 +4,7 @@
 <widget xmlns     = "http://www.w3.org/ns/widgets"
         xmlns:gap = "http://phonegap.com/ns/1.0"
         id        = "com.blastis.livechat"
-        version   = "0.6.9">
+        version   = "0.7.0">
 
     <name>Live Chat</name>
 
@@ -79,6 +79,7 @@
     <gap:splash src="res/screen/ios/screen-iphone-portrait-2x.png" gap:platform="ios"     width="640" height="960" />
     <gap:splash src="res/screen/ios/screen-ipad-portrait.png"      gap:platform="ios"     width="768" height="1024" />
     <gap:splash src="res/screen/ios/screen-ipad-landscape.png"     gap:platform="ios"     width="1024" height="768" />  
+	<gap:splash src="res/screen/ios/Default_iphone5.png"         gap:platform="ios" width="640"  height="1136" />
 
 	
     <!--
