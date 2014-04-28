@@ -21,7 +21,7 @@ html.ios .page-content {
     Styles for case with statusbar overlay
 ==============================*/
 html.with-statusbar-overlay .statusbar-overlay {
-  background: #2b1127;
+  background: #FFFF4C;
 }
 html.with-statusbar-overlay .statusbar-overlay.with-popup-opened {
   z-index: 11000;
