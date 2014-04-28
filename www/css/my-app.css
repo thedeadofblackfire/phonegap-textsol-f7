@@ -5,6 +5,10 @@ body {
   width: 100%;
 }
 
+body.iOS7 {
+    -webkit-transform: translate3d(0, 20px, 0);
+}
+
 /* iOS over scrolling fix */
 html.ios .page {
   overflow: auto;

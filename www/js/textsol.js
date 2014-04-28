@@ -65,11 +65,16 @@ var app = {
 		console.log('onDeviceReady');
         
         ln.init();
-		
-		// hide the status bar using the StatusBar plugin
-		StatusBar.hide();
-        
+				
         if (ENV == 'production') {
+            // hide the status bar using the StatusBar plugin
+            //StatusBar.hide();
+        
+            var iOS7 = window.device && window.device.platform && window.device.platform.toLowerCase() == "ios" && parseFloat(window.device.version) >= 7.0;
+            if (iOS7) {
+                $('body').addClass('iOS7');
+            }    
+    
             initFramework();
             
             objUser = window.sessionStorage.getItem('user');
