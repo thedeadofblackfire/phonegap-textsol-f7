@@ -21,7 +21,7 @@ html.ios .page-content {
     Styles for case with statusbar overlay
 ==============================*/
 html.with-statusbar-overlay .statusbar-overlay {
-  background: #FFFF4C;
+  background: #fff;
 }
 html.with-statusbar-overlay .statusbar-overlay.with-popup-opened {
   z-index: 11000;
@@ -168,13 +168,13 @@ html.with-statusbar-overlay .statusbar-overlay.with-popup-opened {
   flex-shrink: 0;
 }
 .statusbar-overlay {
-  background: #ff0000;
+  background: #ffffff;
 }
 .statusbar-overlay.with-panel-left {
-  background: #00FF40;
+  background: #2693FF;
 }
 .statusbar-overlay.with-panel-right {
-  background: #FFFF26;
+  background: #2693FF;
 }
 .page[data-page="tabbar"] .toolbar,
 .page[data-page="tabbar-labels"] .toolbar,
