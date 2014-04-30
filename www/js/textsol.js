@@ -731,7 +731,7 @@ function generatePageSession(data) {
     
     // '<div class="col-20">'+browser+' '+lg+'</div>'+
        '<div class="content-block">'+
-          '<div class="row no-gutterxxx">'+         
+          '<div class="row no-gutter">'+         
             '<div class="col-50"><a href="#" data-session="'+data.session_id+'" class="button button-round button-cancel closeChat" data-i18n="label.closechat">'+i18n.t('label.closechat')+'</a></div>'+
             '<div class="col-50"><a href="#" data-panel="right" class="button button-round active open-panel" data-i18n="label.details">'+i18n.t('label.details')+'</a></div>'+           
           '</div>'+         
@@ -1219,7 +1219,7 @@ function generatePageArchive(data) {
     '<div class="page-content messages-content">'+    
     
        '<div class="content-block">'+
-          '<div class="row no-gutterxxx">'+
+          '<div class="row no-gutter">'+
             '<div class="col-50">'+browser+' '+lg+'</div>'+
             '<div class="col-50"><a href="#" data-panel="right" class="button button-round active open-panel" data-i18n="label.details">'+i18n.t('label.details')+'</a></div>'+
           '</div>'+         
