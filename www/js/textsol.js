@@ -639,13 +639,15 @@ function generateLineUser(v, newuser) {
     str += '><a href="#pageChatSession?id=' + v.session_id + '" sid="'+v.session_id+'" data-theme="a">' + browser + '<h3>' + v.name + '</h3><p>'+info+'</p> <p class="ui-li-aside"><small>'+formatDate(v.start_date)+'</small></p> <span class="ui-li-count">'+(parseInt(v.totalmsg) + parseInt(v.totalreply))+'</span></a></li>';
     */
     //str += '><a href="#pageChatSession?id=' + v.session_id + '" sid="'+v.session_id+'" data-theme="e">' + lg + v.name + ' <p class="ui-li-aside">started at <strong>'+formatDate(v.start_date)+'</strong></p> <span class="ui-li-count">'+(parseInt(v.totalmsg) + parseInt(v.totalreply))+'</span></a></li>';
-        
+    var totalmsg = parseInt(v.totalmsg) + parseInt(v.totalreply);
+    if (newuser) totalmsg = 0; // adding by new_message
+	
     var str = '<li><a href="#" sid="'+v.session_id+'" onclick="return loadChatSession(\''+v.session_id+'\');" class="item-link">'+
                       '<div class="item-content">'+
                         '<div class="item-media">'+browser+' '+lg+'</div>'+
                         '<div class="item-inner">'+
                           '<div class="item-title">'+v.name+'</div>'+
-						  '<div class="item-after"><span class="badge">'+(parseInt(v.totalmsg) + parseInt(v.totalreply))+'</span></div>'+
+						  '<div class="item-after"><span class="badge">'+totalmsg+'</span></div>'+
                         '</div>'+
                       '</div></a></li>';
                       
