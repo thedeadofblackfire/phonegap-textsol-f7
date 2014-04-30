@@ -1137,9 +1137,10 @@ function refreshVisitors() {
           
             // update visitors list
             var htmlVisitorList = '';
-            if (totalVisitors > limit) htmlVisitorList += '<div class="content-block-title">'+i18n.t('label.browsing')+' ('+totalVisitors+'), '+limit+' displayed</div>';
-            else htmlVisitorList += '<div class="content-block-title">'+i18n.t('label.browsing')+' ('+totalVisitors+')</div>';
-            
+            //if (totalVisitors > limit) htmlVisitorList += '<div class="content-block-title">'+i18n.t('label.browsing')+' ('+totalVisitors+'), '+limit+' displayed</div>';
+            //else htmlVisitorList += '<div class="content-block-title">'+i18n.t('label.browsing')+' ('+totalVisitors+')</div>';
+            htmlVisitorList += '<div class="content-block-title">'+i18n.t('label.browsing')+'</div>';
+			
             htmlVisitorList += '<div class="list-block"><ul>';                           
             $.each(res.visitors, function(k, v) {
                 var line = generateLineVisitor(v);     
