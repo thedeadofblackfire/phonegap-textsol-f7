@@ -271,19 +271,17 @@
     <!--<script type="text/javascript" charset="utf-8" src="js/my-app.js"></script>-->
          
     <script type="text/javascript" charset="utf-8">
-
-            app.initialize();
-            
-            // http://blogs.telerik.com/appbuilder/posts/13-11-07/everything-hybrid-web-apps-need-to-know-about-the-status-bar-in-ios7
-			/*
+          
+            // http://blogs.telerik.com/appbuilder/posts/13-11-07/everything-hybrid-web-apps-need-to-know-about-the-status-bar-in-ios7			
             var updateStatusBar = navigator.userAgent.match(/iphone|ipad|ipod/i) &&
             parseInt(navigator.appVersion.match(/OS (\d)/)[1], 10) >= 7;
             if (updateStatusBar) {
-                document.body.style.webkitTransform = 'translate3d(0, 20px, 0)';
-                //document.body.style.marginTop = '20px';
+                //document.body.style.webkitTransform = 'translate3d(0, 20px, 0)';
+                document.body.style.marginTop = '20px';
             }
-			*/
-            
+			
+            app.initialize();
+                        
     </script>    
   </body>
 </html>

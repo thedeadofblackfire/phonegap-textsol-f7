@@ -4,12 +4,13 @@ body {
   height: 100%;
   width: 100%;
 }
-
+/*
 body.iOS7 {
     -webkit-transform: translate3d(0, 20px, 0);
 }
-
+*/
 /* iOS over scrolling fix */
+/*
 html.ios .page {
   overflow: auto;
   -webkit-overflow-scrolling: touch;
@@ -17,6 +18,7 @@ html.ios .page {
 html.ios .page-content {
   margin-bottom: 1px;
 }
+*/
 /*==============================
     Styles for case with statusbar overlay
 ==============================*/
