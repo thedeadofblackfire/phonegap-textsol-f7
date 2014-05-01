@@ -124,8 +124,30 @@ function formatDate(d) {
 function formatDateLight(d) {
 	return d.substr(11,5);
 }
-	
-           
+
+// linkify
+if(!String.linkify) {
+    String.prototype.linkify = function() {
+
+        // http://, https://, ftp://
+        var urlPattern = /\b(?:https?|ftp):\/\/[a-z0-9-+&@#\/%?=~_|!:,.;]*[a-z0-9-+&@#\/%=~_|]/gim;
+
+        // www. sans http:// or https://
+        var pseudoUrlPattern = /(^|[^\/])(www\.[\S]+(\b|$))/gim;
+
+        // Email addresses
+        //var emailAddressPattern = /\w+@[a-zA-Z_]+?(?:\.[a-zA-Z]{2,6})+/gim;
+		var emailAddressPattern = /(([a-zA-Z0-9_\-\.]+)@[a-zA-Z_]+?(?:\.[a-zA-Z]{2,6}))+/gim;
+
+
+        return this
+            .replace(urlPattern, '<a target="_blank" href="$&" class="external">$&</a>')
+            .replace(pseudoUrlPattern, '$1<a target="_blank" href="http://$2" class="external">$2</a>')
+            .replace(emailAddressPattern, '<a target="_blank" href="mailto:$&" class="external">$&</a>');
+    };
+}
+//alert('totototo fsdf www.yahoo.fr qsdkqsdkl ckxlwklcl'.linkify());       
+
 //http://stackoverflow.com/questions/8163703/cross-domain-ajax-doesnt-send-x-requested-with-header
             /*
              $.ajaxSetup({
@@ -922,7 +944,7 @@ function removeDataUserList(v) {
 
 function updateSessionMessage(v, toAppend, markTime) {
     //var str = '<li class="message right" mid="'+v.id+'"><div class="message_text">'+v.message+'<time datetime="'+v.post_date+'">'+formatDateLight(v.post_date)+'</time></div></li>';         				
-    var str = '<div class="message message-received" mid="'+v.id+'">'+v.message;
+    var str = '<div class="message message-received" mid="'+v.id+'">'+v.message.linkify();
     if (markTime === true) str += ' <time datetime="'+v.post_date+'">'+formatDateLight(v.post_date)+'</time>';
     str += '</div>';
     
@@ -939,7 +961,7 @@ function updateSessionMessage(v, toAppend, markTime) {
 function updateSessionReply(v, toAppend, markTime) {
     //var str = '<p class="reply treply" rid="'+v.id+'"><b>'+objChat.support_display_name+'</b>: '+v.reply+' <span class="time">'+formatDate(v.post_date)+'</span></p>';
     //var str = '<li class="reply" rid="'+v.id+'"><div class="message_text">'+v.reply+'<time datetime="'+v.post_date+'">'+formatDateLight(v.post_date)+'</time></div></li>';         		     
-	var str = '<div class="message message-sent reply" rid="'+v.id+'">'+v.reply;
+	var str = '<div class="message message-sent reply" rid="'+v.id+'">'+v.reply.linkify();
     if (markTime === true) str += ' <time datetime="'+v.post_date+'">'+formatDateLight(v.post_date)+'</time>';
     str += '</div>';
     
