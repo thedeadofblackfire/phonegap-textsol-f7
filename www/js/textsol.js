@@ -139,7 +139,6 @@ if(!String.linkify) {
         //var emailAddressPattern = /\w+@[a-zA-Z_]+?(?:\.[a-zA-Z]{2,6})+/gim;
 		var emailAddressPattern = /(([a-zA-Z0-9_\-\.]+)@[a-zA-Z_]+?(?:\.[a-zA-Z]{2,6}))+/gim;
 
-
         return this
             .replace(urlPattern, '<a target="_blank" href="$&" class="external">$&</a>')
             .replace(pseudoUrlPattern, '$1<a target="_blank" href="http://$2" class="external">$2</a>')
