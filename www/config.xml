@@ -24,7 +24,7 @@
     <preference name="permissions"                value="none"/>
 
     <!-- Customize your app and platform with the preference element. -->
-    <preference name="phonegap-version"           value="3.4.0" />          <!-- all: current version of PhoneGap -->
+    <preference name="phonegap-version"           value="3.6.3" />          <!-- all: current version of PhoneGap -->
     <preference name="orientation"                value="default" />        <!-- all: default means both landscape and portrait are enabled -->
     <preference name="target-device"              value="universal" />      <!-- all: possible values handset, tablet, or universal -->
     <preference name="fullscreen"                 value="true" />           <!-- all: hides the status bar at the top of the screen -->
@@ -49,12 +49,12 @@
 	<gap:plugin name="org.li8.inappbrowser" version="0.1" />
 	<!--<gap:plugin name="org.apache.cordova.statusbar" version="0.1.4" />-->
     <!--<gap:plugin name="com.phonegap.plugins.childbrowser" version="5.0.0" /> -->
-    <gap:plugin name="org.apache.cordova.device" version="0.2.8" />
-    <gap:plugin name="org.apache.cordova.dialogs" version="0.2.6" />
-    <gap:plugin name="org.apache.cordova.media" version="0.2.8" />
-    <gap:plugin name="org.apache.cordova.network-information" version="0.2.7" />
-    <gap:plugin name="org.apache.cordova.vibration" version="0.3.7" />
-    <gap:plugin name="org.apache.cordova.globalization" version="0.2.6" />
+    <gap:plugin name="org.apache.cordova.device" />
+    <gap:plugin name="org.apache.cordova.dialogs" />
+    <gap:plugin name="org.apache.cordova.media" />
+    <gap:plugin name="org.apache.cordova.network-information" />
+    <gap:plugin name="org.apache.cordova.vibration"  />
+    <gap:plugin name="org.apache.cordova.globalization" />
 
     <!-- Define app icon for each platform. -->
     <icon src="icon.png" />
