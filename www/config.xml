@@ -4,7 +4,7 @@
 <widget xmlns     = "http://www.w3.org/ns/widgets"
         xmlns:gap = "http://phonegap.com/ns/1.0"
         id        = "com.blastis.livechat"
-        version   = "1.0.2">
+        version   = "1.0.3">
 
     <name>Live Chat</name>
 
@@ -45,7 +45,7 @@
     <gap:platform name="android" />
     
     <!-- Plugins can also be added here. -->   
-    <gap:plugin name="com.phonegap.plugins.pushplugin" version="2.1.1" />
+    <gap:plugin name="com.phonegap.plugins.pushplugin" version="2.4.0" />
 	<gap:plugin name="org.li8.inappbrowser" version="0.1" />
 	<!--<gap:plugin name="org.apache.cordova.statusbar" version="0.1.4" />-->
     <!--<gap:plugin name="com.phonegap.plugins.childbrowser" version="5.0.0" /> -->
