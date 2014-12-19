@@ -145,7 +145,7 @@ $(document).ready(function() {
                     //handleRefreshOnlineUser(true);
                     
                     //mofChangePage('index');
-                    mainView.goBack('index.html');
+                    mainView.router.loadPage('index.html');
 					//$('.tab-content .active .chatBtn').siblings('textarea').remove();
                     //$('.tab-content .active .chatBtn').remove();
 					

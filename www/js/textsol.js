@@ -218,7 +218,7 @@ jQuery(document).ready(function($){
         console.log('mofChangePage '+pageid);
         //$.mobile.changePage("some.html");				
         //$.mobile.changePage(pageid, options);
-        mainView.loadPage(pageid);
+        mainView.router.loadPage(pageid);
         //$('body').i18n();
     }
 	
@@ -457,7 +457,7 @@ jQuery(document).ready(function($){
          
                  mofLoading(false);               
 
-                 mainView.loadContent(str);
+                 mainView.router.loadContent(str);
            
               },
               error: function(jqXHR, textStatus, errorThrown) {
@@ -735,9 +735,9 @@ function generatePageSession(data) {
             
     str += '<div class="navbar">' +
             '<div class="navbar-inner">' +
-            '<div class="left"><a href="#" class="back link"><i class="icon icon-back-blue"></i><span>Back</span></a></div>' +
+            '<div class="left"><a href="#" class="back link"><i class="icon icon-back"></i><span>Back</span></a></div>' +
             '<div class="center sliding">'+data.name+'</div>' +
-            '<div class="right"><a href="#" class="link open-panel icon-only"><i class="icon icon-bars-blue"></i></a></div>' +
+            '<div class="right"><a href="#" class="link open-panel icon-only"><i class="icon icon-bars"></i></a></div>' +
             '</div>'+
             '</div>'+        
 '<div class="pages navbar-through">'+
@@ -779,7 +779,7 @@ function generatePageSession(data) {
       '</div>'+
           */
      
-      str += '<div class="messages messageWrapper">';
+      str += '<div class="messages messages-auto-layout messageWrapper">';
       
   
     if (data.conversation != null) {
@@ -943,16 +943,16 @@ function removeDataUserList(v) {
 
 function updateSessionMessage(v, toAppend, markTime) {
     //var str = '<li class="message right" mid="'+v.id+'"><div class="message_text">'+v.message+'<time datetime="'+v.post_date+'">'+formatDateLight(v.post_date)+'</time></div></li>';         				
-    var str = '<div class="message message-received" mid="'+v.id+'">'+v.message.linkify();
+    var str = '<div class="message message-received" mid="'+v.id+'"><div class="message-text">'+v.message.linkify();
     if (markTime === true) str += ' <time datetime="'+v.post_date+'">'+formatDateLight(v.post_date)+'</time>';
-    str += '</div>';
+    str += '</div></div>';
     
     if (toAppend) {
         $(".messageWrapper").append(str);	 
         
         var messagesContent = $('.messages-content');
         var messages = messagesContent.find('.messages');
-        myApp.updateMessagesAngles(messages);
+        myApp.updateMessagesLayout(messages);
         myApp.scrollMessagesContainer(messagesContent);
     } else return str;
 }  
@@ -960,16 +960,16 @@ function updateSessionMessage(v, toAppend, markTime) {
 function updateSessionReply(v, toAppend, markTime) {
     //var str = '<p class="reply treply" rid="'+v.id+'"><b>'+objChat.support_display_name+'</b>: '+v.reply+' <span class="time">'+formatDate(v.post_date)+'</span></p>';
     //var str = '<li class="reply" rid="'+v.id+'"><div class="message_text">'+v.reply+'<time datetime="'+v.post_date+'">'+formatDateLight(v.post_date)+'</time></div></li>';         		     
-	var str = '<div class="message message-sent reply" rid="'+v.id+'">'+v.reply.linkify();
+	var str = '<div class="message message-sent reply" rid="'+v.id+'"><div class="message-text">'+v.reply.linkify();
     if (markTime === true) str += ' <time datetime="'+v.post_date+'">'+formatDateLight(v.post_date)+'</time>';
-    str += '</div>';
+    str += '</div></div>';
     
     if (toAppend) {
         $(".messageWrapper").append(str);	   
         
         var messagesContent = $('.messages-content');
         var messages = messagesContent.find('.messages');
-        myApp.updateMessagesAngles(messages);
+        myApp.updateMessagesLayout(messages);
         myApp.scrollMessagesContainer(messagesContent);
     } else return str;    
 }      
@@ -1198,7 +1198,7 @@ function loadArchiveSession(sessionid) {
                
                  mofLoading(false);               
 
-                 mainView.loadContent(str);
+                 mainView.router.loadContent(str);
            
               },
               error: function(jqXHR, textStatus, errorThrown) {
@@ -1228,9 +1228,9 @@ function generatePageArchive(data) {
             
     str += '<div class="navbar">' +
             '<div class="navbar-inner">' +
-            '<div class="left"><a href="#" class="back link"><i class="icon icon-back-blue"></i><span>Back</span></a></div>' +
+            '<div class="left"><a href="#" class="back link"><i class="icon icon-back"></i><span>Back</span></a></div>' +
             '<div class="center sliding">'+data.name+'</div>' +
-            '<div class="right"><a href="#" class="link open-panel icon-only"><i class="icon icon-bars-blue"></i></a></div>' +
+            '<div class="right"><a href="#" class="link open-panel icon-only"><i class="icon icon-bars"></i></a></div>' +
             '</div>'+
             '</div>'+        
 '<div class="pages navbar-through">'+
@@ -1248,7 +1248,7 @@ function generatePageArchive(data) {
           '</div>'+         
         '</div>';
       
-    str += '<div class="messages messageWrapper">';      
+    str += '<div class="messages messages-auto-layout messageWrapper">';      
   
     if (data.conversation != null) {
          var conversationStarted = false;
